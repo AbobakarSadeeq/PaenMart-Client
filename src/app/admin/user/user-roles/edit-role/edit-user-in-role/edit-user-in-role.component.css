@@ -1,0 +1,24 @@
+
+.matSpinner{
+  position: absolute;
+  top:50%;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-size: 100%;
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:10000000;
+  filter: alpha(opacity=40);
+  left: 50%; margin-left: -4em;
+}
+
+
+
+#rcorners1 {
+  border-radius: 25px;
+  background: #73AD21;
+  padding: 20px;
+  width: 430px;
+  height: 220px;
+}

@@ -1,0 +1,78 @@
+<app-admin-header></app-admin-header>
+
+<mat-spinner mode="indeterminate" *ngIf="showIndicator" class="matSpinner"></mat-spinner>
+
+
+<br><br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <div style="margin-bottom: 0px; padding-bottom: 29px;" class="alert alert-danger alert-dismissible fade show"
+        role="alert" *ngIf="roleUsed">
+        {{roleUsed}}
+        <a style="cursor: pointer; float: right;" (click)="removeErrorEventEffects()">
+          <span aria-hidden="true"><i class="fas fa-times"></i></span>
+        </a>
+      </div>
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="successFullInsert">
+        {{successFullInsert}}
+        <a (click)="removeErrorEventEffects()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </a>
+      </div>
+      <form #roleForm="ngForm" (ngSubmit)="creatingRoles(roleForm)">
+        <div class="form-group">
+          <label for="Name"><strong>Role Name</strong></label>
+          <input pattern="^[A-Z][a-zA-Z]([^0-9]*)+([a-zA-Z][a-zA-Z])*[a-zA-Z]+$" required #val="ngModel" type="text"
+            ngModel id="name" class="form-control" name="RoleName" required placeholder="RoleName" />
+           <span *ngIf="val.invalid &&val.touched" style="color:red;">Please Write the Role Name first Letter capital
+            or any spaces an underscore are not allowed</span>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary" [disabled]="roleForm.invalid ">Add Role</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br><br>
+
+  <!-- List Role -->
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="listNull">
+    {{listNull}}
+    <button (click)="removeErrorEventEffects()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <div *ngFor="let roleItems of listRole">
+
+    <div class="card mb-3">
+      <div class="card-header">
+        <strong>Role Id: {{roleItems?.id}}</strong>
+      </div>
+      <div class="card-body">
+        <strong>
+          <h3 class="card-title" style="font-weight: solid;">{{roleItems?.name}}</h3>
+        </strong>
+      </div>
+      <div class="card-footer">
+        <button  [routerLink]="['/Admin/EditRole',roleItems?.id]"
+          class="btn btn-primary">Edit Role</button> |
+        <button [disabled]="
+        roleItems?.name == 'Admin' ||
+         roleItems?.name == 'Employee' ||
+          roleItems?.name == 'User' ||
+           roleItems?.name == 'Shipper'  " (click)="openDeleteDialogConfarmation(roleItems?.id)"
+          class="btn btn-danger">Remove Role</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>

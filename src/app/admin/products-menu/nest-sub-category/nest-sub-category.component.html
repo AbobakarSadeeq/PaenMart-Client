@@ -1,0 +1,117 @@
+<app-admin-header></app-admin-header>
+
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container">
+    <div class="row">
+      <button class="btn btn-warning add-category-btn" (click)="showAddNestSubCategoryModel()">Add Nest-Sub-Category <i class="fas fa-plus"></i> </button>
+      <div class="card">
+        <p-table [value]="nestSubCategories" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nest-Sub Category No</th>
+              <th>Nest-Sub Category Name</th>
+              <th>Sub Category Name</th>
+              <th>Nest-Sub Category Created</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-nestSubCategory>
+            <tr class="data-row">
+              <td>{{nestSubCategory?.nestSubCategoryID}}</td>
+              <td>{{nestSubCategory?.nestSubCategoryName}}</td>
+              <td>{{nestSubCategory?.subCategoryName}}</td>
+              <td>{{nestSubCategory?.created_At| date:'short'}}</td>
+
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="getDataForUpdate(nestSubCategory?.nestSubCategoryID)"></a>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteNestSubCategory(nestSubCategory?.nestSubCategoryID)"></a>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- Adding Nest Category -->
+
+
+<p-dialog header="Adding nest-sub-category" [(visible)]="displayAddNestSubCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessageAndResetForm()">
+  <form [formGroup]="nestSubCategoryFormData">
+    <label>Nest-Sub-Category Name</label>
+    <input type="text" formControlName="nestSubCategoryName" placeholder="Nest-Sub-Category Name" class="form-control">
+    <span class="validation-span" *ngIf="nestSubCategoryFormData.get('nestSubCategoryName')?.invalid && nestSubCategoryFormData.get('nestSubCategoryName')?.touched"  >Please enter nest-sub-category name</span>
+
+
+    <!-- Category Select -->
+    <label>Category Name</label>
+    <select class="form-select" required (change)="onChangeCategory($event)">
+      <option [value]="null" selected>Please Select the Category</option>
+      <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">{{singleCategory?.categoryName}}</option>
+    </select>
+
+    <div *ngIf="showSubCategory">
+      <label>Sub-Category Name</label>
+      <select class="form-select" formControlName="subCategoryId" required>
+        <option [value]="null" disabled selected>Please Select the Sub-Category</option>
+        <option *ngFor="let singleSubCategory of subCategories" [value]="singleSubCategory?.subCategoryID">{{singleSubCategory?.subCategoryName}}</option>
+      </select>
+      <span *ngIf="nestSubCategoryFormData.get('subCategoryId')?.invalid && nestSubCategoryFormData.get('subCategoryId')?.touched"
+      class="validation-span" >Please Select the List!</span>
+    </div>
+
+
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onSaveNestSubCategory()">Save nest-sub-category</button>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+<!-- Delete Nest-Sub-Category Conformation -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger"  label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+<!-- Update Category -->
+
+
+<p-dialog header="Update nest-sub-category" [(visible)]="displayUpdateNestSubCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessageAndResetForm()">
+  <form [formGroup]="nestSubCategoryFormData">
+    <label>Nest-Sub-Category Name</label>
+    <input type="text" formControlName="nestSubCategoryName" placeholder="Nest-Sub-Category Name" class="form-control">
+    <span *ngIf="nestSubCategoryFormData.get('nestSubCategoryName')?.invalid && nestSubCategoryFormData.get('nestSubCategoryName')?.touched" class="validation-span">Please enter nest-sub-category name</span>
+
+
+    <label>Sub-Category Name</label>
+    <select class="form-select" formControlName="subCategoryId" required>
+       <option *ngFor="let singleSubCategory of subCategories" [value]="singleSubCategory?.subCategoryID">{{singleSubCategory?.subCategoryName}}</option> -->
+    </select>
+    <span *ngIf="nestSubCategoryFormData.get('subCategoryId')?.invalid && nestSubCategoryFormData.get('subCategoryId')?.touched"
+    class="validation-span" >Please Select the List!</span>
+
+
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onUpdateNestSubCategory()">Update nest-sub-category</button>
+    </div>
+
+  </form>
+
+</p-dialog>

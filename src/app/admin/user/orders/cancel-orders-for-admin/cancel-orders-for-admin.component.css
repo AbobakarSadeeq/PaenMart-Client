@@ -1,0 +1,11 @@
+.container-fluid {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100rem;
+}
+
+.pagination-style {
+  margin-left: auto;
+  margin-right: auto;
+  width: 10rem;
+}

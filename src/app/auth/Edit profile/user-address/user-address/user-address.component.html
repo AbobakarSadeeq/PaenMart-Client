@@ -1,0 +1,89 @@
+<!-- User Address Detail -->
+<div class="container-fluid">
+  <div class="row">
+    <h1 *ngIf="pleaseAddAddress">Please Add the Address First</h1>
+    <button *ngIf="pleaseAddAddress" (click)="AddUserAddressModel()" class="btn btn-warning"><i class="fas fa-plus">Add
+        User Address</i></button>
+
+    <div *ngIf="!pleaseAddAddress" class="card" style="width: 500px;">
+      <h1 class="card-title">User Address
+        <a style="cursor: pointer; float: right;" (click)="EditUserAddressModel(getSingleUserAddress)">
+          <i class="fas fa-edit"></i>
+        </a>
+
+      </h1>
+      <div class="card-body">
+        <strong>User Address:</strong>
+        <p>{{getSingleUserAddress?.completeAddress}}</p>
+      </div>
+      <div class="card-body">
+        <strong>Phone Nubmer:</strong>
+        <p>{{getSingleUserAddress?.phoneNumber}}</p>
+      </div>
+      <div class="card-body">
+        <strong>Country</strong>
+        <p>{{getSingleUserAddress?.city?.country?.countryName}}</p>
+      </div>
+      <div class="card-body">
+        <strong>City</strong>
+        <p>{{getSingleUserAddress?.city?.cityName}}</p>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!-- Adding User Address -->
+<p-dialog header="Adding User Address" [style]="{width: '500px'}" [(visible)]="displayModelUserAddress"
+  (onHide)="hideModel()">
+
+  <form #UserAddress="ngForm" (ngSubmit)="InsertUserAddress(UserAddress)">
+    <input type="text" name="completeAddress" required ngModel placeholder="Please Write the Full Address"
+      class="form-control"><br>
+    <input type="text" name="phoneNumber" required ngModel placeholder="Please Write the Phone Number"
+      class="form-control"><br>
+    <input [hidden]="true" type="text" name="userId" ngModel [ngModel]="getUserId" class="form-control">
+
+    <select required name="country" class="form-select" (change)="showingCities($event)">
+      <option selected disabled>------------------------Select-Country----------------------------
+      </option>
+      <option *ngFor="let country of Countries" [value]="country?.countryID">{{country?.countryName}}</option>
+    </select><br>
+
+    <select required #forValidation="ngModel" name="cityId" class="form-select" ngModel [(ngModel)]="forSelected">
+      <option [value]="null">------------------------Select-City----------------------------
+      </option>
+      <option *ngFor="let city of CitiesDataFilterd" [value]="city?.cityID">{{city?.cityName}}</option>
+    </select><br>
+    <button type="submit" [disabled]="forValidation.value == null && UserAddress.invalid" class="btn btn-primary">Add
+      Address</button>
+  </form>
+</p-dialog>
+
+
+<!-- Update User-Address HTML -->
+<p-dialog header="Adding User Address" [style]="{width: '500px'}" [(visible)]="editDisplayModelUserAddress"
+  (onHide)="EditHideModel()">
+  <form [formGroup]="reactiveFormData">
+    <input type="text" formControlName="completeAddress" placeholder="Please Write the Full Address"
+      class="form-control"><br>
+    <input type="text" formControlName="phoneNumber" placeholder="Please Write the Phone Number"
+      class="form-control"><br>
+    <input [hidden]="true" type="text" formControlName="user_ID" class="form-control">
+
+    <select class="form-select" formControlName="countries" (change)="showingCities($event)">
+      <option *ngFor="let country of Countries" [value]="country.countryID">{{country?.countryName}}</option>
+    </select><br>
+
+    <select #select class="form-select" formControlName="city_ID">
+      <option [value]="'0'">------------------------Select-City--------------------------------</option>
+      <option *ngFor="let city of CitiesDataFilterd" [value]="city?.cityID">{{city?.cityName}}</option>
+    </select><br>
+
+    <button type="submit" [disabled]="select.value == '0'" (click)="EditUserAddress()" class="btn btn-primary">Edit User
+      Address</button>
+
+  </form>
+</p-dialog>

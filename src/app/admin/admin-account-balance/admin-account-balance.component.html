@@ -1,0 +1,84 @@
+<app-admin-header></app-admin-header>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="accountBalanceShow">
+    <h1>{{accountDetails?.currentBalance | currency:'PKR'}}</h1>
+    <i class="fas fa-edit" (click)="showAccountBalanceModel()"></i>
+  </div>
+
+  <div class="adminDetail">
+    <div class="details">
+      <p class="first-p">{{userDetails?.fullName}}</p>
+      <p class="second-p">{{userDetails?.email}}</p>
+    </div>
+  </div>
+
+
+  <!-- Transaction table -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+
+        <h1>Show Last Transactions</h1>
+        <select class="form-select" (change)="GetAdminCurrentAccountTransaction($event)">
+          <option value="" selected disabled>---------Select transactions--------</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select><br>
+
+        <p-table *ngIf="showTransactionTable" [value]="AccountTransactions" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" responsiveLayout="scroll"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Current Balance</th>
+              <th>Before Balance</th>
+              <th>Transaction Purpose</th>
+              <th>Balance Update</th>
+              <th>Transaction Date & Time</th>
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-adminAccount>
+            <tr class="data-row">
+              <td>{{adminAccount?.currentBalance}}</td>
+              <td>{{adminAccount?.beforeBalance}}</td>
+              <td>{{adminAccount?.transactionPurpose}}</td>
+              <td>{{adminAccount?.balanceSituation}}
+                <img
+                  src="{{adminAccount?.balanceSituation == 'Add' ? '../../../assets//down.PNG' : '../../../assets//up.PNG'}}"
+                  width="20px" height="20px" alt="">
+              </td>
+
+              <td>{{adminAccount?.transactionDateTime| date:'short'}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<p-dialog header="Adding Account balance" [(visible)]="displayAddAccountBalance" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+
+  <form [formGroup]="accountBalanceFormData">
+    <label>Current Account Balance</label>
+    <input type="number" formControlName="currentBalance" placeholder="Current Balance" class="form-control">
+    <span
+      *ngIf="accountBalanceFormData.get('currentBalance')?.invalid && accountBalanceFormData.get('currentBalance')?.touched"
+      style="color: red;">Please enter Current Balance</span><br>
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="AddingAccountNewEntryTransaction()">Save Account balance</button>
+    </div>
+
+  </form>
+
+</p-dialog>

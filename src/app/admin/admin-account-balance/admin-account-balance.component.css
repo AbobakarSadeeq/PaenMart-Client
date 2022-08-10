@@ -1,0 +1,38 @@
+.accountBalanceShow {
+  display: flex;
+  justify-content: center;
+  height: 10em;
+  margin-top: 12%;
+}
+
+.accountBalanceShow i {
+  font-size: 1.5rem;
+  margin-top: -2rem;
+  color: blue;
+  cursor: pointer;
+}
+
+.accountBalanceShow h1 {
+  margin: 0;
+  font-size: 6rem;
+}
+
+.adminDetail{
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.details .first-p {
+  position: absolute;
+  top: -73px;
+  left: 620px;
+
+}
+
+.details .second-p {
+  position: absolute;
+  top: -73px;
+  right: 620px;
+
+}

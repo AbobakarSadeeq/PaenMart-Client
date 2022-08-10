@@ -1,0 +1,87 @@
+<app-admin-header></app-admin-header>
+
+
+
+<div [style]="getStyleFromNav">
+
+
+  <div class="container">
+    <div class="row">
+      <button class="btn btn-warning add-category-btn" (click)="showCategoryModel()">Add Category <i class="fas fa-plus"></i> </button>
+      <div class="card">
+        <p-table [value]="categories" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Category no</th>
+              <th>Category Name</th>
+              <th>Category Created</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category>
+            <tr class="data-row">
+              <td>{{category?.categoryID}}</td>
+              <td>{{category?.categoryName}}</td>
+              <td>{{category?.created_At| date:'short'}}</td>
+
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="getDataForUpdate(category?.categoryID)"></a>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteCategory(category?.categoryID)"></a>
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- Adding Category -->
+
+
+<p-dialog header="Adding category" [(visible)]="displayAddCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessage()">
+  <form [formGroup]="categoryFormData">
+    <label>Category Name</label>
+    <input type="text" formControlName="categoryName" placeholder="Category Name" class="form-control">
+    <span *ngIf="categoryFormData.get('categoryName')?.invalid && categoryFormData.get('categoryName')?.touched" style="color: red;">Please enter category name</span>
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onSaveCategory()">Save category</button>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+
+<!-- Delete Category Conformation -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger"  label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+<!-- Update Category -->
+
+
+<p-dialog header="Update category" [(visible)]="displayUpdateCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessage()">
+  <form [formGroup]="categoryFormData">
+    <label>Category Name</label>
+    <input type="text" formControlName="categoryName" placeholder="Category Name" class="form-control">
+    <span class="validation-span" *ngIf="categoryFormData.get('categoryName')?.invalid && categoryFormData.get('categoryName')?.touched">Please enter category name</span>
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onUpdateCategory()">Update category</button>
+    </div>
+  </form>
+</p-dialog>

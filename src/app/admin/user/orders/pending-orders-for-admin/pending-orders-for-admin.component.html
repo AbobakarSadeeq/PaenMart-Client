@@ -1,0 +1,63 @@
+<app-admin-header></app-admin-header>
+
+<br>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+
+          <p-table [value]="pendingList" [rows]="12" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {{pendingCount}} entries">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Full-name</th>
+                <th>Order-Status</th>
+                <th>Order-Date</th>
+                <th>Country</th>
+                <th>No-Order-items</th>
+                <th>Payment-Method</th>
+                <th>Order-Detail</th>
+                <th>Order-Delete</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-pendingOrderList>
+              <tr class="data-row">
+                <td>{{pendingOrderList?.orderId}}</td>
+                <td>{{pendingOrderList?.fullName}}</td>
+                <td style="background-color: orange; color:white; ">{{pendingOrderList?.orderStatus}}</td>
+                <td>{{pendingOrderList?.orderDate | date:'full'}}</td>
+                <td>{{pendingOrderList?.countryName}}</td>
+                <td>{{pendingOrderList?.orderItemsCount}}</td>
+                <td>{{pendingOrderList?.paymentMethod}}</td>
+                <td><a [routerLink]="['/Admin/OrderDetails/', pendingOrderList?.orderId]"
+                    [queryParams]="{orderStatus:'Pending'}" class="btn btn-primary">Orders-Items-Detail</a></td>
+                <td><button (click)="CancelingOrderByAdmin(pendingOrderList?.orderId)"
+                    class="btn btn-danger">Cancel-Order</button></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div><br>
+
+        <div class="pagination-style">
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="pendingCount" [pageSize]="12" [page]="1" [directionLinks]="true"></ngb-pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Order Cancel</button>
+  </p-footer>
+</p-confirmDialog>

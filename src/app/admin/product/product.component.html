@@ -1,0 +1,148 @@
+<app-admin-header></app-admin-header>
+
+<div [style]="getStyleFromNav">
+  <br>
+
+  <div class="container-fluid">
+    <div class="row">
+      <a class="btn btn-warning addingProductBtn" [routerLink]="['/Admin/AddProduct', getSelectedProductName ]"
+        [queryParams]="{selectedDynamicFormStructureId:getSelectedDynamicFormId, categoryName:getSelectedProductName}" queryParamsHandling="merge" >Add
+        {{getSelectedProductName}}</a><br>
+
+      <div class="col-12 mainTable">
+
+        <div class="card">
+          <p-table [value]="selectedCategoryProductData?.productData" [rows]="12" [showCurrentPageReport]="true"
+            responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {{selectedCategoryProductData?.countProducts}} entries"
+            >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>{{getSelectedProductName}}-Id</th>
+                <th>{{getSelectedProductName}}-Name</th>
+                <th>Brand-Name</th>
+                <th>Color</th>
+                <th>Availiability</th>
+                <th>Sell Units</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>{{getSelectedProductName}}-Added</th>
+                <th>Detail</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr>
+                <td>{{product?.productID}}</td>
+                <td>{{product?.productName}}</td>
+                <td>{{product?.productBrandName}}</td>
+                <td>{{product?.color}}</td>
+                <td>{{product?.stockAvailiability?'Yes':'No'}}</td>
+                <td>{{product?.sellUnits}}</td>
+                <td>{{product?.quantity}}</td>
+                <td>{{product?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+                <td>{{product?.created_At | date:'short'}}</td>
+                <td><button class="btn btn-outline-primary" (click)="openProductDetailDailog(product?.productID)">Details</button></td>
+                <td>
+                  <a [routerLink]="['/Admin/UpdateProduct', getSelectedProductName]" pButton pRipple icon="pi pi-pencil"
+                     [queryParams]="{selectedDynamicFormStructureId:getSelectedDynamicFormId,
+                     nestCategoryName:getSelectedProductName,
+                     nestCategoryId:getSelectedNestCategoryId,
+                     productId:product?.productID}"
+                   class="p-button-rounded p-button-success p-mr-2"></a>
+                  &nbsp;
+
+                  <button pButton pRipple (click)="openDeleteDialogConfarmation(product?.productID, product?.productName)" icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                </td>
+              </tr>
+
+            </ng-template>
+
+
+          </p-table>
+
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="selectedCategoryProductData?.countProducts" [pageSize]="12" [page]="1"
+            [directionLinks]="true"></ngb-pagination>
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+<!-- Get product by Id -->
+<p-dialog [(visible)]="displayModal" [dismissableMask]="true" [modal]="true" [style]="{width: '80vw', height: '100vw'}"
+  [draggable]="false" [resizable]="false">
+  <p-header>
+    <h1 style="text-align: center;">Product Detail</h1>
+  </p-header>
+<div class="row">
+
+  <div class="col-sm-3">
+    <td><strong>Product ID</strong></td><br>
+    <td><span>{{singleProductData?.productID}}</span></td><br>
+    <td><strong>Product Name</strong></td><br>
+    <td><span>{{singleProductData?.productName}}</span></td><br>
+    <td><strong>Price</strong></td><br>
+    <td><span>{{singleProductData?.price}}</span></td><br>
+    <td><strong>Color</strong></td><br>
+    <td><span>{{singleProductData?.color}}</span></td><br>
+    <td><strong>Stock Availiability</strong></td><br>
+    <td><span>{{singleProductData?.stockAvailiability?"available in stock":"out of stock"}}</span></td><br>
+    <td><strong>Quantity</strong></td><br>
+    <td><span>{{singleProductData?.quantity}}</span></td><br>
+    <td><strong>Sell Units</strong></td><br>
+    <td><span>{{singleProductData?.sellUnits}}</span></td><br>
+    <td><strong>Product-Brand-Name</strong></td><br>
+    <td><span>{{singleProductData?.productBrandName}}</span></td><br>
+    <td><strong>Nest-Sub-Category-Name</strong></td><br>
+    <td><span>{{singleProductData?.nestSubCategoryName}}</span></td><br>
+    <td><strong>Product Added Time</strong></td><br>
+    <td><span>{{singleProductData?.created_At | date:'short'}}</span></td><br>
+    <td><strong>Changes In Product</strong></td><br>
+    <td><span>{{singleProductData?.modified_at== null? "Not yet updated":  singleProductData?.modified_at | date:'short'}}</span></td><br>
+
+  </div>
+
+  <div class="col-sm-3">
+    <div *ngFor="let item of dynamicData">
+      <td><strong>{{item?.objectKey}}</strong></td><br>
+      <td><span>{{item?.objectValue}}</span></td><br>
+    </div>
+  </div>
+
+
+
+    <div class="col-sm-4">
+
+      <div class="img-thumbnail">
+        <img id="mainimage" class="imageCorrection" src="{{singleProductData?.getProductImagess[0]?.url}}">
+      </div><br>
+
+      <div class="row">
+        <img class="singleProductImage" *ngFor="let img of singleProductData?.getProductImagess" src="{{img?.url}}"
+          alt="image">
+      </div>
+    </div>
+
+</div>
+</p-dialog>

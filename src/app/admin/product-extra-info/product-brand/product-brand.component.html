@@ -1,0 +1,81 @@
+<app-admin-header></app-admin-header>
+
+<!-- this div is compulsary so, every admin component should have this -->
+<div [style]="getStyleFromNav">
+  <div class="container">
+    <div class="row">
+      <button class="btn btn-warning add-category-btn" (click)="showProductBrandModel()">Add Product-Brand <i class="fas fa-plus"></i> </button>
+      <div class="card">
+        <p-table [value]="productBrands" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Product Brand no</th>
+              <th>Product Name</th>
+              <th>Product Created</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-productBrand>
+            <tr class="data-row">
+              <td>{{productBrand?.productBrandID}}</td>
+              <td>{{productBrand?.brandName}}</td>
+              <td>{{productBrand?.created_At| date:'short'}}</td>
+
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="getDataForUpdate(productBrand?.productBrandID)"></a>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteProductBrand(productBrand?.productBrandID)"></a>
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Adding product brand -->
+<p-dialog header="Adding product brand" [(visible)]="displayAddProductBrandModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessage()">
+  <form [formGroup]="productBrandFormData">
+    <label>Brand Name</label>
+    <input type="text" formControlName="brandName" placeholder="brand Name" class="form-control">
+    <span *ngIf="productBrandFormData.get('brandName')?.invalid && productBrandFormData.get('brandName')?.touched" style="color: red;">Please enter brand name</span>
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onSaveProductBrand()">Save category</button>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+<!-- Delete Category Conformation -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger"  label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+
+<!-- Update Category -->
+
+
+<p-dialog header="Update product brand" [(visible)]="displayUpdateProductBrandModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessage()">
+  <form [formGroup]="productBrandFormData">
+    <label>product brand Name</label>
+    <input type="text" formControlName="brandName" placeholder="product brand name" class="form-control">
+    <span class="validation-span" *ngIf="productBrandFormData.get('brandName')?.invalid && productBrandFormData.get('brandName')?.touched">Please enter product brand name</span>
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onUpdateProductBrand()">Update brand</button>
+    </div>
+  </form>
+</p-dialog>

@@ -1,0 +1,118 @@
+.container {
+  margin-top: 50px;
+}
+
+.p-button-rounded {
+  margin-left: 15px;
+}
+
+.data-row:nth-child(old) {
+  background-color: white;
+}
+
+.data-row:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+.add-category-btn {
+  margin-bottom: 15px;
+}
+
+/* primng table card */
+.card {
+  padding: 0;
+}
+
+input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+
+.save-btn {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.validation-span {
+  color: red;
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+/* Form Css */
+label {
+  font-weight: 400;
+}
+
+.centering-form {
+  margin: auto;
+}
+
+button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* .disable-dynamic-made-form-input{
+   pointer-events:none;
+} */
+
+input {
+  margin: 4px;
+}
+
+.selected-categories-names {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.selected-categories-names p {
+  margin-bottom: 1px;
+}
+
+.selected-categories-names .heading-catgoires-selected {
+  font-weight: 500;
+  color: #c5aa6a;
+
+}
+
+.filling-form-heading {
+  color: #c5aa6a;
+}
+
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color:#c5aa6a;
+}
+
+.delete-footer-btns {
+  display: flex;
+   justify-content: flex-end;
+}
+
+.show-inline-inputs {
+  display: flex;
+}
+
+.delete-single-input {
+  width: 11rem;
+  margin-left: 5rem;
+}
+
+
+.warning-icon {
+  width: 80px;
+  font-size: 39px;
+}
+
+.editProductSize {
+  width: 100px;
+}

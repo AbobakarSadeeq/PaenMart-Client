@@ -1,0 +1,91 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.p-button-rounded{
+  margin-left: 15px;
+}
+
+
+.add-category-btn{
+  margin-bottom: 15px;
+}
+
+/* primng table card */
+.card {
+  padding: 0;
+}
+
+input{
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+
+.save-btn{
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.validation-span{
+  color: red;
+  display: block;
+   margin-bottom: 5px;
+}
+
+
+/* Table css */
+
+.singleRow {
+  cursor: pointer;
+
+}
+
+.collapsible {
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  background-color: none;
+}
+
+.active, tr:hover {
+  background-color:#e9ecef;;
+}
+
+
+.hide-content {
+  margin-top: 30px;
+  display: none;
+}
+
+.show-contant{
+  margin-top: 30px;
+  display: block;
+}
+
+.nest-row:hover{
+  background-color: #e9ecef;
+
+}
+
+.nest-row {
+  cursor:auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nest-table{
+  margin-top: 2rem;
+}
+

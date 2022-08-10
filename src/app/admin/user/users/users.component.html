@@ -1,0 +1,426 @@
+<app-admin-header></app-admin-header><br>
+
+<div [style]="getStyleFromNav">
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-warning add-user-btn" (click)="showUsersAddModel()">Add Users <i class="fas fa-plus"></i>
+        </button>
+
+        <mat-tab-group dynamicHeight animationDuration="0ms" mat-align-tabs="center"
+          (selectedTabChange)="changeUserTab($event)">
+
+          <!-- Employees -->
+          <mat-tab label="Employees">
+            <br>
+
+            <div class="container">
+              <div class="row">
+                <div class="card">
+                  <p-table [value]="Employees" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10,25,50]">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Emp no</th>
+                        <th>Employee Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Salary</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-employee>
+                      <tr class="data-row">
+                        <td>{{employee?.id}}</td>
+                        <td>{{employee?.firstName + " " + employee?.lastName}}</td>
+                        <td>{{employee?.email}}</td>
+                        <td>{{employee?.gender}}</td>
+                        <td>{{employee?.salary}}</td>
+
+                        <!-- <td>{{employee?.created_At| date:'short'}}</td> -->
+
+                        <td>
+                          <a pButton pRipple icon="pi pi-user" (click)="ShowEmployeeDetail(employee?.userId)"
+                            class="p-button-rounded p-button-warning p-mr-2"></a>&nbsp;
+                          <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="getDataForUpdate(employee?.userId)"></a>&nbsp;
+                          <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="onDeleteEmployee(employee?.userId)"></a>
+                        </td>
+
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+
+
+              </div>
+            </div>
+
+
+
+          </mat-tab>
+
+
+
+          <mat-tab label="Shipper">
+            <br>
+
+            <div class="container">
+              <div class="row">
+                <div class="card">
+                  <p-table [value]="shippers" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10,25,50]">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Shipper no</th>
+                        <th>Shipper Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Salary</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-shipper>
+                      <tr class="data-row">
+                        <td>{{shipper?.id}}</td>
+                        <td>{{shipper?.firstName + " " + shipper?.lastName}}</td>
+                        <td>{{shipper?.email}}</td>
+                        <td>{{shipper?.gender}}</td>
+                        <td>{{shipper?.salary}}</td>
+
+                        <!-- <td>{{employee?.created_At| date:'short'}}</td> -->
+
+                        <td>
+                          <a pButton pRipple icon="pi pi-user" (click)="ShowShipperDetail(shipper?.userId)"
+                            class="p-button-rounded p-button-warning p-mr-2"></a>&nbsp;
+                          <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                            (click)="getDataForShipperUpdate(shipper?.userId)"></a>&nbsp;
+                          <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="onDeleteShipper(shipper?.userId)"></a>
+                        </td>
+
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+
+
+              </div>
+            </div>
+
+
+          </mat-tab>
+
+
+          <mat-tab label="Users">
+            <br>
+
+            <div class="container">
+              <div class="row">
+                <div class="card">
+                  <p-table [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [rowsPerPageOptions]="[10,25,50]">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>User Id</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Role Name</th>
+                        <th>Action</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-user>
+                      <tr class="data-row">
+                        <td>{{user?.userID}}</td>
+                        <td>{{user?.fullName}}</td>
+                        <td>{{user?.email}}</td>
+                        <td>{{user?.roleName}}</td>
+
+
+                        <td>
+                          <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="onDeleteUser(user?.userID)"></a>
+                        </td>
+
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+
+
+              </div>
+            </div>
+
+
+          </mat-tab>
+
+
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+<p-dialog header="Employee" [(visible)]="displayModal" [modal]="true" [style]="{width: '20vw'}" [draggable]="false"
+  [resizable]="false">
+
+  <div>
+    <td><strong>Employee ID</strong></td><br>
+    <td><span>{{employeeDetail?.employeeID}}</span></td><br>
+    <td><strong>User ID</strong></td><br>
+    <td><span>{{employeeDetail?.userId}}</span></td><br>
+    <td><strong>full name</strong></td><br>
+    <td><span>{{employeeDetail?.firstName + " " + employeeDetail?.lastName}}</span></td><br>
+    <td><strong>DathOfBirth</strong></td><br>
+    <td><span>{{employeeDetail?.dathOfBirth | date}}</span></td><br>
+    <td><strong>PhoneNumber</strong></td><br>
+    <td><span>{{employeeDetail?.phoneNumber}}</span></td><br>
+    <td><strong>HomeAddress</strong></td><br>
+    <td><span>{{employeeDetail?.homeAddress}}</span></td><br>
+    <td><strong>Salary</strong></td><br>
+    <td><span>{{employeeDetail?.salary}}</span></td><br>
+    <td><strong>Gender</strong></td><br>
+    <td><span>{{employeeDetail?.gender}}</span></td><br>
+    <td><strong>EmployeeHireDate</strong></td><br>
+    <td><span>{{employeeDetail?.employeeHireDate}}</span></td><br>
+    <td><strong>Email</strong></td><br>
+    <td><span>{{employeeDetail?.email}}</span></td><br>
+  </div>
+
+
+</p-dialog>
+
+
+<!-- Update Employee -->
+
+<p-dialog header="Update Employee" [(visible)]="showUpdateEmployeeDialog" [modal]="true" [style]="{width: '30vw'}"
+  [draggable]="false" [resizable]="false">
+
+  <form [formGroup]="updateEmployeeForm">
+    <label>Salary </label>
+    <input type="text" formControlName="salary" placeholder="Salary" class="form-control"><br>
+
+    <label>Date of Birth </label>
+    <input type="text" formControlName="dathOfBirth" placeholder="dathOfBirth" class="form-control"><br>
+
+    <label>Phone Number </label>
+    <input type="text" formControlName="phoneNumber" placeholder="phoneNumber" class="form-control"><br>
+
+    <label>Home Address </label>
+    <input type="text" formControlName="homeAddress" placeholder="homeAddress" class="form-control"><br>
+
+    <label>Gender </label><br>
+    <input type="radio" formControlName="gender" value="Male" placeholder="gender"> Male &nbsp;&nbsp;&nbsp;
+    <input type="radio" formControlName="gender" value="Female" placeholder="gender"> Female <br><br>
+
+
+    <label>Employee Hire Date </label>
+    <input type="text" formControlName="employeeHireDate" placeholder="EmployeeHireDate" class="form-control"><br>
+
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="onUpdateEmployee()">Update Employee</button>
+    </div>
+
+  </form>
+
+
+
+</p-dialog>
+
+
+<!-- Shipper -->
+
+<p-dialog header="Shipper" [(visible)]="shipperDisplayModal" [modal]="true" [style]="{width: '20vw'}"
+  [draggable]="false" [resizable]="false">
+
+  <div>
+    <td><strong>Shipper ID</strong></td><br>
+    <td><span>{{shipperDetails?.shipperID}}</span></td><br>
+    <td><strong>User ID</strong></td><br>
+    <td><span>{{shipperDetails?.userId}}</span></td><br>
+    <td><strong>full name</strong></td><br>
+    <td><span>{{shipperDetails?.firstName + " " + shipperDetails?.lastName}}</span></td><br>
+    <td><strong>Date of Birth</strong></td><br>
+    <td><span>{{shipperDetails?.dathOfBirth | date }}</span></td><br>
+    <td><strong>PhoneNumber</strong></td><br>
+    <td><span>{{shipperDetails?.phoneNumber}}</span></td><br>
+    <td><strong>HomeAddress</strong></td><br>
+    <td><span>{{shipperDetails?.homeAddress}}</span></td><br>
+    <td><strong>Salary</strong></td><br>
+    <td><span>{{shipperDetails?.salary}}</span></td><br>
+    <td><strong>Gender</strong></td><br>
+    <td><span>{{shipperDetails?.gender}}</span></td><br>
+    <td><strong>Shipper Hire Date</strong></td><br>
+    <td><span>{{shipperDetails?.shipperHireDate}}</span></td><br>
+    <td><strong>Shipper Vehicle Type</strong></td><br>
+    <td><span>{{shipperDetails?.shipmentVehicleType}}</span></td><br>
+    <td><strong>Shipper Vehicle Plat No</strong></td><br>
+    <td><span>{{shipperDetails?.vehiclePlatNo}}</span></td><br>
+    <td><strong>Email</strong></td><br>
+    <td><span>{{shipperDetails?.email}}</span></td><br>
+  </div>
+
+
+</p-dialog>
+
+
+<!-- Update Shipper -->
+
+<p-dialog header="Update Shipper" [(visible)]="showUpdateShipperDialog" [modal]="true" [style]="{width: '30vw'}"
+  [draggable]="false" [resizable]="false">
+
+  <form [formGroup]="updateShipperForm">
+    <label>Salary </label>
+    <input type="text" formControlName="salary" placeholder="Salary" class="form-control"><br>
+
+    <label>Date of Birth </label>
+    <input type="text" formControlName="dathOfBirth" placeholder="dathOfBirth" class="form-control"><br>
+
+    <label>Phone Number </label>
+    <input type="text" formControlName="phoneNumber" placeholder="phoneNumber" class="form-control"><br>
+
+    <label>Home Address </label>
+    <input type="text" formControlName="homeAddress" placeholder="homeAddress" class="form-control"><br>
+
+    <label>Gender </label><br>
+    <input type="radio" formControlName="gender" value="Male" placeholder="gender"> Male &nbsp;&nbsp;&nbsp;
+    <input type="radio" formControlName="gender" value="Female" placeholder="gender"> Female <br><br>
+
+
+    <label>Shipper Hire Date </label>
+    <input type="text" formControlName="shipperHireDate" placeholder="ShipperHireDate" class="form-control"><br>
+
+    <label>Vehicle Plat No </label>
+    <input type="text" formControlName="vehiclePlatNo" placeholder="vehiclePlatNo" class="form-control"><br>
+
+    <label>Shipment Vehicle Type </label>
+    <input type="text" formControlName="shipmentVehicleType" placeholder="shipment Vehicle Type"
+      class="form-control"><br>
+
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="onUpdateShipper()">Update Shipper</button>
+    </div>
+
+  </form>
+
+
+
+</p-dialog>
+
+
+
+<!-- Add User -->
+
+<p-dialog header="Adding User" [(visible)]="displayAddUserModel" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+
+  <!-- Select role first -->
+
+  <select class="form-select" *ngIf="selectRoleFirst" (change)="selectingRole($event)">
+    <option selected disabled>--------Please select role first--------</option>
+    <option *ngFor="let singleRole of allRoles" value="{{singleRole?.name}}">{{singleRole?.name}}</option>
+  </select>
+
+
+
+  <form [formGroup]="userAddForm" *ngIf="!selectRoleFirst">
+
+    <label>firstName</label>
+    <input type="text" formControlName="firstName" placeholder="firstName" class="form-control">
+    <span *ngIf="userAddForm.get('firstName')?.invalid && userAddForm.get('firstName')?.touched"
+      style="color: red;">Please enter firstName</span><br>
+
+    <label>lastName</label>
+    <input type="text" formControlName="lastName" placeholder="lastName" class="form-control">
+    <span *ngIf="userAddForm.get('lastName')?.invalid && userAddForm.get('lastName')?.touched"
+      style="color: red;">Please enter lastName</span><br>
+
+    <label>email</label>
+    <input type="email" formControlName="email" placeholder="email" class="form-control">
+    <span *ngIf="userAddForm.get('email')?.invalid && userAddForm.get('email')?.touched" style="color: red;">Please
+      enter email</span><br>
+
+    <label>User Password</label>
+    <input type="password" formControlName="userPassword" placeholder="User Password" class="form-control">
+    <span *ngIf="userAddForm.get('userPassword')?.invalid && userAddForm.get('userPassword')?.touched"
+      style="color: red;">Please enter user password</span><br>
+
+    <div class="user" *ngIf="!showUserInputs">
+
+
+      <label>Salary</label>
+      <input type="number" formControlName="salary" placeholder="salary" class="form-control">
+      <span *ngIf="userAddForm.get('salary')?.invalid && userAddForm.get('salary')?.touched" style="color: red;">Please
+        enter salary</span><br>
+
+      <label>Phone number</label>
+      <input type="text" formControlName="phoneNumber" placeholder="phone number" class="form-control">
+      <span *ngIf="userAddForm.get('phoneNumber')?.invalid && userAddForm.get('phoneNumber')?.touched"
+        style="color: red;">Please enter phone number</span><br>
+
+      <label>Home address</label>
+      <input type="text" formControlName="homeAddress" placeholder="homeAddress" class="form-control">
+      <span *ngIf="userAddForm.get('homeAddress')?.invalid && userAddForm.get('homeAddress')?.touched"
+        style="color: red;">Please enter home address</span><br>
+
+      <label>Gender</label><br>
+      <input type="radio" formControlName="gender" value="Male"> Male
+      <input type="radio" formControlName="gender" value="Female"> Female<br><br>
+
+
+      <label>date Of Birth</label>
+      <input type="date" formControlName="dathOfBirth" class="form-control">
+      <span *ngIf="userAddForm.get('dathOfBirth')?.invalid && userAddForm.get('dathOfBirth')?.touched"
+        style="color: red;">Please enter date Of Birth</span><br>
+
+      <label>hire Date</label>
+      <input type="date" formControlName="hireDate" class="form-control">
+      <span *ngIf="userAddForm.get('hireDate')?.invalid && userAddForm.get('hireDate')?.touched"
+        style="color: red;">Please enter hire Date</span><br>
+
+
+      <div class="shipper" *ngIf="showShipperInputs">
+
+
+        <label>vehicle Plat No</label>
+        <input type="text" formControlName="vehiclePlatNo" class="form-control" placeholder="vehicle Plat No">
+        <span *ngIf="userAddForm.get('vehiclePlatNo')?.invalid && userAddForm.get('vehiclePlatNo')?.touched"
+          style="color: red;">Please enter vehicle Plat No</span><br>
+
+        <label>shipment Vehicle Type</label>
+        <input type="text" formControlName="shipmentVehicleType" class="form-control"
+          placeholder="shipment Vehicle Type">
+        <span *ngIf="userAddForm.get('shipmentVehicleType')?.invalid && userAddForm.get('shipmentVehicleType')?.touched"
+          style="color: red;">Please enter shipment Vehicle Type</span><br>
+
+      </div>
+    </div>
+
+    <span class="validation-span" style="color:red;" *ngIf="emailValidaton">{{emailValidaton}}</span>
+
+
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="onSaveUser()">Save User</button>
+    </div>
+
+  </form>
+
+</p-dialog>

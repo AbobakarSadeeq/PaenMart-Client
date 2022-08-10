@@ -1,0 +1,51 @@
+<app-admin-header></app-admin-header>
+
+<br>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+
+          <p-table [value]="cancelList" [rows]="12" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {{cancelCount}} entries">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Full-name</th>
+                <th>Order-Status</th>
+                <th>Order-Date</th>
+                <th>Country</th>
+                <th>No-Order-items</th>
+                <th>Payment-Method</th>
+                <th>Order-Detail</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cancelOrderList>
+              <tr class="data-row">
+                <td>{{cancelOrderList?.orderId}}</td>
+                <td>{{cancelOrderList?.fullName}}</td>
+                <td style="background-color: red; color:white; ">{{cancelOrderList?.orderStatus}}</td>
+                <td>{{cancelOrderList?.orderDate | date:'full'}}</td>
+                <td>{{cancelOrderList?.countryName}}</td>
+                <td>{{cancelOrderList?.orderItemsCount}}</td>
+                <td>{{cancelOrderList?.paymentMethod}}</td>
+                <td><a [routerLink]="['/Admin/OrderDetails/', cancelOrderList?.orderId]"
+                    [queryParams]="{orderStatus:'Canceled'}" class="btn btn-primary">Orders-Items-Detail</a></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div><br>
+
+        <div class="pagination-style">
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="cancelCount" [pageSize]="12" [page]="1" [directionLinks]="true"></ngb-pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<app-admin-header></app-admin-header>
+
+
+
+<div [style]="getStyleFromNav">
+
+
+ <div class="container">
+   <div class="row">
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="insertSuccessMessage">
+      {{insertSuccessMessage}}
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessageInsert">
+      {{errorMessageInsert}}
+    </div>
+
+    <button class="btn btn-warning add-category-btn" (click)="showProductBrandModel()">Add nest category to product brand<i class="fas fa-plus"></i> </button>
+
+    <p-table [value]="listBothData">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>BrandName</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-allDataWithBrandAndNestCategory  let-i="rowIndex" >
+          <tr class="data-row">
+              <td class="singleRow" (click)="showExpensionData(i)">
+                <span class="collapsible" ><i class="fa-solid fa-angles-down"></i>
+                 &nbsp;&nbsp;{{allDataWithBrandAndNestCategory?.brandName}}</span>
+                 <div  [ngClass]="allDataWithBrandAndNestCategory?.toggleShow ? 'show-content': 'hide-content' " class="nest-table">
+
+                  <p-table [value]="allDataWithBrandAndNestCategory?.nestSubCategoryWithBrands">
+                    <ng-template pTemplate="header">
+                        <tr class="nest-row">
+                            <th>NestSubCategoryName</th>
+                            <th>Actions</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-single let-i="rowIndex">
+                        <tr class="nest-row">
+                            <td>{{single?.nestCategoryName}}</td>
+                            <td>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="onDeleteNestSingleCategory(allDataWithBrandAndNestCategory?.nestSubCategoryWithBrands, i)"></a>
+
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                </div>
+
+                </td>
+
+            </tr>
+      </ng-template>
+  </p-table>
+
+
+   </div>
+ </div>
+
+
+
+</div>
+
+
+
+<!-- Adding Nest-Product-brand -->
+<p-dialog header="Adding product brand into nest category" [(visible)]="displayAddProductBrandAndNestCategoryModel" [style]="{width: '50vw'}" (onHide)="cleanForm()">
+  <form>
+
+    <label>Brand Name</label>
+    <select class="form-select" (change)="onChangeBrandData($event)" required>
+      <option [value]="null"  selected>Please Select the Brand</option>
+      <option *ngFor="let singleBrand of brandList" [value]="singleBrand?.productBrandID">
+        {{singleBrand?.brandName}}</option>
+    </select>
+
+    <div *ngIf="showCategory">
+    <label>Category Name</label>
+    <select class="form-select" (change)="categorySelected($event)" required>
+      <option [value]="null"  selected>Please Select the Category</option>
+      <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">
+        {{singleCategory?.categoryName}}</option>
+    </select>
+  </div>
+
+    <div *ngIf="showSubCategory">
+      <label>Sub-Category Name</label>
+      <select class="form-select" (change)="subCategorySelected($event)" required>
+        <option [value]="null" selected>Please Select the Sub-Category</option>
+        <option *ngFor="let singleSubCategory of subCategories" [value]="singleSubCategory?.subCategoryID">
+          {{singleSubCategory?.subCategoryName}}</option>
+      </select>
+    </div>
+
+    <div *ngIf="showNestSubCategory">
+      <label>Nest-Sub-Category Name</label>
+      <select class="form-select" (change)="selectedNestSubCategories($event)" required>
+        <option [value]="null" selected >Please Select the Nest-Sub-Category</option>
+        <option [disabled]="singleNestSubCategory?.foundInList" *ngFor="let singleNestSubCategory of nestSubCategories"
+          [value]="singleNestSubCategory?.nestSubCategoryID">
+          {{singleNestSubCategory?.nestSubCategoryName}}</option>
+      </select>
+    </div>
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onSave()" [disabled]="submitCategoiresBtn">Save brand more categories</button>
+    </div>
+
+  </form>
+
+</p-dialog>

@@ -1,0 +1,115 @@
+<app-admin-header></app-admin-header>
+
+
+<div [style]="getStyleFromNav">
+
+
+
+
+  <div class="container">
+    <div class="row">
+
+      <!-- warning about email to activate it -->
+      <div class="alert alert-warning alert-dismissible fade show" style=" display: flex;" role="alert">
+        <div class="warning-icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <strong>Requirements of email for activating sending emails</strong><br>
+          1. turn the two steps verification ON, On that gmail where you sending email from it, google it if you do not
+          know it. <br>
+          2. Create an app password in your gmail account and copy and paste it in app-password input, google it if you
+          do not know it. <br>
+          3. Gmail Id is required to send emails from it.
+        </div>
+
+      </div>
+
+
+      <button *ngIf="showAddSendingBtn" class="btn btn-warning add-category-btn"
+        (click)="showAddSendingEmailModel()">Add Email <i class="fas fa-plus"></i> </button><br>
+      <br>
+      <div class="card">
+        <p-table [value]="getEmailInfoDetail" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Sending Email Id</th>
+              <th>Email</th>
+              <th>App Password of gmail</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-emailInfo>
+            <tr class="data-row">
+              <td>{{emailInfo?.sendingEmailID}}</td>
+              <td>{{emailInfo?.ownerEmail}}</td>
+              <td>{{emailInfo?.appPassword}}</td>
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                  (click)="showUpdateModel()"></a>
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Adding sending email -->
+<p-dialog header="Adding sending email" [(visible)]="showModel" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+  <form [formGroup]="emailInfoForm">
+    <label>Owner Email</label>
+    <input type="email" formControlName="ownerEmail" placeholder="Owner Email" class="form-control">
+    <span class="validation-span"
+      *ngIf="emailInfoForm.get('ownerEmail')?.invalid && emailInfoForm.get('ownerEmail')?.touched">Please enter owner
+      email</span><br>
+
+    <label>App Password of gmail</label>
+    <input type="text" formControlName="appPassword" placeholder="App Password" class="form-control">
+    <span class="validation-span"
+      *ngIf="emailInfoForm.get('appPassword')?.invalid && emailInfoForm.get('appPassword')?.touched">Please enter app
+      password</span><br>
+
+    <span class="validation-span" *ngIf="emailValidaton">Please give the gmail Id</span>
+
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="sendingEmailInfo()">Save Email</button>
+    </div>
+  </form>
+</p-dialog>
+
+
+<!-- Update sending email -->
+
+
+<p-dialog header="Update sending email" [(visible)]="updateModel" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+  <form [formGroup]="emailInfoForm">
+    <label>Owner Email</label>
+    <input type="email" formControlName="ownerEmail" placeholder="Owner Email" class="form-control">
+    <span class="validation-span"
+      *ngIf="emailInfoForm.get('ownerEmail')?.invalid && emailInfoForm.get('ownerEmail')?.touched">Please enter owner
+      email</span><br>
+
+    <label>App Password of gmail</label>
+    <input type="text" formControlName="appPassword" placeholder="Category Name" class="form-control">
+    <span class="validation-span"
+      *ngIf="emailInfoForm.get('appPassword')?.invalid && emailInfoForm.get('appPassword')?.touched">Please enter app
+      password</span><br>
+
+    <span class="validation-span" *ngIf="emailValidaton">Please give the gmail Id</span>
+
+    <div class="save-btn">
+      <button class="btn btn-success" (click)="updatingEmailInfo()">Update Email</button>
+    </div>
+  </form>
+</p-dialog>

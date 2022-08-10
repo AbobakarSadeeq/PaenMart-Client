@@ -1,0 +1,199 @@
+<app-navbar></app-navbar>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-offset-2"></div>
+
+    <div class="col-8">
+
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cartItem of cartDataList">
+            <div style=" display: inline-block; position: relative;">
+              <a><i
+                  style="position: absolute;top: 0;right: 0; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"
+                  (click)="RemoveItemFromCart(cartItem?.productID)" class="fas fa-times btn"></i></a>
+              <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px" height="80px"
+                  alt=""></th>
+            </div>
+            <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
+            <td>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            <td style="padding-top:26px !important">
+              <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
+                [disabled]="cartItem?.quantity==1">-</button>&nbsp;
+              <span>{{cartItem?.quantity}}</span> &nbsp;
+              <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
+                [disabled]="cartItem?.quantity == 5">+</button>
+            </td>
+            <td>{{cartItem?.price * cartItem?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-2" style="background-color: #BFD834; width: 289px; height: 540px;">
+      <div style="text-align: center;">
+
+        <hr style="border-bottom: 5px solid black; width: 261px;">
+        <br><br><br><br><br><br><br><br><br>
+        <span><b>CART TOTAL</b> &nbsp; <span style="font-size: 24px;"><b>{{totalPrice | currency: 'Rs ':
+              'symbol':'1.0'}}</b></span></span>
+        <button *ngIf="showCheckOutButton" (click)="showModelDialogOfCheckOut()" class="btn btn-lg"
+          onMouseOver="this.style.background='white', this.style.color='black'"
+          onMouseOut="this.style.background='black',this.style.color='white'"
+          style="margin-top:10px; background-color: black; color: white; border-radius: 20px;">CHECKOUT <i
+            class="fas fa-shopping-bag"></i> </button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Checkout-dialog -->
+
+<p-dialog [(visible)]="displayModal" (onHide)="removeMessage()" [dismissableMask]="true" [modal]="true"
+  [style]="{width: '80vw', height: '100vw'}" [draggable]="false" [resizable]="false">
+  <p-header>
+    <h1 style="text-align: center;">Cart And Delivery Address</h1>
+  </p-header>
+
+  <!-- Purchased Cart Item -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="orderMessage">
+          {{orderMessage}}
+          <a (click)="removeMessage()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </a>
+        </div>
+
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cartItem of cartDataList">
+              <div style=" display: inline-block; position: relative;">
+                <a><i
+                    style="position: absolute;top: 0;right: 0; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"
+                    (click)="RemoveItemFromCart(cartItem?.productID)" class="fas fa-times btn"></i></a>
+                <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px"
+                    height="80px" alt=""></th>
+              </div>
+              <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
+              <td>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+              <td style="padding-top:26px !important">
+                <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
+                  [disabled]="cartItem?.quantity==1">-</button>&nbsp;
+                <span>{{cartItem?.quantity}}</span> &nbsp;
+                <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
+                  [disabled]="cartItem?.quantity == 5">+</button>
+              </td>
+              <td>{{cartItem?.price * cartItem?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <!-- Cart Total Items -->
+        <h2 style="text-align: right; padding-right: 110px;">CART TOTAL = {{totalPrice | currency: 'Rs ':
+          'symbol':'1.0'}}</h2>
+        <hr>
+
+      </div>
+    </div>
+  </div><br><br>
+
+
+  <!-- payment method selection -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <h1>Select Payment Method </h1>
+        <div class="payment-selection">
+          <div class="payment-data" *ngFor="let singlePayment of paymentSelect; let i = index">
+            <img (click)="onSelectPayment(i)"
+              class="{{singlePayment.name == 'CashOnDelivery'? 'cash-img': 'img-styling'}}"
+              id="{{singlePayment.selected ? 'payment-selected':''}}" src="{{singlePayment?.url}}" width="130px"
+              height="130px" alt="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><br><br>
+
+  <!-- Home Address -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <h1 *ngIf="userAddress == true">Please Add Your Address</h1>
+        <button class="btn btn-primary" *ngIf="userAddress == true" [routerLink]="['/User/EditUser/', userId]"
+          [queryParams]="{selectAddressTab: 1}">Add Address</button>
+
+        <!-- <div class="card" *ngIf="userAddress != true"> next time -->
+        <div class="card" *ngIf="userAddress != true">
+          <div class="card-body">
+            <a style="cursor: pointer; float: right;" [routerLink]="['/User/EditUser/', userId]"
+              [queryParams]="{selectAddressTab: 1}">
+              <i class="fas fa-edit"></i>
+            </a>
+            <h4><b>Name</b></h4>
+            <p>{{userDetails?.fullName}}</p>
+
+            <h4><b>Phone Number</b></h4>
+            <p>{{userAddress?.phoneNumber}}</p>
+
+            <h4><b>Home Address</b></h4>
+            <p>{{userAddress?.completeAddress + " " + userAddress?.city?.cityName + ", " +
+              userAddress?.city?.country?.countryName}}</p>
+
+            <h4><b>Email Address</b></h4>
+            <p>{{userDetails?.email}}</p>
+
+            <h4><b>Payment Method</b></h4>
+            <p>Cash on delivery</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accept Order -->
+  <p-footer>
+    <button class="btn btn-primary" *ngIf="orderBtn" [disabled]="userAddress == true || paymentSelected == true"
+      (click)="sendUserOrder()">Order Confirm!</button>
+  </p-footer>
+</p-dialog>
+
+
+
+
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -1,0 +1,54 @@
+<app-admin-header></app-admin-header>
+
+<br>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+
+          <p-table [value]="shippingPendingList" [rows]="12" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {{shippingPendingCount}} entries">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Full-name</th>
+                <th>Order-Status</th>
+                <th>Order-Date</th>
+                <th>Country</th>
+                <th>No-Order-items</th>
+                <th>Payment-Method</th>
+                <th>Order-Detail</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-shippingPendingOrderList>
+              <tr class="data-row">
+                <td>{{shippingPendingOrderList?.orderId}}</td>
+                <td>{{shippingPendingOrderList?.fullName}}</td>
+                <td style="background-color: rgb(126, 78, 229); color:white; ">{{shippingPendingOrderList?.orderStatus}}
+                </td>
+                <td>{{shippingPendingOrderList?.orderDate | date:'full'}}</td>
+                <td>{{shippingPendingOrderList?.countryName}}</td>
+                <td>{{shippingPendingOrderList?.orderItemsCount}}</td>
+                <td>{{shippingPendingOrderList?.paymentMethod}}</td>
+                <td><a [routerLink]="['/Admin/OrderDetails/', shippingPendingOrderList?.orderId]"
+                    [queryParams]="{orderStatus:'Shipping pending for shipper'}"
+                    class="btn btn-primary">Orders-Items-Detail</a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div><br>
+
+        <div class="pagination-style">
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="shippingPendingCount" [pageSize]="12" [page]="1" [directionLinks]="true"></ngb-pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

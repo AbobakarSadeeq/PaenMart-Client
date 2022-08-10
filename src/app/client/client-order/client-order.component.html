@@ -1,0 +1,150 @@
+<app-navbar></app-navbar>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <br>
+      <mat-tab-group animationDuration="0ms" [selectedIndex]="0" (selectedTabChange)="onTabChanged($event)">
+
+        <mat-tab label="Pendding-orders">
+          <br>
+          <h1 *ngIf="penddingOrders?.length == 0">Not any pendding order</h1>
+          <p-table *ngIf="penddingOrders?.length != 0" [value]="penddingOrders" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Order-Date</th>
+                <th>Order-Status</th>
+                <th>User-name</th>
+                <th>Country</th>
+                <th>Order-items</th>
+                <th>Order-Detail</th>
+                <th>Cancel-Order</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-penddingOrders>
+              <tr>
+                <td>{{penddingOrders?.orderId}}</td>
+                <td>{{penddingOrders?.orderDate}}</td>
+                <td>
+                  <p style="background-color: #f0ad4e; width: 103px;border-radius: 6px;">{{penddingOrders?.orderStatus}}
+                  </p>
+                </td>
+                <td>{{penddingOrders?.userName}}</td>
+                <td>{{penddingOrders?.countryName}}</td>
+                <td>{{penddingOrders?.orderItemsCount}}</td>
+                <td><a (click)="navigatingPendingOrder(penddingOrders?.orderId)"
+                    class="btn btn-primary">Orders-Items-Detail-History</a></td>
+                <td><button (click)="CancelingOrderByUser(penddingOrders?.orderId)"
+                    class="btn btn-danger">Cancel-Order</button></td>
+
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+        </mat-tab>
+
+
+
+
+        <mat-tab label="Shipped-orders">
+          <br>
+
+          <p-table [value]="shippedOrders" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Order-Date</th>
+                <th>Order-Status</th>
+                <th>User-name</th>
+                <th>Country</th>
+                <th>Order-items</th>
+                <th>Order-Detail</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-shippedOrders>
+              <tr>
+                <td>{{shippedOrders?.orderId}}</td>
+                <td>{{shippedOrders?.orderDate}}</td>
+                <td>
+                  <p style="background-color: #61f04e; width: 103px;border-radius: 6px;">{{shippedOrders?.orderStatus}}
+                  </p>
+                </td>
+                <td>{{shippedOrders?.userName}}</td>
+                <td>{{shippedOrders?.countryName}}</td>
+                <td>{{shippedOrders?.orderItemsCount}}</td>
+                <td><a [routerLink]="['/Client/OrdersDetail/', shippedOrders?.orderId]"
+                    [queryParams]="{orderStatus:onTabChangeOrder}"
+                    class="btn btn-primary">Orders-Items-Detail-History</a></td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+
+
+        </mat-tab>
+
+        <mat-tab label="Canceled-orders">
+          <br>
+
+          <p-table [value]="cancelOrder" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+            responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10,25,50]">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Order-Date</th>
+                <th>Order-Status</th>
+                <th>User-name</th>
+                <th>Country</th>
+                <th>Order-items</th>
+                <th>Order-Detail</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-singleCancelOrder>
+              <tr>
+                <td>{{singleCancelOrder?.orderId}}</td>
+                <td>{{singleCancelOrder?.orderDate}}</td>
+                <td>
+                  <p style="background-color: red; width: 103px;border-radius: 6px;">{{singleCancelOrder?.orderStatus}}
+                  </p>
+                </td>
+                <td>{{singleCancelOrder?.userName}}</td>
+                <td>{{singleCancelOrder?.countryName}}</td>
+                <td>{{singleCancelOrder?.orderItemsCount}}</td>
+                <td><a [routerLink]="['/Client/OrdersDetail/', singleCancelOrder?.orderId]"
+                    [queryParams]="{orderStatus:onTabChangeOrder}"
+                    class="btn btn-primary">Orders-Items-Detail-History</a></td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+
+
+        </mat-tab>
+
+
+
+
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Order Cancel</button>
+  </p-footer>
+</p-confirmDialog>

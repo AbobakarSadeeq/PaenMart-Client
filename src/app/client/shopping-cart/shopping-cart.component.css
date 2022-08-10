@@ -1,0 +1,52 @@
+.matSpinner{
+  position: absolute;
+  top:50%;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-size: 100%;
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:10000000;
+  filter: alpha(opacity=40);
+  left: 50%; margin-left: -4em;
+}
+
+.confirmCartItem :hover {
+
+  background-color: #3e8e41
+
+}
+
+td{
+  padding-top: 35px;
+}
+
+.payment-selection{
+  display: flex;
+}
+
+.payment-data {
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+
+.payment-data:hover {
+  border: #3e8e41 solid 1px;
+}
+
+.payment-data .img-styling {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  cursor:not-allowed;
+}
+
+.payment-data .cash-img {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.payment-data #payment-selected {
+  border: #3e8e41 solid 1px;
+
+}

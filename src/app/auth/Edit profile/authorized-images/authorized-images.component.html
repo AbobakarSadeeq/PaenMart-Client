@@ -1,0 +1,107 @@
+<app-navbar></app-navbar>
+
+<!-- User Images and their Details -->
+<div class="col-10"><br>
+  <div class="row">
+   <div>
+     <div class="container-fluid" style="margin-left: auto;margin-right: auto; width: 90rem;">
+       <div class="row">
+         <div class="col-2-offset"></div>
+         <mat-tab-group animationDuration="0ms" [(selectedIndex)]="selectedTab">
+          <mat-tab label="User Photos" *ngIf="userLoggedIn">
+          <br>
+          <div class="container-fluid">
+            <div class="row">
+            <button (click)="AddUserImageModel()"  class="btn btn-warning"><i class="fas fa-plus">Add User Image</i></button>
+            <h1><strong>Your Profile</strong></h1>
+            <div class="col-sm-4">
+              <div class="card">
+                <img class="card-img-top img-thumbnail" [src]="imageForMainProfile" alt="">
+                <div class="card-body">
+                  <strong>User Name:</strong>
+                  <p>{{userPhotosData?.fullName}}</p>
+                </div>
+                <div class="card-body">
+                  <strong>User Email:</strong>
+                  <p>{{userPhotosData?.email}}</p>
+                </div>
+                <div class="card-body">
+                  <strong>User Id:</strong>
+                  <p>{{userPhotosData?.id}}</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <ngb-carousel>
+                <ng-template ngbSlide *ngFor="let singlePhotos of userPhotosData?.userImages">
+                  <div class="picsum-img-wrapper">
+                    <img [src]="singlePhotos?.url" width="100%" alt="Random first slide">
+                  </div>
+                  <div class="carousel-caption">
+                    <h3>{{singlePhotos?.descriptionHeader}}</h3>
+                    <p>{{singlePhotos?.description}}</p>
+                  </div>
+                </ng-template>
+              </ngb-carousel><br>
+              <div class="row">
+                <div class="col-sm-3" *ngFor="let photo of userPhotosData?.userImages; let i=index" >
+                  <img style="height: 100px; width: 100px !important; margin-bottom: 2px;" src="{{photo?.url}}" alt=""
+                    class="img-thumbnail p-1">
+                  <div class="text-center" style="width: 155px;">&nbsp;
+                    <button [disabled]="photo?.isMainPhoto?true:false" type="button" class="btn btn-sm btn-success"
+                      (click)="MainPhoto(photo)">{{photo?.isMainPhoto?"it is Main Photo Now": "IsMain"}}</button>&nbsp;
+                    <button [disabled]="photo?.isMainPhoto?true:false" [hidden]="photo?.isMainPhoto" type="button"
+                      class="btn btn-sm btn-danger" (click)="openDeleteDailog(photo?.id, userPhotosData?.id)"><i
+                        class="fa fa-trash"></i></button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>{{selectedTab}}</p>
+          </mat-tab>
+
+
+          <mat-tab label="User Address">
+            <br>
+            <app-user-address></app-user-address>
+          </mat-tab>
+
+
+        </mat-tab-group>
+
+
+      </div>
+     </div>
+   </div>
+
+
+
+
+
+   <!-- Add User Address -->
+   <p-dialog header="Adding User Image" [style]="{width: '500px'}"  [(visible)]="displayModel" (onHide)="hideModel()">
+     <form #photoData="ngForm" (ngSubmit)="InsertPhoto(userPhotosData?.id, photoData)">
+       <input required type="text" name="descriptionHeader" ngModel placeholder="Please Write the Header Photo"
+       class="form-control"><br>
+       <input required type="text" name="description" ngModel placeholder="Please Write the description of photo"
+       class="form-control"><br>
+       <input required type="file" #MyFileInput class="" ngModel (change)="fileChange($event)" name="File"><br><br>
+       <button type="submit" class="btn btn-primary" [disabled]="photoData.invalid">Add Photo</button>
+      </form>
+    </p-dialog>
+
+
+
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <mat-spinner mode="indeterminate"  *ngIf="loadingIndicator" class="matSpinner"></mat-spinner>
+
+
+
+

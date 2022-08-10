@@ -1,0 +1,42 @@
+<app-navbar></app-navbar><br>
+
+
+ <div class="main-div">
+
+  <div class="sidebar-div">
+    <h1 style="text-align:center;">BRAND</h1><hr>
+    <a  (click)="filterProductShows(0)" class="show-all">Show All</a><hr>
+    <ul>
+      <li *ngFor="let singleBrand of brands" ><a (click)="filterProductShows(singleBrand?.brandID)"  >{{singleBrand?.brandName}}</a></li>
+    </ul>
+  </div>
+
+
+
+  <div>
+    <h1>Main section</h1>
+
+
+    <div class="row">
+      <div class="col-2" *ngFor="let singleProduct of productList?.productData">
+        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+          [routerLink]="['/Product-detail/', singleProduct?.productID]">
+          <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
+            style=" width: 200px; height: 200px;" />
+          <span style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+            &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
+          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; "><b>{{singleProduct?.price |
+              currency: 'Rs ': 'symbol':'1.0'}}</b></p>
+        </a>
+      </div>
+
+    </div>
+
+   <ngb-pagination class="d-flex justify-content-center" (pageChange)="tablePageNoChange($event)"
+  [collectionSize]="productList?.countProducts" [pageSize]="24" [page]="1"
+  [directionLinks]="true"></ngb-pagination>
+  </div>
+
+ </div>
+
+

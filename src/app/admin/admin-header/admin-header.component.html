@@ -1,0 +1,189 @@
+<nav class="main-navbar " [ngClass]="!showSideBar ? 'offSidebar' : ''">
+  <div class="left-side-btns hamburger">
+    <a [routerLink]="['/Admin']"><i class="fa-solid fa-store"></i> Paen Mart</a>
+    <a (click)="toggleMenuBtn()"><i class="fa-solid fa-align-justify"></i></a>
+  </div>
+
+  <div class="right-side-btns">
+    <a [routerLink]="['']">client-side</a>
+    &nbsp;&nbsp;&nbsp;&nbsp; <a (click)="logOutUser()">Log out {{userDetails?.email}}</a> &nbsp;&nbsp;
+    <img [src]="userImg" alt="">
+  </div>
+</nav>
+
+<div class="wrapper" *ngIf="showSideBar">
+  <!--Top Menu & Menu button-->
+  <div class="sidebar" [ngClass]="showSideBar ? 'onSideBar' : ''">
+    <div class="profile">
+      <!--Profile Image-->
+      <img [src]="userImg" alt="profile_picture">
+      <!--Profile Title & Descruption-->
+      <h3>{{userDetails?.fullName}}</h3>
+      <p>{{convertStringToArrRole}}</p>
+    </div>
+
+
+
+    <!--Menu item-->
+
+    <ul>
+
+      <li *appHasRole="['Admin']">
+        <a [routerLink]="['/Admin']">
+          <span class="icon"><i class="fas fa-home"></i></span>
+          <span class="item">Home/Dashboard</span>
+        </a>
+      </li>
+
+      <li *appHasRole="['Admin']">
+        <a (click)="adminAccountAndPaymentsDropDown = !adminAccountAndPaymentsDropDown">
+          <span class="icon"><i class="fas fa-user-shield"></i> </span>
+          <span class="item">Admin Account & Payments</span>
+          <i class="fa-solid fa-caret-down"></i>
+
+        </a>
+
+        <div *ngIf="adminAccountAndPaymentsDropDown">
+          <ul>
+            <li><a id="nest-links" [routerLink]="['/Admin/AdminAccountBalance']">Admin Account</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/EmployeePayment']">Employee Payment</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/ShipperPayment']">Shipper Payment</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li>
+        <a (click)="userOrdersDropDown = !userOrdersDropDown">
+          <span class="icon"><i class="fas fa-user-shield"></i> </span>
+          <span class="item">Paen Mart Orders</span>
+          <i class="fa-solid fa-caret-down"></i>
+
+        </a>
+
+        <div *ngIf="userOrdersDropDown">
+          <ul>
+            <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
+                [routerLink]="['/Admin/PendingUserOrders']">Pending User Orders</a></li>
+            <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
+                [routerLink]="['/Admin/ShippingPendingUserOrders']">Shipping Pending User Orders</a></li>
+            <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
+                [routerLink]="['/Admin/ShippedUserOrders']">Shipped User Orders</a></li>
+            <li *appHasRole="['Admin', 'Employee']"><a id="nest-links" [routerLink]="['/Admin/CancelUserOrders']">Cancel
+                User Orders</a></li>
+            <li *appHasRole="['Shipper']"><a id="nest-links"
+                [routerLink]="['/Admin/Shipper/ShipperPendingOrders']">Shipping orders pending</a></li>
+
+            <li *appHasRole="['Shipper']"><a id="nest-links"
+                [routerLink]="['/Admin/Shipper/ShipperShipmentDoneOrders/', userDetails?.id]">Your shipments orders
+                data</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li *appHasRole="['Admin']">
+        <a (click)="projectExtraFeatures = !projectExtraFeatures">
+          <span class="icon"><i class="fas fa-user-shield"></i> </span>
+          <span class="item">Extra features</span>
+          <i class="fa-solid fa-caret-down"></i>
+
+        </a>
+
+        <div *ngIf="projectExtraFeatures">
+          <ul>
+            <li><a id="nest-links" [routerLink]="['/Admin/SendingEmail']">Sending Email</a></li>
+
+          </ul>
+        </div>
+      </li>
+
+      <li *appHasRole="['Admin']">
+        <a (click)="usersDataDropDown = !usersDataDropDown">
+          <span class="icon"><i class="fas fa-cog"></i></span>
+          <span class="item">Users</span>
+          <i class="fa-solid fa-caret-down"></i>
+
+        </a>
+
+        <div *ngIf="usersDataDropDown">
+          <ul>
+            <li *appHasRole="['Admin']">
+              <a [routerLink]="['/Admin/Users']" id="nest-links">
+                <span class="item">All Users</span>
+              </a>
+            </li>
+
+            <li *appHasRole="['Admin']">
+              <a [routerLink]="['/Admin/UserRoles']" id="nest-links">
+                <span class="item"> Users Roles </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li *appHasRole="['Admin', 'Employee']">
+        <!-- Main link -->
+        <a (click)="productDataDropDown= !productDataDropDown">
+          <span class="icon"><i class="fa-solid fa-briefcase"></i></span>
+          <span class="item">Products</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </a>
+
+        <div *ngIf="productDataDropDown">
+          <ul>
+            <li *ngFor="let singleProduct of dynamicFormStructure"><a id="nest-links"
+                [routerLink]="['/Admin/Product', singleProduct.nestSubCategoryName ]"
+                [queryParams]="{selectedDynamicFormStructureId:singleProduct.dynamicFormStructureID, NestCategoryId:singleProduct.nestSubCategoryId}">{{singleProduct.nestSubCategoryName}}</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li *appHasRole="['Admin', 'Employee']">
+        <!-- Second link -->
+        <a (click)="productMenuDropDown= !productMenuDropDown">
+          <span class="icon"><i class="fa-solid fa-bag-shopping"></i></span>
+          <span class="item">Products-Menu</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </a>
+
+        <div *ngIf="productMenuDropDown">
+          <ul>
+            <li><a id="nest-links" [routerLink]="['/Admin/Category']">Category</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Sub-Category']">Sub Category</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Nest-Sub-Category']">Nest Sub Category</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li *appHasRole="['Admin', 'Employee']">
+        <!-- Main link -->
+        <a (click)="productExtraInfoDropDown= !productExtraInfoDropDown">
+          <span class="icon"><i class="fa-brands fa-product-hunt"></i></span>
+          <span class="item">Product-Extra-Info</span>
+          <i class="fa-solid fa-caret-down"></i>
+        </a>
+
+        <div *ngIf="productExtraInfoDropDown">
+          <ul>
+            <li><a id="nest-links" [routerLink]="['/Admin/Product-brand']">Product brands</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Brand-With-Nest-Category']">Brand With Nest Category</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Dynamic-Form-Structure']">Make-Product-Form-Structure</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Carousel']">Ads Carousel</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/Country']">Add Country</a></li>
+            <li><a id="nest-links" [routerLink]="['/Admin/City']">Add City</a></li>
+
+
+          </ul>
+        </div>
+      </li>
+
+    </ul>
+
+
+
+
+  </div>
+
+</div>

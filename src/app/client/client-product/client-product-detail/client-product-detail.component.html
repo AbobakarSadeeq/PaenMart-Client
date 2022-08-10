@@ -1,0 +1,126 @@
+<app-navbar></app-navbar>
+<br><br>
+<!-- Carousel Column -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+
+
+
+      <ngb-carousel style="margin-top: -23px;" *ngIf="productDetails">
+        <ng-template ngbSlide *ngFor="let item of productDetails?.getProductImagess">
+          <div class="picsum-img-wrapper">
+            <img [src]="item?.url" alt="Random first slide" width="350px" class="d-block " height="400px">
+          </div>
+          <div class="carousel-caption">
+            <h3>{{item?.imageTitle}}</h3>
+            <p>{{item?.imageDescription}}</p>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+
+
+    </div>
+    <div class="col-lg-9 ">
+      <br><br>
+      <p
+        style="color: #282828; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 20px;">
+        {{productDetails?.productName}} ({{productDetails?.productBrandName}} {{productDetails?.color}})</p>
+      <span style="color: grey; font-size: 12px;">Product Id ____{{productDetails?.productID}}____</span>
+      <br><br>
+      <h4><strong
+          style="font-size: 24px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{productDetails?.price
+          | currency: 'Rs ': 'symbol':'1.0'}}</strong></h4>
+
+      <!--More Mobile Details -->
+      <ul style="list-style: none; padding-left: 0%;">
+        <li style="display: inline-block;">
+          <div>
+            <span style="color: grey; font-size: 14px;">Brand Name</span>
+            <h6 style="font-size: 15px;">{{productDetails?.productBrandName}}</h6>
+          </div>
+        </li> &nbsp;
+        <li style="display: inline-block;">
+          <div>
+            <span style="color: grey; font-size: 14px;">Condition</span>
+            <h6 style="font-size: 15px;">New</h6>
+          </div>
+        </li>
+        <li style="display: inline-block; padding-left: 15px;">
+          <div>
+            <span style="color: grey; font-size: 15px;">Delivery</span>
+            <h6 style="font-size: 14px;">4 - 7 Working Days</h6>
+          </div>
+        <li style="display: inline-block; padding-left: 15px;">
+          <div>
+            <span style="color: grey; font-size: 15px;">Availability</span>
+            <h6 style="font-size: 14px;">{{productDetails?.stockAvailiability == true? 'In Stock': 'Not Available'}}
+            </h6>
+          </div>
+        </li>
+        <li style="display: inline-block; padding-left: 15px;">
+          <div>
+            <span style="color: grey; font-size: 15px;">Product Id</span>
+            <h6 style="font-size: 14px;">____{{productDetails?.productID}}____</h6>
+          </div>
+        </li><br>
+        <li style="display: inline-block; padding-left: 0px;">
+
+
+          <div *ngIf="productDetails?.stockAvailiability">
+            <span style="color: grey; font-size: 12px;">Quantity of Product</span>
+            <div style="margin-top: 4px; margin-bottom: 16px;">
+              <button class="btn" style="background-color:#C8C8C8;" (click)="subtractingProductQuantity()"
+                [disabled]="addQuantity == 1">-</button>&nbsp;
+              <span>{{addQuantity}}</span> &nbsp;
+              <button class="btn" style="background-color:#C8C8C8;" (click)="addingProductQuantity()"
+                [disabled]="addQuantity == 5">+</button>
+            </div>
+          </div>
+
+
+        </li>
+      </ul>
+
+      <div *ngIf="!productDetails?.stockAvailiability">
+        <h1 style="color:red;">Currently unavailable.</h1>
+        <p>We don't know when or if this item will be back in stock.</p>
+      </div>
+
+      <div *ngIf="productDetails?.stockAvailiability">
+        <img src="../../../../assets/12.png" alt="">
+        <br><br><br>
+        <div>
+          <!-- Add to Cart & Buy Button -->
+          <button type="button" class="btn btn-outline-info "
+            style="border-radius: 15%; width: 200px; height: 45px;margin-right: 15px;"
+            (click)="addToCartProduct(productDetails)">Add to Cart</button>
+
+          <!-- Cart-View -->
+          <button type="button" class="btn btn-primary " style="  border-radius: 15%; width: 200px; height: 45px;"
+            id="addData" data-toggle="modal" data-target="#exampleModal">Buy Now</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <br><br><br><br>
+      <h1 style="font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif;"><b>{{productDetails?.nestSubCategoryName}} Specification</b>
+      </h1>
+      <hr>
+      <br>
+      <div *ngFor="let item of productSpecificationDetails">
+        <td><strong>{{item?.objectKey}}</strong></td><br>
+        <td><span>{{item?.objectValue}}</span></td><br>
+      </div>
+    </div>
+  </div>
+</div>

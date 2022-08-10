@@ -1,0 +1,25 @@
+label {
+  font-weight: 500;
+}
+
+.row {
+  width: 100%;
+  margin-left: 80px;
+}
+
+.fileInputsCss {
+  display: flex;
+}
+
+.filling-form-heading {
+  margin-left: 720px;
+}
+
+button {
+  margin-left: 80px;
+  width: 100%;
+}
+
+.commonInputs {
+  height: 150px;
+}

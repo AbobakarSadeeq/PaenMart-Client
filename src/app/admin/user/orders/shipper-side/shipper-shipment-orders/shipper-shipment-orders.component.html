@@ -1,0 +1,54 @@
+<app-admin-header></app-admin-header>
+
+<br>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+
+          <p-table [value]="shippedList" [rows]="12" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {{shippedCount}} entries">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Order-Number</th>
+                <th>Full-name</th>
+                <th>Order-Status</th>
+                <th>Order-Date</th>
+                <th>Country</th>
+                <th>No-Order-items</th>
+                <th>Payment-Method</th>
+                <th>Shipper Id</th>
+                <th>Order-Detail</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-shippedOrderList>
+              <tr class="data-row">
+                <td>{{shippedOrderList?.orderId}}</td>
+                <td>{{shippedOrderList?.fullName}}</td>
+                <td style="background-color: green; color:white; ">{{shippedOrderList?.orderStatus + " Order"}}</td>
+                <td>{{shippedOrderList?.orderDate | date:'full'}}</td>
+                <td>{{shippedOrderList?.countryName}}</td>
+                <td>{{shippedOrderList?.orderItemsCount}}</td>
+                <td>{{shippedOrderList?.paymentMethod}}</td>
+                <td>{{shippedOrderList?.shipperId}}</td>
+                <td><a [routerLink]="['/Admin/OrderDetails/', shippedOrderList?.orderId]"
+                    [queryParams]="{orderStatus:'Shipped order by shipper'}"
+                    class="btn btn-primary">Orders-Items-Detail</a></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div><br>
+
+        <div class="pagination-style">
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="shippedCount" [pageSize]="12" [page]="1" [directionLinks]="true"></ngb-pagination>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

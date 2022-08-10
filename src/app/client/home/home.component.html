@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+
+<!-- Carousel -->
+<div class="container-fluid a_cont">
+  <div class="carosel">
+    <ngb-carousel style="margin-top: -23px;">
+      <ng-template ngbSlide *ngFor="let item of carouselImgList" >
+        <div class="picsum-img-wrapper" >
+          <img [src]="item?.url" alt="Random first slide" width="1530" height="570">
+        </div>
+        <div class="carousel-caption">
+          <h3>{{item?.imageTitle}}</h3>
+          <p>{{item?.imageDescription}}</p>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+
+
+</div>
+
+
+<!-- Section 2 -->
+<div class="Top-sells">
+  <h1>Top Selling Products</h1><br>
+
+  <div class="row">
+    <div class="col-2" *ngFor="let maxSellOut of fiveMostSelledProduct">
+      <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+        [routerLink]="['/Product-detail/', maxSellOut?.productID]">
+        <img src="{{maxSellOut?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
+          style=" width: 200px; height: 200px;" />
+        <span style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{maxSellOut?.productName}}</b>
+          &nbsp;({{maxSellOut?.color}} {{maxSellOut?.productBrandName}}) </span>
+        <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; "><b>{{maxSellOut?.price |
+            currency: 'Rs ': 'symbol':'1.0'}}</b></p>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+

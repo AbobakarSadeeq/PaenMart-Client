@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+
+<br><br>
+
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3" style="margin-left:250px; margin-bottom: 0px; padding-bottom: 29px;">
+    <h1 style="text-align: center; font-size: 50px;">{{isLoginMode ?"Log In":"Sign Up"}}</h1>
+    <!-- Error Message -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+      {{errorMessage}}
+      <a (click)="removeErrorEvent()" style="cursor: pointer; float: right;">
+        <span aria-hidden="true">&times;</span>
+      </a>
+    </div>
+    <div class="alert alert-success alert-dismissible fade show" style="margin-bottom: 0px; padding-bottom: 29px;"
+      role="alert" *ngIf="successFullInsert">
+      {{successFullInsert}}
+      <a (click)="removeErrorEvent()" style="cursor: pointer; float: right;">
+        <span aria-hidden="true">&times;</span>
+      </a>
+    </div>
+
+    <!-- Reset password mesg -->
+    <div class="alert alert-success alert-dismissible fade show" style="margin-bottom: 0px; padding-bottom: 29px;"
+      role="alert" *ngIf="showPasswordResetMsg">
+      {{showPasswordResetMsg}}
+    </div>
+
+    <form #authForm="ngForm" (ngSubmit)="authFormData(authForm)">
+      <div class="form-group" [hidden]="isLoginMode">
+        <label for="Name">Full name</label>
+        <input pattern="^[a-zA-Z0-9]+([a-zA-Z0-9][a-zA-Z0-9])*[a-zA-Z0-9]\w+( \w+)*$" required #val0="ngModel"
+          type="text" [disabled]="isLoginMode" ngModel id="name" class="form-control validationSpace" name="fullName"
+          required placeholder="Full Name" />
+         <span *ngIf="val0.invalid &&val0.touched" style="color:red;">Full Name cannot allow two underscores, two hypens
+          or an underscore</span>
+
+      </div>
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+
+        <br />
+
+
+        <input type="email" name="Email" ngModel #email="ngModel"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required class="form-control validationSpace"
+          placeholder="Email" id="email">
+        <div *ngIf="email.touched" style="color: red;">
+          <p *ngIf="email.errors?.['required']" style="color: red;">Email is a required field!</p>
+          <p *ngIf="email.errors?.['pattern']" style="color: red;">This is not a valid Email!!!</p>
+        </div>
+
+      </div><br>
+
+      <div class="form-group">
+        <label for="password">Password </label>
+        <input required #val2="ngModel" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,15}$" type="password"
+          ngModel id="password" name="Password" required placeholder="Password" minlength="6"
+          class="form-control validationSpace" />
+         <span *ngIf="val2.invalid &&val2.touched" style="color:red;">{{isLoginMode ? "Please Enter your Password":
+          "(Password must have at least 8 characters,1 uppercase, 1 lower case and 1 Number)" }}</span>
+
+      </div>
+
+      <div class="form-group" [hidden]="isLoginMode">
+        <label for="password">Confirm-Password</label>
+        <input #val3="ngModel" type="password" [disabled]="isLoginMode" ngModel id="Confirm-Password"
+          name="ConfirmPassword" required placeholder="ConfirmPassword" class="form-control validationSpace" />
+         <span *ngIf=" val3.value !==val2.value" style="color:red;">Password required to confirm</span>
+      </div>
+
+      <span class="validation-span" style="color:red;" *ngIf="emailValidaton">Please give the gmail Id</span>
+
+      <div><br>
+        <button type="submit" class="btn btn-primary" *ngIf="!isLoginMode"
+          [disabled]="authForm.invalid || val3.value != val2.value ">Sign Up</button>
+        <button type="submit" class="btn btn-primary" *ngIf="isLoginMode" [disabled]="authForm.invalid ">Log In</button>
+        |
+        <button class="btn btn-primary" type="button" (click)="onSwitchMode(authForm)">{{isLoginMode ? "Switch to Sign
+          Up": "Switch to Login"}}</button>
+      </div>
+    </form>
+
+    <!-- Forget password -->
+    <br>
+    <a [routerLink]="['/Auth/ForgetPassword']" style="text-decoration: none; font-size:1.1rem;">Forget password?</a>
+  </div>
+
+
+
+</div>
+
+
+
+<mat-spinner class="matSpinner" *ngIf="loadingIndicator"></mat-spinner>

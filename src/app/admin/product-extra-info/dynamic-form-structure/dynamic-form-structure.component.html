@@ -1,0 +1,772 @@
+<app-admin-header></app-admin-header>
+
+<!-- this div is compulsary so, every admin component should have this -->
+<div [style]="getStyleFromNav">
+
+
+  <!-- Crud of dynamic form structure -->
+  <div class="container">
+    <div class="row">
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="showfadeMessageWhenUpdateDynamicFormStructureAdded">
+        {{showfadeMessageWhenUpdateDynamicFormStructureAdded}}
+      </div>
+
+
+      <button class="btn btn-warning add-category-btn" (click)="showAddDynamicFormModel()">Add dyanmic form <i
+          class="fas fa-plus"></i> </button>
+      <div class="card">
+        <p-table [value]="dynamicFormStructure" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Dynamic-form no</th>
+              <th>Nest Sub Category</th>
+              <th>Dynamic-form Created</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-dynaimcFS>
+            <tr class="data-row">
+              <td>{{dynaimcFS?.dynamicFormStructureID}}</td>
+              <td>{{dynaimcFS?.nestSubCategoryName}}</td>
+              <td>{{dynaimcFS?.created_At| date:'short'}}</td>
+
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                  (click)="getDataForUpdate(dynaimcFS?.dynamicFormStructureID, dynaimcFS?.nestSubCategoryName)"></a>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="onDeleteDFS(dynaimcFS?.dynamicFormStructureID, dynaimcFS?.nestSubCategoryName)"></a>
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</div>
+
+
+
+
+<!-- Adding Dynamic structure -->
+
+<p-dialog header="Adding dynamic form inputs" [(visible)]="displayAddDynamicFormStructureModel"
+  [style]="{width: '80vw'}" (onHide)="removeErrorMessage()">
+
+
+  <mat-tab-group mat-align-tabs="start" [selectedIndex]="0">
+
+
+    <!-- Tab 1 -->
+    <mat-tab label="Add Inputs"><br>
+      <!-- Selecting categories -->
+      <div *ngIf="selectedCategoiresNames" class="selected-categories-names">
+        <p class="heading-catgoires-selected">Catgories Selected:</p>
+        <p>{{categorySelectedName}}</p>
+        <i class="fa-solid fa-arrow-right"></i>
+        <p>{{subCategorySelectedName}} </p>
+        <i class="fa-solid fa-arrow-right"></i>
+        <p>{{nestSubCategorySelectedData?.nestSubCategoryName}}</p>
+      </div>
+
+      <div class="col-11 centering-form">
+
+        <div *ngIf="categoriesSelectingDone">
+
+
+
+          <h1 class="filling-form-heading">Please select the categories</h1>
+
+          <label>Category Name</label>
+          <select class="form-select" (change)="categorySelected($event)" required>
+            <option [value]="null"  selected>Please Select the Category</option>
+            <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">
+              {{singleCategory?.categoryName}}</option>
+          </select>
+
+          <div *ngIf="showSubCategory">
+            <label>Sub-Category Name</label>
+            <select class="form-select" (change)="subCategorySelected($event)" required>
+              <option [value]="null" selected>Please Select the Sub-Category</option>
+              <option *ngFor="let singleSubCategory of subCategories" [value]="singleSubCategory?.subCategoryID">
+                {{singleSubCategory?.subCategoryName}}</option>
+            </select>
+          </div>
+
+          <div *ngIf="showNestSubCategory">
+            <label>Nest-Sub-Category Name</label>
+            <select class="form-select" (change)="selectedNestSubCategories($event)" required>
+              <option [value]="null" selected>Please Select the Nest-Sub-Category</option>
+              <option [disabled]="singleNestSubCategory?.foundInList" *ngFor="let singleNestSubCategory of nestSubCategories"
+                [value]="singleNestSubCategory?.nestSubCategoryID">
+                {{singleNestSubCategory?.foundInList? "This category already have form " + singleNestSubCategory?.nestSubCategoryName : singleNestSubCategory?.nestSubCategoryName }}</option>
+            </select>
+          </div>
+
+          <button class="btn btn-warning" [disabled]="submitCategoiresBtn" (click)="categoriesSelectedDone()">Confirm
+            Select Categoires</button>
+        </div>
+
+
+
+
+        <div *ngIf="isCategoiresValid">
+          <h1 class="filling-form-heading">Add inputs to selected categoires</h1>
+          <div class="alert alert-success alert-dismissible fade show" role="alert"
+            *ngIf="showfadeMessageWhenInputAdded">
+            {{showfadeMessageWhenInputAdded}}
+          </div>
+          <!-- warning about some inputs that don't need to add it, its by default added -->
+          <div class="alert alert-warning alert-dismissible fade show" style=" display: flex;" role="alert">
+          <div class="warning-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            Please don't add thses inputs
+            <strong> {{nestSubCategorySelectedData?.nestSubCategoryName}}-Name, {{nestSubCategorySelectedData?.nestSubCategoryName}}-Brand, Price, Color, Stock-Availability, Quantity, Sell-Units and just select the product size in extra-input structure tab</strong>.
+            Its by default added, if you did it will shows in specification of product only.
+            These Input's will be shows when you are adding the product's.
+          </div>
+
+        </div>
+          <form [formGroup]="creatingFormReactive" (ngSubmit)="SaveInput()">
+
+
+            <div>
+              <label>Add Input:</label>
+              <select class="form-select" formControlName="selectingInputs" required (change)="ChangeInput($event)">
+                <option value="null" selected disabled>
+                  &nbsp;-------------Select-Input--------------
+                </option>
+                <option value="text">Text input</option>
+                <option value="number">Number input</option>
+                <option value="selectList">Select List</option>
+                <option value="checkbox">Checkbox button</option>
+                <option value="radio">Radio button</option>
+                <option value="file" [disabled]="photoAlreadyAdded">
+                  {{photoAlreadyAdded == false?"Photo file":"You cannot add more, photos once already added to form"}}
+                </option>
+
+              </select>
+              <span
+                *ngIf="creatingFormReactive.get('selectingInputs')?.invalid && creatingFormReactive.get('selectingInputs')?.touched"
+                class="validation-span">Please select the input</span><br>
+            </div>
+
+            <!-- choosing options to add Radio/Checkbox/select-list/file buttons -->
+            <div>
+              <select class="form-select" *ngIf="selectQuantityShows" (change)="addQuantitySelectingOfRCSBtn($event)"
+                required>
+                <option value="{{null}}" selected disabled>
+                  &nbsp;-------------Select-Quantity--------------
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+              </select>
+              <span *ngIf="selectInputQuantity? selectQuantityShows: selectInputQuantity" class="validation-span">Please
+                select
+                the quantity</span>
+            </div>
+
+            <div formArrayName="inputLabel" *ngFor="let item of getAddQuantitySelectingOfRCSBtn()  let i=index">
+              <div [formGroupName]="i">
+                <label>{{getAddQuantitySelectingOfRCSBtn().length==1?'Label':'Option'}}{{getAddQuantitySelectingOfRCSBtn().length>
+                  1 ? ' ' + (i + 1) :''}}:</label>
+                <input type="text" class="form-control" formControlName="multipleOptionValue"
+                  placeholder="{{getAddQuantitySelectingOfRCSBtn().length==1?'Label Name':'Add Option'}} {{getAddQuantitySelectingOfRCSBtn().length> 1 ? i + 1 :''}}"
+                  required>
+                <span
+                  *ngIf="creatingFormReactive.get('inputLabel')?.invalid && creatingFormReactive.get('inputLabel')?.touched"
+                  class="validation-span">Please write the label</span><br>
+              </div>
+            </div>
+
+            <div>
+              <label>Name:</label>
+              <input type="text" class="form-control" formControlName="nameInput" placeholder="name" required>
+              <span
+                *ngIf="creatingFormReactive.get('nameInput')?.invalid && creatingFormReactive.get('nameInput')?.touched"
+                class="validation-span">Please write the name</span><br>
+            </div>
+
+            <div *ngIf="placeHolderValidPlaces">
+              <label>Placeholder:</label><br>
+              <input type="text" class="form-control" placeholder="Placeholder" formControlName="placeholderInput"
+                required>
+              <span
+                *ngIf="creatingFormReactive.get('placeholderInput')?.invalid && creatingFormReactive.get('placeholderInput')?.touched"
+                class="validation-span">Please write the placeholder</span>
+            </div><br>
+            <div class="submit-form-btn">
+              <button class="btn btn-warning" [disabled]="creatingFormReactive.invalid ">Save Input</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </mat-tab>
+
+
+
+
+
+    <!-- Tab 2 -->
+    <mat-tab label="Form structure output"><br>
+      <div class="col-11 centering-form">
+        <!-- Dynamically input added result -->
+        <!-- Dynamic Form -->
+        <h1 class="filling-form-heading">Form structure demo section</h1>
+
+        <form>
+          <div class="row">
+
+            <div *ngFor="let customBuildSingleForm of userMadeForm" class="form-group col-md-3">
+
+
+              <!-- Input  -->
+              <div *ngIf="
+     [
+       'text',
+       'password',
+       'email',
+       'number',
+     ].includes(customBuildSingleForm?.inputType)
+   ">
+                <label class="form-lable">{{customBuildSingleForm?.labelName[0].multipleOptionValue}}</label>
+                <input type="{{customBuildSingleForm?.inputType}}" placeholder="{{customBuildSingleForm?.placeHolder}}"
+                  id="dynamicFormInputCSS" class="form-control disable-dynamic-made-form-input" required>
+
+              </div>
+
+
+
+              <!-- Checkbox button -->
+              <div *ngIf="customBuildSingleForm.inputType == 'checkbox'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleForm?.labelName">
+                  <span class="form-label">
+                    <input type="checkbox" id="dyanmicFormCheckboxCSS"
+                      class="form-check-input disable-dynamic-made-form-input"
+                      value="{{singleCheckRadioBtnDetail?.multipleOptionValue}}" required>
+                    {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
+                </div>
+
+              </div>
+
+
+              <!-- Radio button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'radio'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleRadio of customBuildSingleForm?.labelName; let i = index">
+                  <span>
+                    <input id="dyanmicFormRadioCSS" name="{{customBuildSingleForm?.nameOfInput}}" type="radio"
+                      value="{{singleRadio?.multipleOptionValue}}" required class="disable-dynamic-made-form-input">
+                    {{singleRadio?.multipleOptionValue}}</span>
+                </div>
+              </div>
+
+              <!-- file button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'file'">
+
+                <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
+                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
+                  <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
+                    style="padding-top:10px;" #myFileInput>
+                </div>
+
+              </div>
+
+
+              <!-- Select-list -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'selectList'">
+
+                <label> {{customBuildSingleForm?.nameOfInput}}</label>
+                <select required name="{{customBuildSingleForm?.nameOfInput}}" id="dyanmicSelectListCSS"
+                  class="form-select disable-dynamic-made-form-input">
+                  <option value="{{null}}" disabled selected>
+                    &nbsp;-------------{{customBuildSingleForm?.placeHolder}}--------------
+                  </option>
+                  <option *ngFor="let singleListData of customBuildSingleForm?.labelName"
+                    value="{{singleListData?.multipleOptionValue}}">
+                    {{singleListData?.multipleOptionValue}}
+                  </option>
+                </select>
+              </div><br>
+            </div>
+
+          </div><br>
+
+
+        </form>
+
+        <button class="btn btn-warning" *ngIf="insertDynamicIsValid" (click)="InsertDynamicFormStructure()">Store form
+          structure</button>
+
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Adding extra inputs to {{selectedFormNestCatgoryName}} form structure" [disabled]="productSizeTabValid">
+
+      <h1>Extra Inputs add to product</h1>
+
+      <label for="">Add-product-size</label><br>
+
+
+        <input type="radio" value="{{true}}" (change)="productSizeSelectedHandler($event)" name="productSize">Yes
+        <input type="radio" value="{{false}}" (change)="productSizeSelectedHandler($event)" name="productSize">No
+
+
+
+
+    </mat-tab>
+
+
+  </mat-tab-group>
+
+</p-dialog>
+
+
+
+<!-- Delete dynamic form struture Conformation -->
+<p-confirmDialog #cd [style]="{width: '30vw'}" header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer class="delete-footer-btns">
+
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+
+
+
+<!-- Update dynamic form struture -->
+
+<p-dialog header="Update dynamic form structure" [style]="{width: '80vw'}"
+  [(visible)]="displayUpdateDynamicFormStructureModel" (onHide)="removeErrorMessage()">
+
+  <mat-tab-group mat-align-tabs="start" [selectedIndex]="0">
+
+
+    <!-- Tab 1 old structure -->
+    <mat-tab label="{{selectedFormNestCatgoryName}} form structure output"><br>
+      <div class="col-11 centering-form">
+        <!-- Dynamically input added result -->
+        <!-- Dynamic Form -->
+        <h1 class="filling-form-heading">Old form structure demo section</h1>
+
+        <form>
+          <div class="row">
+
+            <div *ngFor="let customBuildSingleForm of fetchingDFS" class="form-group col-md-3">
+
+
+              <!-- Input  -->
+              <div *ngIf="
+     [
+       'text',
+       'password',
+       'email',
+       'number',
+     ].includes(customBuildSingleForm?.inputType)
+   ">
+                <label class="form-lable">{{customBuildSingleForm?.labelName[0].multipleOptionValue}}</label>
+                <input type="{{customBuildSingleForm?.inputType}}" placeholder="{{customBuildSingleForm?.placeHolder}}"
+                  id="dynamicFormInputCSS" class="form-control disable-dynamic-made-form-input" required>
+
+              </div>
+
+
+
+              <!-- Checkbox button -->
+              <div *ngIf="customBuildSingleForm.inputType == 'checkbox'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleForm?.labelName">
+                  <span class="form-label">
+                    <input type="checkbox" id="dyanmicFormCheckboxCSS"
+                      class="form-check-input disable-dynamic-made-form-input"
+                      value="{{singleCheckRadioBtnDetail?.multipleOptionValue}}" required>
+                    {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
+                </div>
+
+              </div>
+
+
+              <!-- Radio button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'radio'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleRadio of customBuildSingleForm?.labelName; let i = index">
+                  <span>
+                    <input id="dyanmicFormRadioCSS" name="{{customBuildSingleForm?.nameOfInput}}" type="radio"
+                      value="{{singleRadio?.multipleOptionValue}}" required class="disable-dynamic-made-form-input">
+                    {{singleRadio?.multipleOptionValue}}</span>
+                </div>
+              </div>
+
+              <!-- file button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'file'">
+
+                <div *ngFor="let iteratingOnly of selectFileslength let i = index">
+                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i+1)}}  &nbsp;&nbsp;</label>
+                  <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
+                    style="padding-top:10px;" #myFileInput>
+                </div>
+
+              </div>
+
+
+              <!-- Select-list -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'selectList'">
+
+                <label> {{customBuildSingleForm?.nameOfInput}}</label>
+                <select required name="{{customBuildSingleForm?.nameOfInput}}" id="dyanmicSelectListCSS"
+                  class="form-select disable-dynamic-made-form-input">
+                  <option value="{{null}}" disabled selected>
+                    &nbsp;-------------{{customBuildSingleForm?.placeHolder}}--------------
+                  </option>
+                  <option *ngFor="let singleListData of customBuildSingleForm?.labelName"
+                    value="{{singleListData?.multipleOptionValue}}">
+                    {{singleListData?.multipleOptionValue}}
+                  </option>
+                </select>
+              </div><br>
+            </div>
+
+          </div><br>
+
+
+        </form>
+
+        <button class="btn btn-warning" *ngIf="insertDynamicIsValid" (click)="InsertDynamicFormStructure()">Store form
+          structure</button>
+
+
+      </div>
+    </mat-tab>
+
+
+    <!-- Tab 2 Adding inputs -->
+    <mat-tab label="Add more inputs to {{selectedFormNestCatgoryName}} form"><br>
+
+      <div class="col-11 centering-form">
+
+        <div>
+          <div class="alert alert-success alert-dismissible fade show" role="alert"
+            *ngIf="showfadeMessageWhenInputAdded">
+            {{showfadeMessageWhenInputAdded}}
+          </div>
+          <form [formGroup]="creatingFormReactive" (ngSubmit)="SaveInput()">
+
+
+            <div>
+              <label>Add Input:</label>
+              <select class="form-select" formControlName="selectingInputs" required (change)="ChangeInput($event)">
+                <option value="null" selected disabled>
+                  &nbsp;-------------Select-Input--------------
+                </option>
+                <option value="text">Text input</option>
+                <option value="number">Number input</option>
+                <option value="selectList">Select List</option>
+                <option value="checkbox">Checkbox button</option>
+                <option value="radio">Radio button</option>
+                <option value="file" [disabled]="photoAlreadyAdded">
+                  {{photoAlreadyAdded == false?"Photo file":"You cannot add more, photos once already added to form"}}
+                </option>
+
+              </select>
+              <span
+                *ngIf="creatingFormReactive.get('selectingInputs')?.invalid && creatingFormReactive.get('selectingInputs')?.touched"
+                class="validation-span">Please select the input</span><br>
+            </div>
+
+            <!-- choosing options to add Radio/Checkbox/select-list/file buttons -->
+            <div>
+              <select class="form-select" *ngIf="selectQuantityShows" (change)="addQuantitySelectingOfRCSBtn($event)"
+                required>
+                <option value="{{null}}" selected disabled>
+                  &nbsp;-------------Select-Quantity--------------
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+
+              </select>
+              <span *ngIf="selectInputQuantity? selectQuantityShows: selectInputQuantity" class="validation-span">Please
+                select
+                the quantity</span>
+            </div>
+
+            <div formArrayName="inputLabel" *ngFor="let item of getAddQuantitySelectingOfRCSBtn()  let i=index">
+              <div [formGroupName]="i">
+                <label>{{getAddQuantitySelectingOfRCSBtn().length==1?'Label':'Option'}}{{getAddQuantitySelectingOfRCSBtn().length>
+                  1 ? ' ' + (i + 1) :''}}:</label>
+                <input type="text" class="form-control" formControlName="multipleOptionValue"
+                  placeholder="{{getAddQuantitySelectingOfRCSBtn().length==1?'Label Name':'Add Option'}} {{getAddQuantitySelectingOfRCSBtn().length> 1 ? i + 1 :''}}"
+                  required>
+                <span
+                  *ngIf="creatingFormReactive.get('inputLabel')?.invalid && creatingFormReactive.get('inputLabel')?.touched"
+                  class="validation-span">Please write the label</span><br>
+              </div>
+            </div>
+
+            <div>
+              <label>Name:</label>
+              <input type="text" class="form-control" formControlName="nameInput" placeholder="name" required>
+              <span
+                *ngIf="creatingFormReactive.get('nameInput')?.invalid && creatingFormReactive.get('nameInput')?.touched"
+                class="validation-span">Please write the name</span><br>
+            </div>
+
+            <div *ngIf="placeHolderValidPlaces">
+              <label>Placeholder:</label><br>
+              <input type="text" class="form-control" placeholder="Placeholder" formControlName="placeholderInput"
+                required>
+              <span
+                *ngIf="creatingFormReactive.get('placeholderInput')?.invalid && creatingFormReactive.get('placeholderInput')?.touched"
+                class="validation-span">Please write the placeholder</span>
+            </div><br>
+            <div class="submit-form-btn">
+              <button class="btn btn-warning" [disabled]="creatingFormReactive.invalid ">Save Input</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </mat-tab>
+
+
+    <!-- Tab 3 new added inputs struture -->
+    <mat-tab label="New input added to {{selectedFormNestCatgoryName}} form structure output"><br>
+      <div class="col-11 centering-form">
+        <!-- Dynamically input added result -->
+        <!-- Dynamic Form -->
+        <h1 class="filling-form-heading">New input form demo section</h1>
+        <form>
+          <div class="row">
+
+            <div *ngFor="let customBuildSingleFormData of updateFetchedDFSData" class="form-group col-md-3">
+
+
+              <!-- Input  -->
+              <div *ngIf="
+ [
+   'text',
+   'password',
+   'email',
+   'number',
+ ].includes(customBuildSingleFormData?.inputType)
+">
+                <label class="form-lable">{{customBuildSingleFormData?.labelName[0].multipleOptionValue}}</label>
+                <input type="{{customBuildSingleFormData?.inputType}}"
+                  placeholder="{{customBuildSingleFormData?.placeHolder}}" id="dynamicFormInputCSS"
+                  class="form-control disable-dynamic-made-form-input" required>
+
+              </div>
+
+
+
+              <!-- Checkbox button -->
+              <div *ngIf="customBuildSingleFormData?.inputType == 'checkbox'">
+                <label>{{customBuildSingleFormData?.nameOfInput}}</label>
+                <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleFormData?.labelName">
+                  <span class="form-label">
+                    <input type="checkbox" id="dyanmicFormCheckboxCSS"
+                      class="form-check-input disable-dynamic-made-form-input"
+                      value="{{singleCheckRadioBtnDetail?.multipleOptionValue}}" required>
+                    {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
+                </div>
+
+              </div>
+
+
+              <!-- Radio button -->
+              <div *ngIf="customBuildSingleFormData?.inputType == 'radio'">
+                <label>{{customBuildSingleFormData?.nameOfInput}}</label>
+                <div *ngFor="let singleRadio of customBuildSingleFormData?.labelName; let i = index">
+                  <span>
+                    <input id="dyanmicFormRadioCSS" name="{{customBuildSingleFormData?.nameOfInput}}" type="radio"
+                      value="{{singleRadio?.multipleOptionValue}}" required class="disable-dynamic-made-form-input">
+                    {{singleRadio?.multipleOptionValue}}</span>
+                </div>
+              </div>
+
+              <!-- file button -->
+              <div *ngIf="customBuildSingleFormData?.inputType == 'file'">
+
+                <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
+                  <label>{{customBuildSingleFormData?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
+                  <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
+                    style="padding-top:10px;" #myFileInput>
+                </div>
+
+              </div>
+
+
+              <!-- Select-list -->
+              <div *ngIf="customBuildSingleFormData?.inputType == 'selectList'">
+
+                <label> {{customBuildSingleFormData?.nameOfInput}}</label>
+                <select required name="{{customBuildSingleFormData?.nameOfInput}}" id="dyanmicSelectListCSS"
+                  class="form-select disable-dynamic-made-form-input">
+                  <option value="{{null}}" disabled selected>
+                    &nbsp;-------------{{customBuildSingleFormData?.placeHolder}}--------------
+                  </option>
+                  <option *ngFor="let singleListData of customBuildSingleFormData?.labelName"
+                    value="{{singleListData?.multipleOptionValue}}">
+                    {{singleListData?.multipleOptionValue}}
+                  </option>
+                </select>
+              </div><br>
+            </div>
+
+          </div><br>
+
+
+        </form>
+
+        <button class="btn btn-warning" *ngIf="updateDynamicIsValid"
+          (click)="SendUpdateDynamicFormStructureData()">Confirm update form
+          structure</button>
+
+
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Adding extra inputs to {{selectedFormNestCatgoryName}} form structure">
+
+      <h1>Extra Inputs add to product</h1>
+
+      <p><strong>{{getProductSizeValue?"This product is having size.":"This product is not having a size."}}</strong></p>
+      <div *ngIf="editProductSizeAllow">
+        <input type="radio" value="{{true}}" (change)="productSizeSelectedHandler($event)" name="productSize">Yes
+        <input type="radio" value="{{false}}" (change)="productSizeSelectedHandler($event)" name="productSize">No
+
+      </div>
+      <button class="btn btn-warning editProductSize" (click)="editProductSizeAllow = !editProductSizeAllow" *ngIf="!editProductSizeAllow">Edit</button>
+      <button class="btn btn-primary editProductSize" (click)="SendUpdateDynamicFormStructureData()" *ngIf="editProductSizeAllow">Save Edit</button>
+
+
+    </mat-tab>
+
+
+
+     <!-- Tab 4 delete single input -->
+     <mat-tab label="Delete input from {{selectedFormNestCatgoryName}} form structure"><br>
+      <div class="col-11 centering-form">
+        <!-- Dynamically input added result -->
+        <!-- Dynamic Form -->
+        <h1 class="filling-form-heading">Delete inputs form structure section</h1>
+
+        <form>
+          <div class="row">
+
+            <div *ngFor="let customBuildSingleForm of deletingFetchingDFSInput; let i = index" class="form-group col-md-3">
+
+              <!-- Input  -->
+              <div *ngIf="
+     [
+       'text',
+       'password',
+       'email',
+       'number',
+     ].includes(customBuildSingleForm?.inputType)
+   ">
+                <label class="form-lable">{{customBuildSingleForm?.labelName[0].multipleOptionValue}}</label>
+                <input type="{{customBuildSingleForm?.inputType}}" placeholder="{{customBuildSingleForm?.placeHolder}}"
+                  id="dynamicFormInputCSS" class="form-control disable-dynamic-made-form-input" required>
+
+              </div>
+
+
+
+              <!-- Checkbox button -->
+              <div *ngIf="customBuildSingleForm.inputType == 'checkbox'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleForm?.labelName">
+                  <span class="form-label">
+                    <input type="checkbox" id="dyanmicFormCheckboxCSS"
+                      class="form-check-input disable-dynamic-made-form-input"
+                      value="{{singleCheckRadioBtnDetail?.multipleOptionValue}}" required>
+                    {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
+                </div>
+
+              </div>
+
+
+              <!-- Radio button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'radio'">
+                <label>{{customBuildSingleForm?.nameOfInput}}</label>
+                <div *ngFor="let singleRadio of customBuildSingleForm?.labelName; let i = index">
+                  <span>
+                    <input id="dyanmicFormRadioCSS" name="{{customBuildSingleForm?.nameOfInput}}" type="radio"
+                      value="{{singleRadio?.multipleOptionValue}}" required class="disable-dynamic-made-form-input">
+                    {{singleRadio?.multipleOptionValue}}</span>
+                </div>
+              </div>
+
+              <!-- file button -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'file'">
+
+                <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
+                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i+1)}} &nbsp;&nbsp;</label>
+                  <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
+                    style="padding-top:10px;" #myFileInput>
+                </div>
+
+              </div>
+
+
+              <!-- Select-list -->
+              <div *ngIf="customBuildSingleForm?.inputType == 'selectList'">
+
+                <label> {{customBuildSingleForm?.nameOfInput}}</label>
+                <select required name="{{customBuildSingleForm?.nameOfInput}}" id="dyanmicSelectListCSS"
+                  class="form-select disable-dynamic-made-form-input">
+                  <option value="{{null}}" disabled selected>
+                    &nbsp;-------------{{customBuildSingleForm?.placeHolder}}--------------
+                  </option>
+                  <option *ngFor="let singleListData of customBuildSingleForm?.labelName"
+                    value="{{singleListData?.multipleOptionValue}}">
+                    {{singleListData?.multipleOptionValue}}
+                  </option>
+                </select>
+              </div>
+              <button class="btn btn-danger delete-single-input" (click)="deleteSingleInputOfForm(i)">Delete input</button>
+
+            </div>
+
+          </div><br>
+
+
+        </form>
+
+        <button class="btn btn-warning" *ngIf="confirmDeleteSingleInput" (click)="confrimDeleteInput()">Confirm update form
+          structure</button>
+
+
+      </div>
+    </mat-tab>
+
+
+
+
+
+  </mat-tab-group>
+
+</p-dialog>

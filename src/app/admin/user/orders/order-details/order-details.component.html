@@ -1,0 +1,87 @@
+<app-admin-header></app-admin-header>
+<br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+
+
+
+
+
+      <h1><strong>User Order Detail</strong></h1>
+      <hr>
+      <!-- Address of User -->
+      <div style="font-size: 20px; font-style: roboto;">
+        <p>Order Number: <strong>{{userOrderDetailData?.orderId}}</strong></p>
+        <p>Order by: <strong>{{userOrderDetailData?.fullName}}</strong></p>
+        <p>Email: <strong>{{userOrderDetailData?.email}}</strong></p>
+        <p>Country: <strong>{{userOrderDetailData?.countryName}}</strong></p>
+        <p>City: <strong>{{userOrderDetailData?.cityName}}</strong></p>
+        <p>Phone Number: <strong>{{userOrderDetailData?.phoneNumber}}</strong></p>
+        <p>Address: <strong>{{userOrderDetailData?.completeAddress}}</strong></p>
+        <p>Order Requested: <strong>{{userOrderDetailData?.orderDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong>
+        <p *ngIf="myOrderStatus == 'Shipped' || myOrderStatus == 'Shipped order by shipper'">Order Shipped: <strong>{{userOrderDetailData?.shippedDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong></p>
+        <p>Order Status: <strong>{{myOrderStatus}}</strong></p>
+        <hr>
+
+        <div *ngIf="myOrderStatus == 'Shipped' || myOrderStatus == 'Shipped order by shipper'">
+          <h1 style="font-size: 20px; font-style: roboto;">Order Shipper Detail</h1>
+          <p>Shipper Id: <strong>{{shipperDetail?.shipperId}}</strong></p>
+          <p>Shipper name: <strong>{{shipperDetail?.fullName}}</strong></p>
+          <p>Phone number: <strong>{{shipperDetail?.phoneNumber}}</strong></p>
+        </div>
+
+
+      </div>
+
+
+      <br><br>
+      <table class="table table-borderless">
+        <thead>
+          <tr style="border-bottom: 2px solid #03b1ca; color: #03b1ca;">
+            <th scope="col">Product Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">TotalPriceWithQuantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style=" font-size: 15px; border-bottom: 1px solid rgb(129, 128, 128); "
+            *ngFor="let orderDetailData of userOrderDetailData?.orderDetail">
+            <td>{{orderDetailData?.productName}}</td>
+            <td>{{orderDetailData?.quantity}}</td>
+            <td>{{orderDetailData?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            <td>{{orderDetailData?.price * orderDetailData?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
+
+            <div style="margin-bottom: 0px; padding-bottom: 29px; color: red;"
+              *ngIf="!orderDetailData?.quantityAvailability">
+              Product quantity is sold and email message will be send to the user about the stock issue.
+            </div>
+
+          </tr>
+
+
+
+        </tbody>
+      </table>
+
+      <h2 style="text-align: right; padding-right: 270px;">TOTAL = {{totalPriceSingleOrder | currency: 'Rs ':
+        'symbol':'1.0'}}</h2>
+      <hr>
+      <button *ngIf="myOrderStatus == 'Pending' || myOrderStatus == 'Shipping pending for shipper' " style="float: right;" class="btn btn-primary" (click)="confirmOrder(userOrderDetailData)">
+        {{myOrderStatus == 'Shipping pending for shipper' ? 'Order shipped done!' : 'Confirm Order!' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-danger">Cancel</button>
+    <button type="button" class="btn btn-primary" label="Ok" (click)="cd?.accept()">
+      {{myOrderStatus == 'Shipping pending for shipper' ? 'Accept Shipment Done!' : 'Accept Order!'}}
+    </button>
+  </p-footer>
+</p-confirmDialog>

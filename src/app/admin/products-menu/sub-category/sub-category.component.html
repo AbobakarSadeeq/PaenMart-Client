@@ -1,0 +1,108 @@
+<app-admin-header></app-admin-header>
+
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container">
+    <div class="row">
+      <button class="btn btn-warning add-category-btn" (click)="showAddSubCategoryModel()">Add Sub-Category <i class="fas fa-plus"></i> </button>
+      <div class="card">
+        <p-table [value]="subCategories" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Sub Category No</th>
+              <th>Sub Category Name</th>
+              <th>Category Name</th>
+              <th>Sub Category Created</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-subCategory>
+            <tr class="data-row">
+              <td>{{subCategory?.subCategoryID}}</td>
+              <td>{{subCategory?.subCategoryName}}</td>
+              <td>{{subCategory?.categoryName}}</td>
+              <td>{{subCategory?.created_At| date:'short'}}</td>
+
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="getDataForUpdate(subCategory?.subCategoryID)"></a>
+                <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteSubCategory(subCategory?.subCategoryID)"></a>
+              </td>
+
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<!-- Adding Category -->
+
+
+<p-dialog header="Adding sub-category" [(visible)]="displayAddSubCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessageAndResetForm()">
+  <form [formGroup]="subCategoryFormData">
+    <label>Sub-Category Name</label>
+    <input type="text" formControlName="subCategoryName" placeholder="Sub-Category Name" class="form-control">
+    <span class="validation-span" *ngIf="subCategoryFormData.get('subCategoryName')?.invalid && subCategoryFormData.get('subCategoryName')?.touched"  >Please enter sub-category name</span>
+
+    <label>Category Name</label>
+    <select class="form-select" formControlName="categoryId" required>
+      <option [value]="null" disabled selected>Please Select the Category</option>
+      <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">{{singleCategory?.categoryName}}</option>
+    </select>
+    <span *ngIf="subCategoryFormData.get('categoryId')?.invalid && subCategoryFormData.get('categoryId')?.touched"
+    class="validation-span" >Please Select the List!</span>
+
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onSaveSubCategory()">Save sub-category</button>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+<!-- Delete Category Conformation -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button"  label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger"  label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>
+
+
+<!-- Update Category -->
+
+
+<p-dialog header="Update sub-category" [(visible)]="displayUpdateSubCategoryModel" [style]="{width: '50vw'}" (onHide)="removeErrorMessageAndResetForm()">
+  <form [formGroup]="subCategoryFormData">
+    <label>Sub-Category Name</label>
+    <input type="text" formControlName="subCategoryName" placeholder="Sub-Category Name" class="form-control">
+    <span *ngIf="subCategoryFormData.get('subCategoryName')?.invalid && subCategoryFormData.get('subCategoryName')?.touched" style="color: red;">Please enter sub-category name</span>
+
+    <label>Category Name</label>
+    <select class="form-select" formControlName="categoryId" required>
+      <option [value]="null" disabled selected>Please Select the Category</option>
+      <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">{{singleCategory?.categoryName}}</option>
+    </select>
+    <span *ngIf="subCategoryFormData.get('categoryId')?.invalid && subCategoryFormData.get('categoryId')?.touched"
+    class="validation-span" >Please Select the List!</span>
+
+
+    <div class="save-btn">
+    <button class="btn btn-success" (click)="onUpdateSubCategory()">Update sub-category</button>
+    </div>
+
+  </form>
+
+</p-dialog>

@@ -1,0 +1,71 @@
+<nav class="navbar  navbar-expand-lg   bg-success">
+  <a class="navbar-brand NavLogoText" [routerLink]="['/']">
+    <img src="../../../assets/fox.jpg" class="navbarlogoImg" alt="fox picture" width="30" height="40">
+    Paenmart
+  </a>
+  <span style="color: white;">{{userDetails?.fullName}} &nbsp;&nbsp;</span>
+
+  <div *ngIf="isLoggedIn()">
+    <a *appHasRole="['Admin', 'Employee', 'Shipper']" class="admin-link" [routerLink]="['/Admin']">Admin-panel</a>
+
+  </div>
+
+  <!-- Search Input with button -->
+  <div class="d-flex searchEngineAndButton">
+    <input type="text" placeholder="Search everything at Walmart online and in store" class="form-control searchEngine">
+    <button class="searchBtnSubmit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+
+
+  <!-- Cart button -->
+
+  <ul class="navbar-nav ms-auto">
+
+    <li class="nav-item">
+      <a class="dropbtn btn btn-success" *ngIf="!isLoggedIn()" [routerLink]="['/Auth']">Sign Up/ Log In &nbsp;</a>
+
+      <div class="dropdown" *ngIf="isLoggedIn()">
+
+
+
+        <a class="dropbtn btn btn-success">Log out {{userDetails?.email}} &nbsp;
+          <img src="{{imageValue}}" style="width: 40px; height:40px; border-radius: 50%;" alt="">&nbsp;
+          <i class="fa-solid fa-caret-down"></i>
+
+        </a>
+        <div class="dropdown-content">
+          <a [routerLink]="['/Client/Orders/', userDetails?.id]">My Orders</a>
+          <a [routerLink]="['/User/EditUser/',userDetails?.id]">Edit Profile</a>
+          <a (click)="logOutUser()"> Log Out {{userDetails?.email}} </a>
+
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " id="{{!isLoggedIn()? 'notCartButton':'cartButton'}}" [routerLink]="['/Cart']"> <i
+          class="fa cartIcon">&#xf07a;</i>
+        <span class='badge badge-warning' id='lblCartCount'> {{numberOfItemsInCart}} </span></a>
+    </li>
+  </ul>
+
+</nav>
+
+<!-- Main Category -->
+<div class="bg-category">
+  <div class="category">
+    <span *ngFor="let singleCategory of categories"
+      (mouseenter)="getSubCategories(singleCategory?.categoryID)">{{singleCategory?.categoryName}} &nbsp;<i
+        class="fa-solid fa-caret-down"></i></span>
+    <!-- Sub-Category -->
+    <div class="category_submenu">
+      <div class="row">
+        <div class="col" *ngFor="let singleCategory of subCategories">
+          <h5>{{singleCategory?.subCategoryName}}</h5>
+          <li class="nest-sub-menu" *ngFor="let singleNestCategory of singleCategory?.nestSubCategories"><a
+              [routerLink]="['/Products/',singleNestCategory?.nestSubCategoryID ]">{{singleNestCategory?.nestSubCategoryName}}</a>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

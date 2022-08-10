@@ -1,0 +1,163 @@
+<app-admin-header></app-admin-header><br>
+
+
+<div [style]="getStyleFromNav">
+
+  <div class="container">
+    <div class="row">
+
+      <div style="margin-bottom: 0px; padding-bottom: 29px;" class="alert alert-danger alert-dismissible fade show"
+        role="alert" *ngIf="paymentErrorMsg">
+        {{paymentErrorMsg}}
+      </div>
+
+      <div style="margin-bottom: 0px; padding-bottom: 29px;" class="alert alert-success  alert-dismissible fade show"
+        role="alert" *ngIf="paymentDoneMsg">
+        {{paymentDoneMsg}}
+      </div>
+
+      <div style="margin-bottom: 0px; padding-bottom: 29px;" class="alert alert-success  alert-dismissible fade show"
+        role="alert" *ngIf="undoEmployeePayment">
+        {{undoEmployeePayment}}
+      </div>
+
+      <mat-tab-group dynamicHeight animationDuration="0ms" mat-align-tabs="center"
+        (selectedTabChange)="changePaymentTab($event)">
+        <mat-tab label="Employee Monthly Salary payment">
+          <br>
+          <div class="card">
+            <p-table [value]="EmployeesPendingPayment" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+              responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10,25,50]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th> Employee Name </th>
+                  <th> Phone Number</th>
+                  <th> Salary </th>
+                  <th> Payment Status </th>
+                  <th> Payment_At </th>
+                  <th> Pay Employee </th>
+
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-employeePayment>
+                <tr class="data-row">
+                  <td>{{employeePayment?.fullName}}</td>
+                  <td>{{employeePayment?.phoneNumber}}</td>
+                  <td>{{employeePayment?.salary}}</td>
+                  <td>{{employeePayment?.paymentStatus}}</td>
+
+                  <td>{{employeePayment?.payment_At == null ? "Not paid employee":"" }}</td>
+
+                  <td>
+                    <button class="btn btn-primary"
+                      (click)="PayingEmployeeSalary(employeePayment?.employeePaymentId, employeePayment?.fullName)">Pay
+                      Employee Monthly
+                      Salary</button>
+                  </td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </mat-tab>
+
+
+
+        <mat-tab label="Employees Paid">
+          <br>
+          <div class="card">
+            <p-table [value]="paidEmployees" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+              responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10,25,50]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th> Employee Name </th>
+                  <th> Phone Number</th>
+                  <th> Salary </th>
+                  <th> Payment Status</th>
+                  <th> Payment_At </th>
+                  <th> Pay Employee </th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-paidEmployeePayment>
+                <tr class="data-row">
+                  <td>{{paidEmployeePayment?.fullName}}</td>
+                  <td>{{paidEmployeePayment?.phoneNumber}}</td>
+                  <td>{{paidEmployeePayment?.salary}}</td>
+                  <td>{{paidEmployeePayment?.paymentStatus}}</td>
+
+                  <td>{{paidEmployeePayment?.payment_At | date:'full' }}</td>
+
+                  <td>
+                    <button class="btn btn-warning"
+                      (click)="AgainPayingEmployeeSalary(paidEmployeePayment?.employeePaymentId, paidEmployeePayment?.fullName)">Undo
+                      employee payment</button>
+                  </td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </mat-tab>
+
+
+
+        <mat-tab label="Paid Employees History">
+          <br>
+          <div class="card">
+            <p-table [value]="employeePaymentHistory" [rows]="12" [showCurrentPageReport]="true"
+              responsiveLayout="scroll"
+              currentPageReportTemplate="Showing {first} to {last} of {{paymentHistoryCount}} entries">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th> Employee Id </th>
+                  <th> Employee Name </th>
+                  <th> Phone Number</th>
+                  <th> Salary </th>
+                  <th> Payment Status </th>
+                  <th> Payment_At </th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-paidEmployeePaymentHistory>
+                <tr class="data-row">
+                  <td>{{paidEmployeePaymentHistory?.employeeID}}</td>
+                  <td>{{paidEmployeePaymentHistory?.fullName}}</td>
+                  <td>{{paidEmployeePaymentHistory?.phoneNumber}}</td>
+                  <td>{{paidEmployeePaymentHistory?.salary}}</td>
+                  <td>{{paidEmployeePaymentHistory?.paymentStatus == 'Employee-Paid'? 'Payment-Done': 'Payment-Done'}}
+                  </td>
+                  <td>{{paidEmployeePaymentHistory?.payment_At | date:'full' }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+          <ngb-pagination class="paginationStyle" (pageChange)="tablePageNoChange($event)"
+            [collectionSize]="paymentHistoryCount" [pageSize]="12" [page]="1" [directionLinks]="true"></ngb-pagination>
+
+        </mat-tab>
+
+      </mat-tab-group>
+
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-warning" label="Ok" (click)="cd?.accept()">Confirm</button>
+  </p-footer>
+</p-confirmDialog>
