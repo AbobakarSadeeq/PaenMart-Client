@@ -43,7 +43,6 @@ export class AdminHeaderComponent implements OnInit {
 
     // sendingData to dashboard/home
     this._adminService.userData.subscribe((data: any) => {
-
     })
 
 
