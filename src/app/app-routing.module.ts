@@ -6,6 +6,7 @@ const routes: Routes = [
 
   // Client Sides Routes
   { path: '', loadChildren: () => import('./client/home/home.module').then(m => m.HomeModule) },
+  { path: 'Products/Search', loadChildren: () => import('./client/search-product/search-product.module').then(m => m.SearchProductModule) },
   { path: 'Products/:id', loadChildren: () => import('./client/client-product/client-product.module').then(m => m.ClientProductModule) },
   { path: 'Product-detail/:id', loadChildren: () => import('./client/client-product/client-product-detail/client-product-detail.module').then(m => m.ClientProductDetailModule) },
   { path: 'Cart', loadChildren: () => import('../app/client/shopping-cart/shopping-cart.module').then(m => m.ShoppingCartModule) },
@@ -78,7 +79,7 @@ const routes: Routes = [
 
 
 
-
+  // wildcard
   { path: 'notfound', loadChildren: () => import('../app/client/not-found/not-found.module').then(m => m.NotFoundModule) },
   { path: '**', redirectTo: '/notfound' }
 

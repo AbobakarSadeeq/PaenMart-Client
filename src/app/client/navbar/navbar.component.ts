@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/admin/products-menu/category/category.service';
 import { NestSubCategoryService } from 'src/app/admin/products-menu/nest-sub-category/nest-sub-category.service';
@@ -30,11 +30,18 @@ export class NavbarComponent implements OnInit {
     private _shoppingCartService: ShoppingCartService,
     private _AuthService: AuthService,
     private authorizedImage: AuthorizedImagesService,
-
+    private _activateRoute:ActivatedRoute,
     private _httpRoute: Router) { }
+
+    searchState:string = "";
 
   ngOnInit(): void {
     this.cartItemFunc();
+
+    if(this._activateRoute.snapshot.queryParamMap.has('searchingData')){
+      this.searchState = this._activateRoute.snapshot.queryParamMap.get('searchingData');
+    }
+
 
     // Subscribing the Cart Items Number
     this.subscription = this._shoppingCartService.cartItemsNumber.subscribe((data: any) => {
@@ -113,6 +120,16 @@ export class NavbarComponent implements OnInit {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
+  }
+
+
+  SearchValue(searchItem: string) {
+    if (searchItem == "") {
+      return;
+    }
+    this._httpRoute.navigate(["/Products/Search"], { queryParams: { searchingData: searchItem } });
+
+
   }
 
 }

@@ -12,8 +12,9 @@
 
   <!-- Search Input with button -->
   <div class="d-flex searchEngineAndButton">
-    <input type="text" placeholder="Search everything at Walmart online and in store" class="form-control searchEngine">
-    <button class="searchBtnSubmit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <input type="text" ngModel #searchValue placeholder="Search everything by brand and product name and category name" [(ngModel)]="searchState"
+     (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine">
+    <button class="searchBtnSubmit" (click)="SearchValue(searchValue?.value)" ><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
 
 
