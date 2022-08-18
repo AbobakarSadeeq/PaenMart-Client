@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/admin/products-menu/category/category.service';
@@ -11,14 +11,17 @@ import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  host: {
+    '(document:click)': 'onClick($event)',
+  }
 })
 export class NavbarComponent implements OnInit {
-
   subscription: Subscription;
 
   categories: any[] = [];
   subCategories: any[] = [];
+  searchState: string = "";
 
   numberOfItemsInCart = 0;
   userDetails: any;
@@ -30,15 +33,20 @@ export class NavbarComponent implements OnInit {
     private _shoppingCartService: ShoppingCartService,
     private _AuthService: AuthService,
     private authorizedImage: AuthorizedImagesService,
-    private _activateRoute:ActivatedRoute,
-    private _httpRoute: Router) { }
+    private _activateRoute: ActivatedRoute,
+    private _httpRoute: Router,
+    private _eref: ElementRef) {
 
-    searchState:string = "";
+  }
+
+
+
+
 
   ngOnInit(): void {
     this.cartItemFunc();
 
-    if(this._activateRoute.snapshot.queryParamMap.has('searchingData')){
+    if (this._activateRoute.snapshot.queryParamMap.has('searchingData')) {
       this.searchState = this._activateRoute.snapshot.queryParamMap.get('searchingData');
     }
 
@@ -86,6 +94,8 @@ export class NavbarComponent implements OnInit {
     })
   }
 
+
+
   getSubCategories(categoryId: number) {
 
     this.subscription = this._subCategoryService.GetSubCategoriesByCategoryId(categoryId).subscribe((data: any[]) => {
@@ -116,21 +126,76 @@ export class NavbarComponent implements OnInit {
   }
 
 
+
+  showSearchHistoryArr: string[] = [];
+  SearchValue(searchItem: string) {
+    this.showSearchHistory = false;
+    if (searchItem == "") {
+      return;
+    }
+
+    let searchHistoryArrState: any = [];
+    if (localStorage.getItem("SearchHistory")) {
+      searchHistoryArrState = JSON.parse(localStorage.getItem("SearchHistory"));
+
+      if (searchHistoryArrState.indexOf(searchItem) == -1) {
+        searchHistoryArrState.push(searchItem);
+        this.showSearchHistoryArr = searchHistoryArrState;
+        localStorage.setItem("SearchHistory", JSON.stringify(searchHistoryArrState));
+      }
+    } else {
+      searchHistoryArrState.push(searchItem);
+      this.showSearchHistoryArr = searchHistoryArrState;
+      localStorage.setItem("SearchHistory", JSON.stringify(searchHistoryArrState));
+
+    }
+
+    this.searchState = searchItem;
+
+    this._httpRoute.navigate(["/Products/Search"], { queryParams: { searchingData: searchItem } });
+
+
+  }
+
+  changeSelectSearchHistory(selectValueSearch: string) {
+    this.SearchValue(selectValueSearch);
+  }
+
+  showSearchHistory = false;
+  showHistoryHandlerToggle() {
+    this.showSearchHistory = true;
+  }
+
+  @HostListener('document:click', ['$event.target'])
+
+  customBlur(target: any) {
+    // blur does not execute the li click event but this it works here
+    if (target.tagName != 'INPUT')
+      this.showSearchHistory = false;
+    else {
+      if (localStorage.getItem("SearchHistory")) {
+        let convertToArr: [] = JSON.parse(localStorage.getItem("SearchHistory"));
+        let getLastTenSearches = convertToArr.slice(convertToArr.length - 10, convertToArr.length);
+        this.showSearchHistoryArr = [];
+        for (var i = getLastTenSearches.length - 1; i > -1; i--) {
+          this.showSearchHistoryArr.push(getLastTenSearches[i])
+        }
+      }
+    }
+
+  }
+
+  changeSearchData() {
+    this.showSearchHistory = false;
+  }
+
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
   }
 
-
-  SearchValue(searchItem: string) {
-    if (searchItem == "") {
-      return;
-    }
-    this._httpRoute.navigate(["/Products/Search"], { queryParams: { searchingData: searchItem } });
-
-
-  }
 
 }
 

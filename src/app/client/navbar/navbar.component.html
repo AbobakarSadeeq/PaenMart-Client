@@ -1,4 +1,5 @@
 <nav class="navbar  navbar-expand-lg   bg-success">
+
   <a class="navbar-brand NavLogoText" [routerLink]="['/']">
     <img src="../../../assets/fox.jpg" class="navbarlogoImg" alt="fox picture" width="30" height="40">
     Paenmart
@@ -12,9 +13,19 @@
 
   <!-- Search Input with button -->
   <div class="d-flex searchEngineAndButton">
-    <input type="text" ngModel #searchValue placeholder="Search everything by brand and product name and category name" [(ngModel)]="searchState"
-     (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine">
-    <button class="searchBtnSubmit" (click)="SearchValue(searchValue?.value)" ><i class="fa-solid fa-magnifying-glass"></i></button>
+    <input type="text" ngModel #searchValue placeholder="Search everything by brand and product name and category name"
+      (ngModelChange)="changeSearchData()" [(ngModel)]="searchState" (focus)="showHistoryHandlerToggle()"
+      (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine">
+
+
+
+
+
+
+
+
+    <button class="searchBtnSubmit" (click)="SearchValue(searchValue?.value)"><i
+        class="fa-solid fa-magnifying-glass"></i></button>
   </div>
 
 
@@ -50,6 +61,14 @@
   </ul>
 
 </nav>
+
+<div class="search-main-div" *ngIf="showSearchHistory">
+  <ul>
+    <li *ngFor="let singleSearch of showSearchHistoryArr" (click)="changeSelectSearchHistory(singleSearch)">
+      &nbsp;&nbsp;<i class="fa-solid fa-clock-rotate-left"></i>
+      &nbsp;&nbsp;&nbsp;{{singleSearch}}</li>
+  </ul>
+</div>
 
 <!-- Main Category -->
 <div class="bg-category">
