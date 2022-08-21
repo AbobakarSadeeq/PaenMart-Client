@@ -7,7 +7,8 @@
   <!-- Crud of dynamic form structure -->
   <div class="container">
     <div class="row">
-      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="showfadeMessageWhenUpdateDynamicFormStructureAdded">
+      <div class="alert alert-success alert-dismissible fade show" role="alert"
+        *ngIf="showfadeMessageWhenUpdateDynamicFormStructureAdded">
         {{showfadeMessageWhenUpdateDynamicFormStructureAdded}}
       </div>
 
@@ -86,7 +87,7 @@
 
           <label>Category Name</label>
           <select class="form-select" (change)="categorySelected($event)" required>
-            <option [value]="null"  selected>Please Select the Category</option>
+            <option [value]="null" selected>Please Select the Category</option>
             <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">
               {{singleCategory?.categoryName}}</option>
           </select>
@@ -104,9 +105,11 @@
             <label>Nest-Sub-Category Name</label>
             <select class="form-select" (change)="selectedNestSubCategories($event)" required>
               <option [value]="null" selected>Please Select the Nest-Sub-Category</option>
-              <option [disabled]="singleNestSubCategory?.foundInList" *ngFor="let singleNestSubCategory of nestSubCategories"
+              <option [disabled]="singleNestSubCategory?.foundInList"
+                *ngFor="let singleNestSubCategory of nestSubCategories"
                 [value]="singleNestSubCategory?.nestSubCategoryID">
-                {{singleNestSubCategory?.foundInList? "This category already have form " + singleNestSubCategory?.nestSubCategoryName : singleNestSubCategory?.nestSubCategoryName }}</option>
+                {{singleNestSubCategory?.foundInList? "This category already have form " +
+                singleNestSubCategory?.nestSubCategoryName : singleNestSubCategory?.nestSubCategoryName }}</option>
             </select>
           </div>
 
@@ -123,19 +126,23 @@
             *ngIf="showfadeMessageWhenInputAdded">
             {{showfadeMessageWhenInputAdded}}
           </div>
+
+
           <!-- warning about some inputs that don't need to add it, its by default added -->
           <div class="alert alert-warning alert-dismissible fade show" style=" display: flex;" role="alert">
-          <div class="warning-icon">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-          </div>
-          <div>
-            Please don't add thses inputs
-            <strong> {{nestSubCategorySelectedData?.nestSubCategoryName}}-Name, {{nestSubCategorySelectedData?.nestSubCategoryName}}-Brand, Price, Color, Stock-Availability, Quantity, Sell-Units and just select the product size in extra-input structure tab</strong>.
-            Its by default added, if you did it will shows in specification of product only.
-            These Input's will be shows when you are adding the product's.
-          </div>
+            <div class="warning-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+              Please don't add thses inputs
+              <strong> {{nestSubCategorySelectedData?.nestSubCategoryName}}-Name,
+                {{nestSubCategorySelectedData?.nestSubCategoryName}}-Brand, Price, Color, Stock-Availability, Quantity,
+                Sell-Units and just select the product size in extra-input structure tab</strong>.
+              Its by default added, if you did it will shows in specification of product only.
+              These Input's will be shows when you are adding the product's.
+            </div>
 
-        </div>
+          </div>
           <form [formGroup]="creatingFormReactive" (ngSubmit)="SaveInput()">
 
 
@@ -228,7 +235,9 @@
         <!-- Dynamically input added result -->
         <!-- Dynamic Form -->
         <h1 class="filling-form-heading">Form structure demo section</h1>
-
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="AddPhotoCompulsory">
+          {{AddPhotoCompulsory}}
+        </div>
         <form>
           <div class="row">
 
@@ -281,7 +290,8 @@
               <div *ngIf="customBuildSingleForm?.inputType == 'file'">
 
                 <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
-                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
+                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i + 1)}}
+                    &nbsp;&nbsp;</label>
                   <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
                     style="padding-top:10px;" #myFileInput>
                 </div>
@@ -318,15 +328,16 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Adding extra inputs to {{selectedFormNestCatgoryName}} form structure" [disabled]="productSizeTabValid">
+    <mat-tab label="Adding extra inputs to {{selectedFormNestCatgoryName}} form structure"
+      [disabled]="productSizeTabValid">
 
       <h1>Extra Inputs add to product</h1>
 
       <label for="">Add-product-size</label><br>
 
 
-        <input type="radio" value="{{true}}" (change)="productSizeSelectedHandler($event)" name="productSize">Yes
-        <input type="radio" value="{{false}}" (change)="productSizeSelectedHandler($event)" name="productSize">No
+      <input type="radio" value="{{true}}" (change)="productSizeSelectedHandler($event)" name="productSize">Yes
+      <input type="radio" value="{{false}}" (change)="productSizeSelectedHandler($event)" name="productSize">No
 
 
 
@@ -420,7 +431,7 @@
               <div *ngIf="customBuildSingleForm?.inputType == 'file'">
 
                 <div *ngFor="let iteratingOnly of selectFileslength let i = index">
-                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i+1)}}  &nbsp;&nbsp;</label>
+                  <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i+1)}} &nbsp;&nbsp;</label>
                   <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
                     style="padding-top:10px;" #myFileInput>
                 </div>
@@ -557,6 +568,9 @@
         <!-- Dynamically input added result -->
         <!-- Dynamic Form -->
         <h1 class="filling-form-heading">New input form demo section</h1>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="AddPhotoCompulsory">
+          {{AddPhotoCompulsory}}
+        </div>
         <form>
           <div class="row">
 
@@ -610,7 +624,8 @@
               <div *ngIf="customBuildSingleFormData?.inputType == 'file'">
 
                 <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
-                  <label>{{customBuildSingleFormData?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
+                  <label>{{customBuildSingleFormData?.labelName[0].multipleOptionValue + " " + (i + 1)}}
+                    &nbsp;&nbsp;</label>
                   <input id="dyanmicFormRadioCSS" type="file" class="disable-dynamic-made-form-input" required
                     style="padding-top:10px;" #myFileInput>
                 </div>
@@ -652,22 +667,25 @@
 
       <h1>Extra Inputs add to product</h1>
 
-      <p><strong>{{getProductSizeValue?"This product is having size.":"This product is not having a size."}}</strong></p>
+      <p><strong>{{getProductSizeValue?"This product is having size.":"This product is not having a size."}}</strong>
+      </p>
       <div *ngIf="editProductSizeAllow">
         <input type="radio" value="{{true}}" (change)="productSizeSelectedHandler($event)" name="productSize">Yes
         <input type="radio" value="{{false}}" (change)="productSizeSelectedHandler($event)" name="productSize">No
 
       </div>
-      <button class="btn btn-warning editProductSize" (click)="editProductSizeAllow = !editProductSizeAllow" *ngIf="!editProductSizeAllow">Edit</button>
-      <button class="btn btn-primary editProductSize" (click)="SendUpdateDynamicFormStructureData()" *ngIf="editProductSizeAllow">Save Edit</button>
+      <button class="btn btn-warning editProductSize" (click)="editProductSizeAllow = !editProductSizeAllow"
+        *ngIf="!editProductSizeAllow">Edit</button>
+      <button class="btn btn-primary editProductSize" (click)="SendUpdateDynamicFormStructureData()"
+        *ngIf="editProductSizeAllow">Save Edit</button>
 
 
     </mat-tab>
 
 
 
-     <!-- Tab 4 delete single input -->
-     <mat-tab label="Delete input from {{selectedFormNestCatgoryName}} form structure"><br>
+    <!-- Tab 4 delete single input -->
+    <mat-tab label="Delete input from {{selectedFormNestCatgoryName}} form structure"><br>
       <div class="col-11 centering-form">
         <!-- Dynamically input added result -->
         <!-- Dynamic Form -->
@@ -676,7 +694,8 @@
         <form>
           <div class="row">
 
-            <div *ngFor="let customBuildSingleForm of deletingFetchingDFSInput; let i = index" class="form-group col-md-3">
+            <div *ngFor="let customBuildSingleForm of deletingFetchingDFSInput; let i = index"
+              class="form-group col-md-3">
 
               <!-- Input  -->
               <div *ngIf="
@@ -747,7 +766,8 @@
                   </option>
                 </select>
               </div>
-              <button class="btn btn-danger delete-single-input" (click)="deleteSingleInputOfForm(i)">Delete input</button>
+              <button class="btn btn-danger delete-single-input" (click)="deleteSingleInputOfForm(i)">Delete
+                input</button>
 
             </div>
 
@@ -756,7 +776,8 @@
 
         </form>
 
-        <button class="btn btn-warning" *ngIf="confirmDeleteSingleInput" (click)="confrimDeleteInput()">Confirm update form
+        <button class="btn btn-warning" *ngIf="confirmDeleteSingleInput" (click)="confrimDeleteInput()">Confirm update
+          form
           structure</button>
 
 

@@ -273,7 +273,6 @@ export class DynamicFormStructureComponent implements OnInit {
 
   // Save or Add single input at a time to the dynamic form
   SaveInput() {
-    debugger;
     let singleInputData: any = {
       inputType: this.creatingFormReactive.value.selectingInputs,
       labelName: this.creatingFormReactive.value.inputLabel,
@@ -282,8 +281,9 @@ export class DynamicFormStructureComponent implements OnInit {
       inputValue: "",
     };
 
+
     // if input is number/ text then assign label value to name field
-    if(singleInputData.inputType == 'text' || singleInputData.inputType == 'number'){
+    if (singleInputData.inputType == 'text' || singleInputData.inputType == 'number') {
       singleInputData.nameOfInput = singleInputData.labelName[0].multipleOptionValue;
     }
 
@@ -292,6 +292,10 @@ export class DynamicFormStructureComponent implements OnInit {
       this.photoAlreadyAdded = true;
       singleInputData = { ...singleInputData, numberOfChooseFileInputs: this.selectFileslength.length };
 
+    }
+    // if photo added then dont show the error
+    if(this.photoAlreadyAdded){
+      this.AddPhotoCompulsory = null;
     }
 
     // we will send this complete array to the database when it is confirm button pressed and store there and this array holds the dynamic form structure.
@@ -336,8 +340,15 @@ export class DynamicFormStructureComponent implements OnInit {
     this.getAllCategories();
   }
 
-
+  AddPhotoCompulsory = null;
   InsertDynamicFormStructure() {
+
+    if (!this.photoAlreadyAdded) {
+      this.AddPhotoCompulsory = "Sorry product must have photos so, you have to add it"
+      return;
+    }
+
+
     let convertJSArrToJsonArr = JSON.stringify(this.userMadeForm);
     let sendingFilterDataToServer = {
       formStructure: convertJSArrToJsonArr,
@@ -434,6 +445,11 @@ export class DynamicFormStructureComponent implements OnInit {
 
       this.getProductSizeValue = data.productSize;
       let convertToJsArrObj = JSON.parse(data?.formStructure);
+      console.log(convertToJsArrObj);
+      if(convertToJsArrObj.findIndex(a=>a.inputType == 'file') == -1){
+          this.AddPhotoCompulsory = "Sorry product must have photos so, you have to add it"
+      }
+
       for (var a of convertToJsArrObj) {
         if (a.inputType == 'file') {
           countAddedFileInputs = a.numberOfChooseFileInputs;
@@ -465,6 +481,13 @@ export class DynamicFormStructureComponent implements OnInit {
 
 
   SendUpdateDynamicFormStructureData() {
+
+    if (!this.photoAlreadyAdded) {
+      this.AddPhotoCompulsory = "Sorry product must have photos so, you have to add it"
+      return;
+    }
+
+
     let mergeTwoArr = [...this.fetchingDFS, ...this.updateFetchedDFSData];
     let convertJSArrToJsonArr = JSON.stringify(mergeTwoArr);
     let sendingFilterDataToServer = {
@@ -491,6 +514,7 @@ export class DynamicFormStructureComponent implements OnInit {
 
 
   removeErrorMessage() {
+    this.AddPhotoCompulsory = null;
     this.userMadeForm = [];
     this.selectedCategoiresNames = false;
     this.categoriesSelectingDone = true;

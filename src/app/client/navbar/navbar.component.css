@@ -262,6 +262,6 @@ nav {
 }
 
 .search-main-div li:hover {
-  background-color: green;
+  background-color: rgb(245, 241, 241);
   cursor: pointer;
 }

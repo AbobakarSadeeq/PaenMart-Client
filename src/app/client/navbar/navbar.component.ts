@@ -167,7 +167,6 @@ export class NavbarComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event.target'])
-
   customBlur(target: any) {
     // blur does not execute the li click event but this it works here
     if (target.tagName != 'INPUT')
@@ -175,7 +174,7 @@ export class NavbarComponent implements OnInit {
     else {
       if (localStorage.getItem("SearchHistory")) {
         let convertToArr: [] = JSON.parse(localStorage.getItem("SearchHistory"));
-        let getLastTenSearches = convertToArr.slice(convertToArr.length - 10, convertToArr.length);
+        let getLastTenSearches = convertToArr.slice(-10);
         this.showSearchHistoryArr = [];
         for (var i = getLastTenSearches.length - 1; i > -1; i--) {
           this.showSearchHistoryArr.push(getLastTenSearches[i])
