@@ -11,7 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from './auth/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../app/auth/auth-interceptor.service';
-import { SearchProductComponent } from './client/search-product/search-product.component'
+import { SearchProductComponent } from './client/search-product/search-product.component';
 
 @NgModule({
   declarations: [

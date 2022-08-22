@@ -58,13 +58,20 @@ export class OrderDetailsComponent implements OnInit {
 
   confirmOrder(data: any) {
 
+    console.log(data);
+
     if (this.myOrderStatus == 'Shipping pending for shipper') {
       // shipper accepting the order and shipment
       var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
       let sipperFilterData = {
         orderId: data.orderId,
         shipperUserId: payload.UserID,
-        OrderTotalPrice: this.totalPriceSingleOrder
+        OrderTotalPrice: this.totalPriceSingleOrder,
+        orderDetails: data.orderDetail,
+        email: data.email,
+        completeAddress: data.completeAddress,
+        phoneNumber: data.phoneNumber,
+        fullName: data.fullName
       }
 
       this.confirmationService.confirm({

@@ -20,6 +20,8 @@ const routes: Routes = [
   { path: 'Client/Orders/:id', loadChildren: () => import('./client/client-order/client-order.module').then(m => m.ClientOrderModule) },
   { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule) },
 
+  { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule) },
+
 
 
   // Admin side routes
