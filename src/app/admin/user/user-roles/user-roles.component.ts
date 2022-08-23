@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { AdminService } from '../../admin.service';
 import { UserRolesService } from './user-roles.service';
 
 @Component({
@@ -17,12 +18,23 @@ export class UserRolesComponent implements OnInit {
   successFullInsert: any = null;
   listRole: any[] = [];
   roleUsed: any = null;
+  getStyleFromNav: string = null;
 
   subscription: Subscription;
 
-  constructor(private _UserRoles: UserRolesService, private _authService: AuthService, private DialogService: ConfirmationService) { }
+  constructor(private _UserRoles: UserRolesService,
+     private _authService: AuthService,
+      private DialogService: ConfirmationService,
+      private _adminService:AdminService) { }
 
   ngOnInit(): void {
+
+    // sidebar expand and collaps styling required in every admin page
+    this._adminService.sideBar.subscribe((data: string) => {
+      this.getStyleFromNav = data;
+    });
+
+
     this.subscription = this._authService.loadingSpinnerLogOut.subscribe((data: any) => {
       this.showIndicator = data;
     });

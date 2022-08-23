@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/admin/admin.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserRolesService } from '../user-roles.service';
 
@@ -14,12 +15,21 @@ import { UserRolesService } from '../user-roles.service';
 export class EditRoleComponent implements OnInit {
   roleEditData: any = { id: undefined, roleName: undefined, users: undefined };
   errorMessage: any = null;
+  getStyleFromNav: string = null;
 
   showIndicator = false;
   subscription: Subscription;
-  constructor(private _authService: AuthService, private _myRoute: Router, private _route: ActivatedRoute, private _userRole: UserRolesService) { }
+  constructor(private _authService: AuthService,
+    private _myRoute: Router,
+    private _route: ActivatedRoute, private _userRole: UserRolesService,
+    private _adminService: AdminService) { }
 
   ngOnInit(): void {
+    // sidebar expand and collaps styling required in every admin page
+    this._adminService.sideBar.subscribe((data: string) => {
+      this.getStyleFromNav = data;
+    });
+
 
     const findId = this._route.snapshot.params['id'];
     this.subscription = this._userRole.getDataById(findId).subscribe((myData: any) => {

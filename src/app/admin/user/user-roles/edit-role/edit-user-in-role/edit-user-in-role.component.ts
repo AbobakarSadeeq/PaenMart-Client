@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/admin/admin.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { UserRolesService } from '../../user-roles.service';
 
@@ -16,21 +17,32 @@ interface student {
   styleUrls: ['./edit-user-in-role.component.css']
 })
 export class EditUserInRoleComponent implements OnInit {
+  getStyleFromNav: string = null;
 
   showIndicator = false;
   userAllData: any[] = [];
   subscription: Subscription;
   formData: FormGroup;
-  roleName:string;
-  multipleAdminErrormsg:any = null;
+  roleName: string;
+  multipleAdminErrormsg: any = null;
 
-  constructor(private fb: FormBuilder, private _authService: AuthService, private _activateRoute: ActivatedRoute, private route: Router, private _userRole: UserRolesService) { }
+  constructor(private fb: FormBuilder,
+    private _authService: AuthService,
+    private _activateRoute: ActivatedRoute,
+    private route: Router,
+    private _userRole: UserRolesService,
+    private _adminService: AdminService) { }
 
   ngOnInit(): void {
 
+    // sidebar expand and collaps styling required in every admin page
+    this._adminService.sideBar.subscribe((data: string) => {
+      this.getStyleFromNav = data;
+    });
+
 
     const findId = this._activateRoute.snapshot.params['id'];
-	  this.subscription =   this._userRole.getDataById(findId).subscribe((myData:any)=>{
+    this.subscription = this._userRole.getDataById(findId).subscribe((myData: any) => {
       this.roleName = myData.roleName;
     });
 
@@ -61,8 +73,8 @@ export class EditUserInRoleComponent implements OnInit {
     debugger;
     const formFrom = new FormData();
 
-    if(this.roleName == "Admin"){
-      if(this.userAllData.filter(a=>a.isSelected == true).length == 1){
+    if (this.roleName == "Admin") {
+      if (this.userAllData.filter(a => a.isSelected == true).length == 1) {
         for (let i = 0; i < this.userAllData.length; i++) {
           formFrom.append(`model[${i.toString()}].userId`, this.userAllData[i].userId);
           formFrom.append(`model[${i.toString()}].userEmail`, this.userAllData[i].userEmail);
@@ -76,11 +88,11 @@ export class EditUserInRoleComponent implements OnInit {
           localStorage.removeItem('token');
         });
 
-      }else{
+      } else {
         // if multiple selected then show an error
         this.multipleAdminErrormsg = "Sorry admin is only one allow";
       }
-    }else{
+    } else {
 
       for (let i = 0; i < this.userAllData.length; i++) {
         formFrom.append(`model[${i.toString()}].userId`, this.userAllData[i].userId);

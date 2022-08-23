@@ -1,29 +1,32 @@
 <app-admin-header></app-admin-header>
-<div class="container">
-  <div class="row">
-<div class="card">
-  <div class="card-body">
+<div [style]="getStyleFromNav">
+  <div class="container">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
 
-    <h1>Users In This Role</h1>
-    <h1 style="color: red;">{{multipleAdminErrormsg}}</h1>
-    <form >
-      <div *ngFor="let singleUser of userAllData">
-        <mat-checkbox (change)="onChange(singleUser)"
-        class="example-margin"style="cursor: pointer;" [checked]="singleUser?.isSelected">
-        {{singleUser?.userEmail}}</mat-checkbox><br><br>
+          <h1>Users In This Role</h1>
+          <h1 style="color: red;">{{multipleAdminErrormsg}}</h1>
+          <form>
+            <div *ngFor="let singleUser of userAllData">
+              <mat-checkbox (change)="onChange(singleUser)" class="example-margin" style="cursor: pointer;"
+                [checked]="singleUser?.isSelected">
+                {{singleUser?.userEmail}}</mat-checkbox><br><br>
+            </div>
+
+            <button class="btn btn-primary" (click)="updateSubmitUsersRole()">Update user in role</button>
+
+          </form>
+
+
+
+
+
+
+        </div>
       </div>
-
-      <button class="btn btn-primary" (click)="updateSubmitUsersRole()">Update user in role</button>
-
-    </form>
-
-
-
-
-
-
+    </div>
   </div>
 </div>
-  </div>
-</div>
-<mat-spinner mode="indeterminate"  *ngIf="showIndicator" class="matSpinner"></mat-spinner>
+
+<mat-spinner mode="indeterminate" *ngIf="showIndicator" class="matSpinner"></mat-spinner>

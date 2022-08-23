@@ -1,55 +1,59 @@
 <app-admin-header></app-admin-header>
 
 
+<div [style]="getStyleFromNav">
+  <div class="container">
+    <div class="row">
 
-<div class="container">
-  <div class="row">
+      <button (click)="AddCarouselModel()" style="margin-top: 2rem" class="btn btn-warning"><i class="fas fa-plus">Add
+          Carousel</i></button>
+      <div class="card" style="margin-top: 10px;">
+        <p-table [value]="CarouselAllData" [paginator]="true" [rows]="8" [showCurrentPageReport]="true"
+          responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [rowsPerPageOptions]="[10,25,50]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Image</th>
+              <th>Image-Priority</th>
+              <th>Image-title</th>
+              <th>Image-description</th>
+              <th>Actions</th>
 
-    <button (click)="AddCarouselModel()" style="margin-top: 2rem" class="btn btn-warning"><i class="fas fa-plus">Add Carousel</i></button>
-    <div class="card" style="margin-top: 10px;">
-      <p-table [value]="CarouselAllData" [paginator]="true" [rows]="8" [showCurrentPageReport]="true"
-        responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [rowsPerPageOptions]="[10,25,50]">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Image</th>
-            <th>Image-Priority</th>
-            <th>Image-title</th>
-            <th>Image-description</th>
-            <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-carousel>
+            <tr>
+              <td><img src="{{carousel?.url}}" width="70px" height="60px" alt=""></td>
+              <td>{{carousel?.imagePriority}}</td>
+              <td>{{carousel?.imageTitle}}</td>
+              <td>{{carousel?.imageDescription}}</td>
+              <td>
+                <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                  (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
+                &nbsp;
 
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-carousel>
-          <tr>
-            <td><img src="{{carousel?.url}}" width="70px" height="60px" alt=""></td>
-            <td>{{carousel?.imagePriority}}</td>
-            <td>{{carousel?.imageTitle}}</td>
-            <td>{{carousel?.imageDescription}}</td>
-            <td>
-              <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
-              &nbsp;
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="openDeleteDialogConfarmation(carousel?.carouselID)"></button>
+              </td>
+            </tr>
+          </ng-template>
+          <!-- Extra template not worth to show its icons -->
+          <ng-template pTemplate="paginatorleft">
+            <p-button type="button" styleClass="p-button-text"></p-button>
+          </ng-template>
+          <ng-template pTemplate="paginatorright">
+            <p-button type="button" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-table>
+      </div>
 
-              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="openDeleteDialogConfarmation(carousel?.carouselID)"></button>
-            </td>
-          </tr>
-        </ng-template>
-        <!-- Extra template not worth to show its icons -->
-        <ng-template pTemplate="paginatorleft">
-          <p-button type="button" styleClass="p-button-text"></p-button>
-        </ng-template>
-        <ng-template pTemplate="paginatorright">
-          <p-button type="button" styleClass="p-button-text"></p-button>
-        </ng-template>
-      </p-table>
+
     </div>
-
-
   </div>
 </div>
 
 
-<mat-spinner mode="indeterminate"  *ngIf="myLoadingIndicator" class="matSpinner"></mat-spinner>
+<mat-spinner mode="indeterminate" *ngIf="myLoadingIndicator" class="matSpinner"></mat-spinner>
 
 
 
@@ -63,9 +67,11 @@
     <span *ngIf="showError" style="color: red;">This Image Priority Already has been taken</span>
     <input formControlName="imageTitle" type="text" class="form-control" placeholder="Image Title"><br>
     <input formControlName="imageDescription" type="text" class="form-control" placeholder="Image Description"><br>
-    <input (change)="fileChange($event)" type="file" formControlName="File" class="form-control-file" id="exampleFormControlFile1">
-<br><br>
-   <button class="btn btn-primary" [disabled]="CarouselFormData.invalid" (click)="SubmitCarouselForm()">Add Carousel</button>
+    <input (change)="fileChange($event)" type="file" formControlName="File" class="form-control-file"
+      id="exampleFormControlFile1">
+    <br><br>
+    <button class="btn btn-primary" [disabled]="CarouselFormData.invalid" (click)="SubmitCarouselForm()">Add
+      Carousel</button>
   </form>
 
 </p-dialog>
@@ -77,8 +83,8 @@
     <span *ngIf="showError" style="color: red;">This Image Priority Already has been taken</span>
     <input formControlName="imageTitle" type="text" class="form-control" placeholder="Image Title"><br>
     <input formControlName="imageDescription" type="text" class="form-control" placeholder="Image Description"><br>
-<br><br>
-   <button class="btn btn-primary" (click)="updateCarouselForm()">Update Carousel</button>
+    <br><br>
+    <button class="btn btn-primary" (click)="updateCarouselForm()">Update Carousel</button>
   </form>
 
 </p-dialog>
@@ -88,8 +94,6 @@
 <p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
   <p-footer>
     <button type="button" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
-    <button type="button" class="btn btn-danger"  (click)="cd?.accept()">Remove</button>
+    <button type="button" class="btn btn-danger" (click)="cd?.accept()">Remove</button>
   </p-footer>
 </p-confirmDialog>
-
-

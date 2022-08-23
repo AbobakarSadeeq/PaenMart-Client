@@ -1,5 +1,6 @@
 <app-admin-header></app-admin-header>
 
+<div [style]="getStyleFromNav">
 <div class="container">
   <div class="row">
 
@@ -69,4 +70,7 @@
 
   </div>
 </div>
+
+</div>
+
 <mat-spinner mode="indeterminate" *ngIf="showIndicator" class="matSpinner"></mat-spinner>

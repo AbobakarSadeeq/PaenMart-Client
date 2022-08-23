@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { AdminService } from '../../admin.service';
 import { CarouselService } from './carousel.service';
 
 @Component({
@@ -19,10 +20,23 @@ export class CarouselComponent implements OnInit {
   myLoadingIndicator = false;
   CarouselFormData: FormGroup;
   showError: boolean = false;
+  getStyleFromNav: string = null;
 
-  constructor(private route: Router, private _CarouselService: CarouselService, private DialogService: ConfirmationService, private fb: FormBuilder) { }
+  constructor(private route: Router,
+    private _CarouselService: CarouselService,
+    private DialogService: ConfirmationService,
+    private fb: FormBuilder,
+    private _adminService: AdminService) { }
 
   ngOnInit(): void {
+
+    // sidebar expand and collaps styling required in every admin page
+    this._adminService.sideBar.subscribe((data: string) => {
+      this.getStyleFromNav = data;
+    });
+
+
+
     this.CarouselFormData = this.fb.group({
       imagePriority: ['', Validators.required],
       imageTitle: ['', Validators.required],
@@ -51,7 +65,7 @@ export class CarouselComponent implements OnInit {
         imagePriority: [data.imagePriority],
         imageTitle: [data.imageTitle],
         imageDescription: [data.imageDescription],
-        carouselID:[dataId]
+        carouselID: [dataId]
       });
       this.currentImagePriority = data.imagePriority;
     })
