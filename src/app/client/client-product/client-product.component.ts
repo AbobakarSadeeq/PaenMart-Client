@@ -24,7 +24,6 @@ export class ClientProductComponent implements OnInit {
         };
       });
   }
-
   ngOnInit(): void {
     let getSelectedNestCategoryData = this._activateRoute.snapshot.params['id'];
     this.selectedNestCategoryId = getSelectedNestCategoryData;
@@ -42,6 +41,7 @@ export class ClientProductComponent implements OnInit {
     };
     this.subscription = this._clientProduct.getProductsByCategory(selectedData).subscribe((data: any) => {
       this.productList = data;
+
     });
 
   }
@@ -60,7 +60,6 @@ export class ClientProductComponent implements OnInit {
         pageSelectedNo: 1,
         singleCategoryTotalProductsCount: 0,
       };
-
       this.subscription = this._clientProduct.getProductsByCategory(selectedData).subscribe((data: any) => {
         this.productList = data;
       });

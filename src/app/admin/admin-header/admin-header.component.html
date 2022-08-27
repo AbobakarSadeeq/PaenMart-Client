@@ -1,6 +1,6 @@
 <nav class="main-navbar " [ngClass]="!showSideBar ? 'offSidebar' : ''">
   <div class="left-side-btns hamburger">
-    <a [routerLink]="['/Admin']"><i class="fa-solid fa-store"></i> Paen Mart</a>
+    <a (click)="openAdminSidePanel()"><i class="fa-solid fa-store"></i> Paen Mart</a>
     <a (click)="toggleMenuBtn()"><i class="fa-solid fa-align-justify"></i></a>
   </div>
 

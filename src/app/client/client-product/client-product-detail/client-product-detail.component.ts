@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ClientOrderReviewService } from '../../client-order-review/client-order-review.service';
 import { ShoppingCartService } from '../../shopping-cart/shopping-cart.service';
 import { ClientProductService } from '../client-product.service';
 
@@ -17,17 +18,19 @@ export class ClientProductDetailComponent implements OnInit {
   productDetails: any;
   productSpecificationDetails: any[] = [];
   addQuantity = 1;
+  singleProductReviews: any[] = [];
 
   constructor(private _clientProduct: ClientProductService,
     private _activateRoute: ActivatedRoute,
-    private _shoppingCartService: ShoppingCartService
+    private _shoppingCartService: ShoppingCartService,
+    private _clientProductOrderReviewService: ClientOrderReviewService
   ) { }
 
   ngOnInit(): void {
 
-    let selectedId = this._activateRoute.snapshot.params['id'];
+    let selectedProductId = this._activateRoute.snapshot.params['id'];
     let productDetailsJsonData = {}
-    this.subscription = this._clientProduct.get(selectedId).subscribe((data: any) => {
+    this.subscription = this._clientProduct.get(selectedProductId).subscribe((data: any) => {
       setTimeout(() => {
         let convertJsonStringToJsonObj = JSON.parse(data.productDetails);
         let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);
@@ -57,14 +60,27 @@ export class ClientProductDetailComponent implements OnInit {
       }, 1000);
 
       this.productDetails = data;
+
     });
 
-
-
-
-
+    this.reviewList({ pageNo: 1, productId: selectedProductId });
 
   }
+  // reivew list
+  reviewList(data: any) {
+    this.subscription = this._clientProductOrderReviewService.getSingleProductAllReviews({ pageNo: data.pageNo, productId: data.productId }).subscribe((data: any) => {
+      this.singleProductReviews = data.reviewList;
+      this.reviewsCount = data.dataCount;
+      console.log(data);
+
+    });
+  }
+
+  reviewsCount = 0;
+  tablePageNoChange(pageNo: number) {
+    this.reviewList({ pageNo: pageNo, productId: this._activateRoute.snapshot.params['id'] })
+  }
+
 
   addingProductQuantity() {
     this.addQuantity++;

@@ -26,9 +26,19 @@
       <p
         style="color: #282828; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 20px;">
         {{productDetails?.productName}} ({{productDetails?.productBrandName}} {{productDetails?.color}})</p>
+
+
+
+
       <span style="color: grey; font-size: 12px;">Product Id ____{{productDetails?.productID}}____</span>
       <br><br>
-      <h4><strong
+      <img *ngIf="productDetails?.showStarsByRatings"
+        [src]="'../../../../assets/stars-rating/'+ productDetails?.showStarsByRatings + '.png'" width="130px"
+        height="20px" alt="">
+
+      ({{productDetails?.raiting}})
+
+      <h4 style="padding-top: 1rem;"><strong
           style="font-size: 24px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{productDetails?.price
           | currency: 'Rs ': 'symbol':'1.0'}}</strong></h4>
 
@@ -113,7 +123,8 @@
   <div class="row">
     <div class="col">
       <br><br><br><br>
-      <h1 style="font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif;"><b>{{productDetails?.nestSubCategoryName}} Specification</b>
+      <h1 style="font-size: 30px; font-family: Georgia, 'Times New Roman', Times, serif;">
+        <b>{{productDetails?.nestSubCategoryName}} Specification</b>
       </h1>
       <hr>
       <br>
@@ -121,6 +132,39 @@
         <td><strong>{{item?.objectKey}}</strong></td><br>
         <td><span>{{item?.objectValue}}</span></td><br>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>Product Review</h1><br>
+
+      <div class="totalReviews">
+        <span class="get-stars">{{productDetails?.showStarsByRatings}}</span><span class="totalStars">/5</span><br>
+        <img *ngIf="productDetails?.showStarsByRatings"
+          src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings}}.png" alt="">
+      </div>
+
+      <hr>
+      <div class="" *ngFor="let item of singleProductReviews">
+        <img *ngIf="item?.ratingStars" src="../../../assets/stars-rating/{{item?.ratingStars}}.png" width="120px"
+          height="25px" alt="">
+        <p>by {{item?.userFullName}}</p>
+        <p>{{item?.productComment}}</p>
+        <img *ngFor="let singlePhoto of item?.productReviewedPhoto" src="{{singlePhoto?.url}}"
+          style="margin-right: 30px;  " width="100px" height="100px" alt="">
+        <hr>
+      </div>
+    </div>
+
+    <div>
+      <ngb-pagination class="d-flex justify-content-center" (pageChange)="tablePageNoChange($event)"
+        [collectionSize]="reviewsCount" [pageSize]="7" [page]="1" [directionLinks]="true">
+      </ngb-pagination>
     </div>
   </div>
 </div>

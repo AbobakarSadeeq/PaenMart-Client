@@ -7,7 +7,7 @@
   <span style="color: white;">{{userDetails?.fullName}} &nbsp;&nbsp;</span>
 
   <div *ngIf="isLoggedIn()">
-    <a *appHasRole="['Admin', 'Employee', 'Shipper']" class="admin-link" [routerLink]="['/Admin']">Admin-panel</a>
+    <a *appHasRole="['Admin', 'Employee', 'Shipper']" class="admin-link" (click)="openAdminSidePanel()" >Admin-panel</a>
 
   </div>
 

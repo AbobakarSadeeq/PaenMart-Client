@@ -1,0 +1,135 @@
+<app-navbar></app-navbar>
+
+
+<div class="background">
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <br>
+        <h1>Write Reviews</h1>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="reviewSubmitErrorsHandling">
+          {{reviewSubmitErrorsHandling}}
+        </div>
+
+        <!-- Review section -->
+        <div class="main-review-section">
+
+          <div class="left-section">
+            <span>Rate and review purchased product:</span>
+
+            <div class="singleRow">
+              <div class="productReview">
+                <!-- <div style="width: 15rem; margin: 0;padding: 0;">
+                  <p>Purchased on 06 May 2022</p>
+                </div> -->
+                <div class="ProductNameAndProductImage">
+
+                  <div style="width:80px ;height:80px; ">
+                    <a [routerLink]="['/Product-detail/', singleProductDetail?.productId]"> <img
+                        src="{{singleProductDetail?.productImage}}" width="80px" height="80px" alt=""></a>
+                  </div>
+
+                  <div style="padding-left: 0.8rem; ">
+                    <a [routerLink]="['/Product-detail/', singleProductDetail?.productId]"
+                      style="text-decoration: none; color:black;">
+                      <span>{{singleProductDetail?.productName}}</span><br>
+                      <span>Color familiy: {{singleProductDetail?.productColor}}</span>
+                    </a>
+
+                    <div class="review-stars">
+                      <div class="rate">
+                        <input (click)="reviewStarsSelected(5)" type="radio" id="star5" name="rate" value="5" />
+                        <label for="star5" title="text">5 stars</label>
+                        <input (click)="reviewStarsSelected(4)" type="radio" id="star4" name="rate" value="4" />
+                        <label for="star4" title="text">4 stars</label>
+                        <input (click)="reviewStarsSelected(3)" type="radio" id="star3" name="rate" value="3" />
+                        <label for="star3" title="text">3 stars</label>
+                        <input (click)="reviewStarsSelected(2)" type="radio" id="star2" name="rate" value="2" />
+                        <label for="star2" title="text">2 stars</label>
+                        <input (click)="reviewStarsSelected(1)" type="radio" id="star1" name="rate" value="1" />
+                        <label for="star1" title="text">1 star</label>
+                      </div>
+                      <span style="font-size:15px;">
+                        {{selectedStars == 5? 'Delightful': ''}}
+                        {{selectedStars == 4? 'Satisfactory': ''}}
+                        {{selectedStars == 3? 'Neutral': ''}}
+                        {{selectedStars == 2? 'Poor': ''}}
+                        {{selectedStars == 1? 'Very poor': ''}}
+                      </span>
+                      <!-- <div class="star-wrapper">
+                        <span>!Delightful</span> &nbsp;
+                        <a  class="fas fa-star s1 "></a>
+                        <a href="#" class="fas fa-star s2 "></a>
+                        <a href="#" class="fas fa-star s3 "></a>
+                        <a href="#" class="fas fa-star s4 "></a>
+                        <a href="#" class="fas fa-star s5 "></a>
+                      </div> -->
+                    </div>
+
+
+
+                  </div>
+
+
+
+                </div>
+
+
+
+              </div>
+
+
+
+
+
+            </div>
+
+            <div class="adding-margin-left-side">
+
+              <div class="static-words">
+                Please share your product experience: Was the product as described? What is the quality like? What
+                did you like or dislike about the product?
+              </div>
+              <br>
+
+              <textarea [(ngModel)]="reviewCommentTextArea" ngModel class="feedback-product-input"
+                placeholder="Please share your feedback about the product: Was the product as described? What is the quality like?"
+                rows="4" maxlength="1000" type="text" height="100%"></textarea><br><br>
+
+              <input (change)="fileChange($event)" type="file" class="image-upload__file-input"
+                accept=".png, .jpeg, .jpg" name="File" maxlength="1000"> <br> <br>
+              <input (change)="fileChange($event)" type="file" class="image-upload__file-input"
+                accept=".png, .jpeg, .jpg" name="File" maxlength="1000"> <br> <br>
+              <input (change)="fileChange($event)" type="file" class="image-upload__file-input"
+                accept=".png, .jpeg, .jpg" name="File" maxlength="1000">
+
+
+              <div class="image-warning">
+                <br>
+                <p><strong> Please Note:</strong></p>
+                <p> Upload</p>
+                <p>- Upto 3 images</p>
+                <p>- Maximum 5MB</p>
+                <p> - Relevant Images which meet Community Guidelines Happy Reviewing! </p>
+              </div>
+
+
+              <button class="submit-review-button" (click)="reviewSubmit()">SUBMIT</button>
+
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+</div>

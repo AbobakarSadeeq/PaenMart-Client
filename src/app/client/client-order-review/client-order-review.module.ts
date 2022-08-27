@@ -5,6 +5,7 @@ import { ClientOrderReviewRoutingModule } from './client-order-review-routing.mo
 import { ClientOrderReviewComponent } from './client-order-review.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
+import { ClientSingleProductReviewComponent } from './client-single-product-review/client-single-product-review.component';
 
 
 @NgModule({

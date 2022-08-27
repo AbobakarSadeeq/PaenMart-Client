@@ -21,11 +21,12 @@ const routes: Routes = [
   { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule) },
 
   { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule) },
+  { path: 'Client/Write-Reviews/Product/:id', loadChildren: () => import('./client/client-order-review/client-single-product-review/client-single-product-review.module').then(m => m.ClientSingleProductReviewModule) },
 
 
 
   // Admin side routes
-  { path: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Shipper', 'Employee'] } },
+  { path: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'Admin/Category', loadChildren: () => import('./admin/products-menu/category/category.module').then(m => m.CategoryModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
   { path: 'Admin/Sub-Category', loadChildren: () => import('./admin/products-menu/sub-category/sub-category.module').then(m => m.SubCategoryModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
   { path: 'Admin/Nest-Sub-Category', loadChildren: () => import('./admin/products-menu/nest-sub-category/nest-sub-category.module').then(m => m.NestSubCategoryModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },

@@ -184,6 +184,21 @@ export class NavbarComponent implements OnInit {
 
   }
 
+
+  openAdminSidePanel() {
+    var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
+
+    if (payload.role == 'Admin') {
+      this._httpRoute.navigate(['/Admin'])
+    } else if (payload.role == 'Employee') {
+      this._httpRoute.navigate(['/Admin/PendingUserOrders']);
+    } else if (payload.role == 'Shipper') {
+      this._httpRoute.navigate(['/Admin/Shipper/ShipperPendingOrders']);
+    }
+
+  }
+
+
   changeSearchData() {
     this.showSearchHistory = false;
   }

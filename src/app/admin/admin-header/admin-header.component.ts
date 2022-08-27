@@ -111,6 +111,19 @@ export class AdminHeaderComponent implements OnInit {
   }
 
 
+  openAdminSidePanel() {
+    var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
+    if (payload.role == 'Admin') {
+      this._route.navigate(['/Admin'])
+    } else if (payload.role == 'Employee') {
+      this._route.navigate(['/Admin/PendingUserOrders']);
+    } else if (payload.role == 'Shipper') {
+      this._route.navigate(['/Admin/Shipper/ShipperPendingOrders']);
+    }
+
+  }
+
+
 }
 
 
