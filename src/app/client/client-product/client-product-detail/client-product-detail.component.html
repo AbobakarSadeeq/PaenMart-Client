@@ -33,7 +33,7 @@
       <span style="color: grey; font-size: 12px;">Product Id ____{{productDetails?.productID}}____</span>
       <br><br>
       <img *ngIf="productDetails?.showStarsByRatings"
-        [src]="'../../../../assets/stars-rating/'+ productDetails?.showStarsByRatings + '.png'" width="130px"
+        src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png" width="130px"
         height="20px" alt="">
 
       ({{productDetails?.raiting}})
@@ -144,9 +144,9 @@
       <h1>Product Review</h1><br>
 
       <div class="totalReviews">
-        <span class="get-stars">{{productDetails?.showStarsByRatings}}</span><span class="totalStars">/5</span><br>
+        <span class="get-stars">{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}</span><span class="totalStars">/5</span><br>
         <img *ngIf="productDetails?.showStarsByRatings"
-          src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings}}.png" alt="">
+          src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png" alt="">
       </div>
 
       <hr>

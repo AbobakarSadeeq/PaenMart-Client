@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
 
     this.subscription = this._HomeService.GetMostFiveProductSelled().subscribe((data:any)=>{
       this.fiveMostSelledProduct = data;
+      console.log(data);
     });
 
     // get carousel

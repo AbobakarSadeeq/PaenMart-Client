@@ -48,6 +48,7 @@ export class SearchProductComponent implements OnInit {
       searchText: this.searchByData
     }
     this.subscription = this._searchProductService.GetAllProducts(myObj).subscribe((data: any) => {
+
       this.productList = data.productsFoundData;
       this.productTotalCount = data.productsFoundDataCount;
     },
@@ -66,6 +67,7 @@ export class SearchProductComponent implements OnInit {
       searchText: searchData
     }
     this.subscription = this._searchProductService.GetAllProducts(myObj).subscribe((data: any) => {
+      console.log(data);
       this.productList = data.productsFoundData;
       this.productTotalCount = data.productsFoundDataCount;
     },

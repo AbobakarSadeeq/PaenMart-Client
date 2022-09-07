@@ -31,12 +31,13 @@
             &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
           <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price |
               currency: 'Rs ': 'symbol':'1.0'}}</b></p>
-          <img src="../../../assets/stars rating/{{singleProduct?.showStarsByRatings}}.png" width="100px" height="20px"
-            alt="">
+          <img
+            src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0 : singleProduct?.showStarsByRatings}}.png"
+            width="100px" height="20px" alt="">
 
           ({{singleProduct?.raiting}})
         </a>
-      </div>
+      </div>  
 
     </div>
 

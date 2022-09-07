@@ -16,7 +16,8 @@
 
   <div>
     <br>
-    <div class="alert alert-danger alert-dismissible fade show" style="width:fit-content;" role="alert" *ngIf="notProductFoundBySearchMesg">
+    <div class="alert alert-danger alert-dismissible fade show" style="width:fit-content;" role="alert"
+      *ngIf="notProductFoundBySearchMesg">
       {{notProductFoundBySearchMesg}}
     </div>
 
@@ -25,13 +26,19 @@
       <div class="col-2" *ngFor="let singleProduct of productList">
         <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
           [routerLink]="['/Product-detail/', singleProduct?.productID]">
-          <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv" style=" width: 200px; height: 200px;" />
+          <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv"
+            style="  max-width: max-content; height: 200px;" />
           <span
             style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
             &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
+
           <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; "><b>{{singleProduct?.price |
               currency: 'Rs ': 'symbol':'1.0'}}</b></p>
         </a>
+        <img
+          src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0: singleProduct?.showStarsByRatings}}.png"
+          width="100px" height="20px" alt="">
+        <span>&nbsp;&nbsp;({{singleProduct?.raiting}})</span>
       </div>
 
     </div>
