@@ -7,16 +7,17 @@
   <span style="color: white;">{{userDetails?.fullName}} &nbsp;&nbsp;</span>
 
   <div *ngIf="isLoggedIn()">
-    <a *appHasRole="['Admin', 'Employee', 'Shipper']" class="admin-link" (click)="openAdminSidePanel()" >Admin-panel</a>
+    <a *appHasRole="['Admin', 'Employee', 'Shipper']" class="admin-link" (click)="openAdminSidePanel()">Admin-panel</a>
 
   </div>
 
   <!-- Search Input with button -->
   <div class="d-flex searchEngineAndButton">
     <input type="text" ngModel #searchValue placeholder="Search everything by brand and product name and category name"
-      (ngModelChange)="changeSearchData()" [(ngModel)]="searchState" (focus)="showHistoryHandlerToggle()"
-      (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine">
-
+      [(ngModel)]="searchState" (focus)="showHistoryHandlerToggle()" id="search"
+      (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine"
+      (ngModelChange)="this.userQuestionUpdate.next($event)">
+    <!-- (ngModelChange)="autoCompleteSearchCall($event)" -->
 
 
 
@@ -67,6 +68,17 @@
     <li *ngFor="let singleSearch of showSearchHistoryArr" (click)="changeSelectSearchHistory(singleSearch)">
       &nbsp;&nbsp;<i class="fa-solid fa-clock-rotate-left"></i>
       &nbsp;&nbsp;&nbsp;{{singleSearch}}</li>
+  </ul>
+</div>
+
+
+<div class="search-main-div" *ngIf="showAutoCompleteSuggestionDrop">
+  <ul>
+    <li *ngFor="let singleSearch of recommendedSearchList" (click)="changeSelectSearchHistory(singleSearch)">
+      &nbsp;&nbsp;<i class="fa-solid fa-magnifying-glass"></i>
+      &nbsp;&nbsp;&nbsp;{{singleSearch}}</li>
+
+
   </ul>
 </div>
 

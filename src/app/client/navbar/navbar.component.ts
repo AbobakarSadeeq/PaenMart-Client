@@ -1,13 +1,15 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/admin/products-menu/category/category.service';
 import { NestSubCategoryService } from 'src/app/admin/products-menu/nest-sub-category/nest-sub-category.service';
 import { SubCategoryService } from 'src/app/admin/products-menu/sub-category/sub-category.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AuthorizedImagesService } from 'src/app/auth/Edit profile/authorized-images/authorized-images.service';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
-
+import { Observable } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { SearchProductService } from '../search-product/search-product.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -26,6 +28,11 @@ export class NavbarComponent implements OnInit {
   numberOfItemsInCart = 0;
   userDetails: any;
   imageValue: any;
+  userQuestionUpdate = new Subject<string>();
+
+
+  showAutoCompleteSuggestionDrop = false;
+  recommendedSearchList: any[] = [];
 
   constructor(private _categoryService: CategoryService,
     private _subCategoryService: SubCategoryService,
@@ -35,8 +42,43 @@ export class NavbarComponent implements OnInit {
     private authorizedImage: AuthorizedImagesService,
     private _activateRoute: ActivatedRoute,
     private _httpRoute: Router,
-    private _eref: ElementRef) {
+    private _eref: ElementRef,
+    private _searchProductService: SearchProductService) {
 
+
+    // Debounce search.
+    this.subscription = this.userQuestionUpdate.pipe(
+      debounceTime(700),
+      distinctUntilChanged())
+      .subscribe(value => {
+        if (value.length == 0) {
+          this.showSearchHistory = true;
+          this.showAutoCompleteSuggestionDrop = false;
+        } else {
+
+          // calling backend call here
+
+          this.subscription = this._searchProductService.GetAllRecommendedSearch({ searchText: value, pageNo: 0 }).subscribe((data: any) => {
+            this.recommendedSearchList = data;
+          })
+
+
+
+
+          this.showAutoCompleteSuggestionDrop = true;
+          this.showSearchHistory = false;
+        }
+
+
+
+
+
+
+
+
+
+        console.log(value);
+      });
   }
 
 
@@ -169,8 +211,10 @@ export class NavbarComponent implements OnInit {
   @HostListener('document:click', ['$event.target'])
   customBlur(target: any) {
     // blur does not execute the li click event but this it works here
-    if (target.tagName != 'INPUT')
+    if (target.tagName != 'INPUT') {
       this.showSearchHistory = false;
+      this.showAutoCompleteSuggestionDrop = false;
+    }
     else {
       if (localStorage.getItem("SearchHistory")) {
         let convertToArr: [] = JSON.parse(localStorage.getItem("SearchHistory"));
@@ -183,6 +227,8 @@ export class NavbarComponent implements OnInit {
     }
 
   }
+
+
 
 
   openAdminSidePanel() {
@@ -199,8 +245,14 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  changeSearchData() {
+  autoCompleteSearchCall(searchVal: any) {
     this.showSearchHistory = false;
+
+    // const searchBox = document.getElementById('search');
+    // const keyup$ = fromEvent(searchBox, 'keyup');
+    // this.subscription = keyup$
+    //   .pipe(debounceTime(1500))
+    //   .subscribe(data => console.log(data));
   }
 
 

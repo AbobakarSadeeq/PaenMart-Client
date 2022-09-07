@@ -237,14 +237,15 @@ nav {
 
 .search-main-div {
   background-color: white;
-  width: 51rem;
+  width: 54rem;
   height: fit-content;
   position: absolute;
   z-index: 1000;
-  top: 63px;
-  left: 503px;
+  top: 62px;
+  left: 598px;
   color: black;
   overflow: auto;
+  border-radius: 2rem;
 }
 
 .search-main-div ul {
@@ -258,7 +259,6 @@ nav {
   padding: 0;
   padding: 1.9%;
   font-size: 1.5rem;
-  border-bottom: 1px solid #666666;
 }
 
 .search-main-div li:hover {

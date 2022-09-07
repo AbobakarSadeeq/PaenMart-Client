@@ -12,4 +12,8 @@ export class SearchProductService {
   GetAllProducts(data: any): Observable<any> {
     return this._http.post("https://localhost:44300/api/ExtraFeatures/SearchItems", data);
   }
+
+  GetAllRecommendedSearch(data: any): Observable<any> {
+    return this._http.post("https://localhost:44300/api/ExtraFeatures/AutoCompletionSearch", data);
+  }
 }

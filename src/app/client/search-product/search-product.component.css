@@ -1,6 +1,6 @@
 .main-div {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 15% 70%;
 }
 
 .sidebar-div {
@@ -55,4 +55,10 @@ ul {
 
 ngb-pagination ul {
   margin-left: 100px;
+}
+
+.row {
+  width: 1430px;
+  max-width: 1450px;
+  row-gap: 20px;
 }
