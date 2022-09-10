@@ -67,12 +67,10 @@ export class SearchProductComponent implements OnInit {
       searchText: searchData
     }
     this.subscription = this._searchProductService.GetAllProducts(myObj).subscribe((data: any) => {
-      console.log(data);
       this.productList = data.productsFoundData;
       this.productTotalCount = data.productsFoundDataCount;
     },
       (error: HttpErrorResponse) => {
-        console.log(error);
         this.notProductFoundBySearchMesg = error.error;
       })
   }

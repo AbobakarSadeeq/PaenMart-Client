@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../app/auth/auth.guard';
+import { ContactUsComponent } from './client/footer/contact-us/contact-us.component';
 
 const routes: Routes = [
 
@@ -8,6 +9,7 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./client/home/home.module').then(m => m.HomeModule) },
   { path: 'Products/Search', loadChildren: () => import('./client/search-product/search-product.module').then(m => m.SearchProductModule) },
   { path: 'Products/:id', loadChildren: () => import('./client/client-product/client-product.module').then(m => m.ClientProductModule) },
+  { path: 'Products-by-brand/:name/:id', loadChildren: () => import('./client/client-product/products-by-Footer-selected/products-by-Footer-selected.module').then(m => m.ProductsByBrandModule) },
   { path: 'Product-detail/:id', loadChildren: () => import('./client/client-product/client-product-detail/client-product-detail.module').then(m => m.ClientProductDetailModule) },
   { path: 'Cart', loadChildren: () => import('../app/client/shopping-cart/shopping-cart.module').then(m => m.ShoppingCartModule) },
   { path: 'Auth', loadChildren: () => import('../app/auth/auth.module').then(m => m.AuthModule) },
@@ -20,9 +22,12 @@ const routes: Routes = [
   { path: 'Client/Orders/:id', loadChildren: () => import('./client/client-order/client-order.module').then(m => m.ClientOrderModule) },
   { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule) },
 
+  // review components
   { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule) },
   { path: 'Client/Write-Reviews/Product/:id', loadChildren: () => import('./client/client-order-review/client-single-product-review/client-single-product-review.module').then(m => m.ClientSingleProductReviewModule) },
 
+  // some common pages
+  { path: 'contact-us', component: ContactUsComponent },
 
 
   // Admin side routes

@@ -12,10 +12,15 @@ import { AuthService } from './auth/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../app/auth/auth-interceptor.service';
 import { SearchProductComponent } from './client/search-product/search-product.component';
+import { FooterComponent } from './client/footer/footer.component';
+import { ContactUsComponent } from './client/footer/contact-us/contact-us.component';
+import { NavbarModule } from './client/navbar/navbar.module';
+import { FooterModule } from './client/footer/footer.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,9 @@ import { SearchProductComponent } from './client/search-product/search-product.c
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NavbarModule,
+    FooterModule
   ],
   providers: [AuthService, {
     provide: HTTP_INTERCEPTORS,

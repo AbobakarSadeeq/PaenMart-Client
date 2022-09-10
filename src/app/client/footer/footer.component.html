@@ -1,0 +1,116 @@
+<div class="first-footer-banner">
+  <div class="first-footer-banner-contact-size">
+    <div class="banner-content">
+      <div class="col-first">
+        <h1>We're Always Ready To Help</h1>
+        <p>Reach out to us through any of these support channels</p>
+      </div>
+      <div class="col-second">
+        <i class="fa-brands fa-whatsapp"></i>
+        <p>03431248899</p>
+      </div>
+      <div class="col-third">
+        <i class="fa-solid fa-envelope"></i>
+        <p>OfficalPaenMart@gmail.com</p>
+      </div>
+      <div class="col-forth">
+        <i class="fa-solid fa-headphones"></i>
+        <p>03431248899</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-right-left-space">
+
+    <div class="social-links">
+      <h1>Follow Paen-Mart At</h1>
+      <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-brands fa-youtube"></i>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="col-1">
+        <p>Shop by brands</p>
+        <ul>
+          <li *ngFor="let singleBrand of brands"><a [routerLink]="['/Products-by-brand/' + singleBrand?.brandName + '/'
+              + singleBrand?.productBrandID]" [queryParams]="{searchBy:'Brand'}">{{singleBrand?.brandName}}</a></li>
+
+        </ul>
+      </div>
+      <div class="col-2">
+        <p>Shop by Categories</p>
+        <ul>
+          <li *ngFor="let singleCategory of nestCategories"><a [routerLink]="['/Products-by-brand/' + singleCategory?.nestSubCategoryName + '/'
+              + singleCategory?.nestSubCategoryID]"
+              [queryParams]="{searchBy:'NestCategory'}">{{singleCategory?.nestSubCategoryName}}</a></li>
+
+        </ul>
+
+
+      </div>
+      <div class="col-3">
+
+        <p>Currently Live sale</p>
+        <ul>
+          <li><a [routerLink]="['/']">White friday </a></li>
+          <li><a [routerLink]="['/']">Holidays </a></li>
+          <li><a [routerLink]="['/']">Weekend </a></li>
+          <li><a [routerLink]="['/']">Summar </a></li>
+
+        </ul>
+
+
+      </div>
+      <div class="col-4">
+        <p>Order Info</p>
+        <ul>
+          <li><a [routerLink]="['/']">Checks your orders</a></li>
+          <li><a [routerLink]="['/']">Track your orders</a></li>
+          <li><a [routerLink]="['/']">Check pending orders</a></li>
+          <li><a [routerLink]="['/']">Shopping cart</a></li>
+
+        </ul>
+
+      </div>
+      <div class="col-5">
+        <p>About Paen-Mart</p>
+        <ul>
+          <li><a [routerLink]="['/']">About Us</a></li>
+          <li><a [routerLink]="['/']">Our Story</a></li>
+          <li><a [routerLink]="['/']">Our Company</a></li>
+
+        </ul>
+
+        <p>Support</p>
+        <ul>
+          <li><a [routerLink]="['/contact-us']">Contact Us</a></li>
+          <li><a [routerLink]="['/']">Help</a></li>
+
+        </ul>
+      </div>
+      <div class="col-6">
+        <p>Account</p>
+        <ul>
+          <li><a [routerLink]="['/']">My Profile</a></li>
+          <li><a [routerLink]="['/']">My Product Reviews</a></li>
+          <li><a [routerLink]="['/']">Sign In</a></li>
+          <li><a [routerLink]="['/']">Forget password</a></li>
+
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="copyright-footer">
+  <p>&copy; 2022 Paen-Mart Pakistan</p>
+</div>

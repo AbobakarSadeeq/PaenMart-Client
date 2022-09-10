@@ -1,0 +1,96 @@
+<app-navbar></app-navbar>
+
+<div class="main-div">
+
+  <div></div>
+
+  <div *ngIf="showBrandsProduct">
+    <br>
+    <div class="alert alert-danger alert-dismissible fade show" style="width:fit-content;" role="alert"
+      *ngIf="selectedBrandProducts?.length == 0">
+      Sorry we didn't found any products by {{selectedBrandName}}
+    </div>
+
+
+
+    <div class="row">
+      <h1>{{productTotalCount}} items found for "{{selectedBrandName? selectedBrandName: selectedNestCategoryName}}"
+      </h1>
+      <div class="col-2" *ngFor="let singleProduct of selectedBrandProducts">
+        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+          [routerLink]="['/Product-detail/', singleProduct?.productID]">
+          <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
+            style="  max-width: max-content; height: 200px;" />
+          <span
+            style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+            &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
+
+          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; "><b>{{singleProduct?.price |
+              currency: 'Rs ': 'symbol':'1.0'}}</b></p>
+        </a>
+        <img
+          src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0: singleProduct?.showStarsByRatings}}.png"
+          width="100px" height="20px" alt="">
+        <span>&nbsp;&nbsp;({{singleProduct?.raiting}})</span>
+      </div>
+
+    </div>
+
+    <ngb-pagination class="d-flex justify-content-center" (pageChange)="tablePageNoChange($event)"
+      [collectionSize]="productTotalCount" [pageSize]="24" [page]="1" [directionLinks]="true"></ngb-pagination>
+  </div>
+
+  <!-- Show nestcategories -->
+
+  <div *ngIf="showNestcategoryProducts">
+    <br>
+    <div class="alert alert-danger alert-dismissible fade show" style="width:fit-content;" role="alert"
+      *ngIf="selectedNestCategoryProducts?.length == 0">
+      Sorry we didn't found any products by {{selectedNestCategoryName}}
+    </div>
+
+
+
+    <div class="row">
+      <h1>{{productTotalCount}} items found for "{{selectedBrandName? selectedBrandName: selectedNestCategoryName}}"
+      </h1>
+      <div class="col-2" *ngFor="let singleProduct of selectedNestCategoryProducts">
+        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+          [routerLink]="['/Product-detail/', singleProduct?.productID]">
+          <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
+            style="  max-width: max-content; height: 200px;" />
+          <span
+            style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+            &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
+
+          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; "><b>{{singleProduct?.price |
+              currency: 'Rs ': 'symbol':'1.0'}}</b></p>
+        </a>
+        <img
+          src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0: singleProduct?.showStarsByRatings}}.png"
+          width="100px" height="20px" alt="">
+        <span>&nbsp;&nbsp;({{singleProduct?.raiting}})</span>
+      </div>
+
+    </div>
+
+    <ngb-pagination class="d-flex justify-content-center" (pageChange)="tablePageNoChange($event)"
+      [collectionSize]="productTotalCount" [pageSize]="24" [page]="1" [directionLinks]="true"></ngb-pagination>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<app-footer></app-footer>
