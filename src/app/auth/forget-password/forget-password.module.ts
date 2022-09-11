@@ -5,6 +5,7 @@ import { ForgetPasswordRoutingModule } from './forget-password-routing.module';
 import { ForgetPasswordComponent } from './forget-password.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from 'src/app/client/navbar/navbar.module';
+import { FooterModule } from 'src/app/client/footer/footer.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { NavbarModule } from 'src/app/client/navbar/navbar.module';
     CommonModule,
     ForgetPasswordRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
   ]
 })
 export class ForgetPasswordModule { }

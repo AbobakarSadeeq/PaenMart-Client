@@ -66,14 +66,30 @@
 
       <div class="contact-us-form-section">
 
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" *ngIf="messageSendMessage">
+          {{messageSendMessage}}
+        </div>
+
         <div class="col-6">
-          <form>
-            <input type="text" class="form-control" placeholder="Your Name"><br>
-            <input type="email" class="form-control" placeholder="Email"><br>
-            <textarea ngModel class="form-control feedback-product-input"
-            placeholder="Message"
-            rows="4"  type="text" height="100%"></textarea><br><br>
-            <button class="btn btn-primary">Send</button>
+          <form #formData="ngForm" (ngSubmit)="submitContactUsForm(formData)">
+            <input type="text" name="FullName" #name="ngModel" required ngModel class="form-control"
+              placeholder="Your Name"><br>
+            <span *ngIf="name?.invalid && name?.touched" style="color: red;">Please write your full-name</span>
+            <input required type="email" name="Email" #email="ngModel"
+              pattern="^[a-zA-Z0-9](\.?[a-zA-Z0-9]){1,}@gmail\.com$" ngModel class="form-control"
+              placeholder="Email"><br>
+            <div *ngIf="email?.invalid && email?.touched" style="color: red;">
+              <span *ngIf="email?.errors['required']">Please write the gmail account</span>
+              <span *ngIf="email?.errors['pattern']">Only gmail account allow</span>
+            </div>
+            <textarea ngModel name="MessageBody" class="form-control feedback-product-input" placeholder="Message"
+              required #message="ngModel" minlength="100" rows="4" type="text" height="100%"></textarea><br><br>
+            <div *ngIf="message?.invalid && message?.touched" style="color: red;">
+              <span *ngIf="message?.errors['required']">Please write the gmail account</span>
+              <span *ngIf="message?.errors['minlength']">Please write more then 100 characters</span>
+            </div>
+
+            <button [disabled]="formData?.invalid" class="btn btn-primary">Send Message</button>
           </form>
         </div>
 

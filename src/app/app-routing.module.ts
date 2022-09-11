@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../app/auth/auth.guard';
+import { AboutUsComponent } from './client/footer/about-us/about-us.component';
 import { ContactUsComponent } from './client/footer/contact-us/contact-us.component';
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
 
   // some common pages
   { path: 'contact-us', component: ContactUsComponent },
+  { path: 'about-us', component: AboutUsComponent },
 
 
   // Admin side routes

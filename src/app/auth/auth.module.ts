@@ -9,6 +9,7 @@ import { NavbarModule } from '../client/navbar/navbar.module';
 import { UserAddressComponent } from './Edit profile/user-address/user-address/user-address.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { FooterModule } from '../client/footer/footer.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     CommonModule,
     AuthRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
 
   ]
 })

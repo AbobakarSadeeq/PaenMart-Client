@@ -6,6 +6,7 @@ import { ClientProductComponent } from './client-product.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 import { ProductsByFooterSelected } from './products-by-Footer-selected/products-by-Footer-selected.component';
+import { FooterModule } from '../footer/footer.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ProductsByFooterSelected } from './products-by-Footer-selected/products
     CommonModule,
     SharedModule,
     NavbarModule,
-    ClientProductRoutingModule
+    ClientProductRoutingModule,
+    FooterModule
   ]
 })
 export class ClientProductModule { }

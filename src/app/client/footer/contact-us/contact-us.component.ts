@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ContactUsService } from './contact-us.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactUsComponent implements OnInit {
 
-  constructor() { }
+  messageSendMessage = null;
+
+  constructor(private _contactUs: ContactUsService) { }
 
   ngOnInit(): void {
+  }
+
+  submitContactUsForm(submitForm: NgForm) {
+    let customObj = {
+      fullName: submitForm.value['FullName'],
+      email: submitForm.value['Email'],
+      messageTextArea: submitForm.value['MessageBody'],
+    }
+    submitForm.reset();
+    this._contactUs.sendContactUsMessage(customObj).subscribe(() => {
+      this.messageSendMessage = "Your email has been send to our team and they will reply to you shortly."
+      setTimeout(() => {
+        this.messageSendMessage = null;
+      }, 4000)
+    })
   }
 
 }

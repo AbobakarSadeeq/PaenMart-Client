@@ -4,6 +4,7 @@ import { NotFoundRoutingModule } from './not-found-routing.module';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NotFoundComponent } from './not-found.component';
 import { NavbarModule } from '../navbar/navbar.module';
+import { FooterModule } from '../footer/footer.module';
 
 
 
@@ -14,7 +15,8 @@ import { NavbarModule } from '../navbar/navbar.module';
     CommonModule,
      NotFoundRoutingModule,
      SharedModule,
-     NavbarModule
+     NavbarModule,
+     FooterModule
   ]
 })
 export class NotFoundModule { }

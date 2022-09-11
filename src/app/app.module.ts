@@ -16,11 +16,13 @@ import { FooterComponent } from './client/footer/footer.component';
 import { ContactUsComponent } from './client/footer/contact-us/contact-us.component';
 import { NavbarModule } from './client/navbar/navbar.module';
 import { FooterModule } from './client/footer/footer.module';
+import { AboutUsComponent } from './client/footer/about-us/about-us.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    AboutUsComponent
   ],
   imports: [
     BrowserModule,

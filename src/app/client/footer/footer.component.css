@@ -3,6 +3,7 @@
   height: 10%;
   padding: 20px;
   background-color: #faf8f8;
+  /* position: fixed; */
 }
 
 .first-footer-banner-contact-size {
@@ -33,7 +34,6 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-
 .col-forth {
   text-align: center;
   font-size: 1rem;
@@ -46,19 +46,22 @@
 .banner-content i {
   font-size: 2rem;
   padding-bottom: 10px;
-  color: green;
+   color: green;
 }
 
 .footer {
-  /* position:fixed; */
-  left: 0;
+  /* position: fixed; */
   bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
   width: 100%;
-  background-color: black;
+  background-color: #232f3e;
   color: white;
   height: 50%;
   padding: 56px 24px;
   overflow: auto;
+  
 }
 
 .footer-right-left-space {
@@ -86,7 +89,7 @@
 }
 
 .icons i:hover {
-  color: green;
+  color: #007185;
 }
 
 .footer-col {
@@ -96,37 +99,26 @@
 }
 
 .col-1 {
-  background-color: green;
   width: 100%;
 }
 
 .col-2 {
-  background-color: green;
-
   width: 100%;
 }
 
 .col-3 {
-  background-color: green;
-
   width: 100%;
 }
 
 .col-4 {
-  background-color: green;
-
   width: 100%;
 }
 
 .col-5 {
-  background-color: green;
-
   width: 100%;
 }
 
 .col-6 {
-  background-color: green;
-
   width: 100%;
 }
 
@@ -159,10 +151,10 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: black;
+  background-color: #131A22;
   color: white;
   text-align: center;
-  /* position:fixed; */
+  /* position:fixed;  */
 }
 
 .col-5 ul {

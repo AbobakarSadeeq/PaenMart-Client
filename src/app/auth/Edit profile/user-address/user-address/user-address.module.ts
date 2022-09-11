@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserAddressRoutingModule } from './user-address-routing.module';
 import { UserAddressComponent } from './user-address.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
+import { FooterModule } from 'src/app/client/footer/footer.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from 'src/app/shared/Modules/shared.module';
   imports: [
     CommonModule,
     UserAddressRoutingModule,
-    SharedModule
+    SharedModule,
+    FooterModule
   ],
   exports: [UserAddressComponent]
 

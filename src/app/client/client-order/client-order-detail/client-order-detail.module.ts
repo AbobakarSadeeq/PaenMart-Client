@@ -5,6 +5,7 @@ import { ClientOrderDetailRoutingModule } from './client-order-detail-routing.mo
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../../navbar/navbar.module';
 import { ClientOrderDetailComponent } from './client-order-detail.component';
+import { FooterModule } from '../../footer/footer.module';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { ClientOrderDetailComponent } from './client-order-detail.component';
     CommonModule,
     ClientOrderDetailRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
+
   ]
 })
 export class ClientOrderDetailModule { }

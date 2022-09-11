@@ -7,6 +7,7 @@ import { AuthorizedImagesComponent } from './authorized-images.component';
 import { ConfirmationService } from 'primeng/api';
 import { NavbarModule } from 'src/app/client/navbar/navbar.module';
 import { UserAddressModule } from '../user-address/user-address/user-address.module';
+import { FooterModule } from 'src/app/client/footer/footer.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { UserAddressModule } from '../user-address/user-address/user-address.mod
     AuthorizedImagesRoutingModule,
     SharedModule,
     NavbarModule,
-    UserAddressModule
+    UserAddressModule,
+    FooterModule
   ],
   providers:[ConfirmationService]
 })

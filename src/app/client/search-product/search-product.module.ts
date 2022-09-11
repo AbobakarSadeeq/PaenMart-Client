@@ -5,6 +5,7 @@ import { SearchProductRoutingModule } from './search-product-routing.module';
 import { SearchProductComponent } from './search-product.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
+import { FooterModule } from '../footer/footer.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { NavbarModule } from '../navbar/navbar.module';
     CommonModule,
     SearchProductRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
   ]
 })
 export class SearchProductModule { }

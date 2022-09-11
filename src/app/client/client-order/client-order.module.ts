@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { ClientOrderComponent } from './client-order.component';
 import { ConfirmationService } from 'primeng/api';
 import { NavbarModule } from '../navbar/navbar.module';
+import { FooterModule } from '../footer/footer.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { NavbarModule } from '../navbar/navbar.module';
     CommonModule,
     ClientOrderRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
   ],
   providers:[ConfirmationService]
 })

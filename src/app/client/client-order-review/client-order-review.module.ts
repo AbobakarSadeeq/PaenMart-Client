@@ -6,6 +6,7 @@ import { ClientOrderReviewComponent } from './client-order-review.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 import { ClientSingleProductReviewComponent } from './client-single-product-review/client-single-product-review.component';
+import { FooterModule } from '../footer/footer.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ClientSingleProductReviewComponent } from './client-single-product-revi
     CommonModule,
     ClientOrderReviewRoutingModule,
     SharedModule,
-    NavbarModule
+    NavbarModule,
+    FooterModule
   ]
 })
 export class ClientOrderReviewModule { }

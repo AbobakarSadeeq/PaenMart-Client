@@ -5,6 +5,7 @@ import { ClientProductDetailRoutingModule } from './client-product-detail-routin
 import { ClientProductDetailComponent } from './client-product-detail.component';
 import { NavbarModule } from '../../navbar/navbar.module';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
+import { FooterModule } from '../../footer/footer.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from 'src/app/shared/Modules/shared.module';
     CommonModule,
     ClientProductDetailRoutingModule,
     NavbarModule,
-    SharedModule
+    SharedModule,
+    FooterModule
   ]
 })
 export class ClientProductDetailModule { }
