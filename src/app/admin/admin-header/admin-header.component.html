@@ -36,6 +36,13 @@
       </li>
 
       <li *appHasRole="['Admin']">
+        <a [routerLink]="['/Admin/Sponsored-Ad']">
+          <span class="icon"><i class="fas fa-rectangle-ad"></i></span>
+          <span class="item">Sponsore Ad</span>
+        </a>
+      </li>
+
+      <li *appHasRole="['Admin']">
         <a (click)="adminAccountAndPaymentsDropDown = !adminAccountAndPaymentsDropDown">
           <span class="icon"><i class="fas fa-user-shield"></i> </span>
           <span class="item">Admin Account & Payments</span>

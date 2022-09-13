@@ -1,0 +1,188 @@
+<app-admin-header></app-admin-header>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <!-- tabs -->
+
+      <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+        <mat-tab label="Live Sponsores Ad">
+          <br>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="sponsoresAdList.length == 5">
+            Sorry you cannot add more then 5 ads live on the same time.
+          </div>
+
+          <div class="card">
+            <button [disabled]="sponsoresAdList.length == 5" class="btn btn-warning add-category-btn"
+              (click)="showAddAdSponsoreModel()">Add Sponsore Ad <i class="fas fa-plus"></i> </button><br>
+            <p-table [value]="sponsoresAdList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+              responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10,25,50]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Ad Picture</th>
+                  <th>Sponsore by</th>
+                  <th>Single Ad Price</th>
+                  <th>Ad live on page</th>
+                  <th>Ad Status</th>
+                  <th>Ad Created_At</th>
+                  <th>Ad Expire_On</th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-singleSponsoredAd>
+                <tr class="data-row">
+                  <td><img src="{{singleSponsoredAd?.adPictureUrl}}" width="70px" height="70px" alt=""></td>
+                  <td>{{singleSponsoredAd?.sponsoredByName}}</td>
+                  <td>{{singleSponsoredAd?.adPrice | currency: 'Rs '}}</td>
+                  <td>{{singleSponsoredAd?.showAdOnPage}}</td>
+
+                  <td style="background: lightgreen; text-align: center;" *ngIf="singleSponsoredAd?.adStatus=='Live'">
+                    {{singleSponsoredAd?.adStatus}}</td>
+                  <td style="background: red; text-align: center; color: white;"
+                    *ngIf="singleSponsoredAd?.adStatus=='Expire'">
+                    {{singleSponsoredAd?.adStatus}}</td>
+
+                  <td>{{singleSponsoredAd?.created_At| date:'shortDate'}}</td>
+                  <td>{{singleSponsoredAd?.expire_At| date:'shortDate'}}</td>
+
+                  <td>
+                    <a pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-primary"
+                      (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+                    <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                      (click)="getAdSponsoreUpdate(singleSponsoredAd?.adID)"></a>&nbsp;
+                    <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                      (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+
+                  </td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+        </mat-tab>
+
+
+        <mat-tab label="History Sponsores">
+          <div class="card">
+            <p-table [value]="sponsoresHistoryAdList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+              responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [rowsPerPageOptions]="[10,25,50]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Ad Picture</th>
+                  <th>Sponsore by</th>
+                  <th>Single Ad Price</th>
+                  <th>Ad live on page</th>
+                  <th>Ad Status</th>
+                  <th>Ad Created_At</th>
+                  <th>Ad Expire_On</th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-singleSponsoredAd>
+                <tr class="data-row">
+                  <td><img src="{{singleSponsoredAd?.adPictureUrl}}" width="70px" height="70px" alt=""></td>
+                  <td>{{singleSponsoredAd?.sponsoredByName}}</td>
+                  <td>{{singleSponsoredAd?.adPrice | currency: 'Rs '}}</td>
+                  <td>{{singleSponsoredAd?.showAdOnPage}}</td>
+
+                  <td style="background: lightgreen; text-align: center;" *ngIf="singleSponsoredAd?.adStatus=='Live'">
+                    {{singleSponsoredAd?.adStatus}}</td>
+                  <td style="background: red; text-align: center; color: white;"
+                    *ngIf="singleSponsoredAd?.adStatus=='Expire'">
+                    {{singleSponsoredAd?.adStatus}}</td>
+
+                  <td>{{singleSponsoredAd?.created_At| date:'shortDate'}}</td>
+                  <td>{{singleSponsoredAd?.expire_At| date:'shortDate'}}</td>
+
+                  <td>
+
+                    <a pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-primary"
+                    (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+
+                  </td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </mat-tab>
+
+
+
+
+
+
+
+      </mat-tab-group>
+
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Adding Sponsore Ad" [(visible)]="displayAddAdSponsoreModel" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+  <form [formGroup]="sponsoredAdForm">
+
+    <label>Sponsore Ad Name</label>
+    <input type="text" formControlName="sponsoredByName" placeholder="Sponsored Ad Name" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('sponsoredByName')?.invalid && sponsoredAdForm.get('sponsoredByName')?.touched"
+      style="color: red;">Sponsored Ad Name required</span><br>
+
+    <label>Ad Url Destination</label>
+    <input type="text" formControlName="adUrlDestination" placeholder="Sponsore Ad Navigation" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('adUrlDestination')?.invalid && sponsoredAdForm.get('adUrlDestination')?.touched"
+      style="color: red;">Please add the Sponsore Ad Url</span><br>
+
+    <label>Sponsore Price</label>
+    <input type="number" formControlName="adPrice" placeholder="Sponsore Price" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('adPrice')?.invalid && sponsoredAdForm.get('adPrice')?.touched"
+      style="color: red;">Please enter sponsore price</span><br>
+
+    <label>Show Ad On Page</label>
+    <select formControlName="showAdOn" class="form-control">
+
+      <option value="{{null}}" selected disabled>--------------------Select the page to show this ad--------------------
+      </option>
+
+      <option *ngFor="let singlePage of showAdOnPageList" value="{{singlePage?.pageName}}"
+        [disabled]="singlePage?.inUsed">{{singlePage?.inUsed ? singlePage?.pageName + " is on live":
+        singlePage?.pageName}}
+      </option>
+
+
+    </select>
+    <span *ngIf="sponsoredAdForm.get('showAdOn')?.invalid && sponsoredAdForm.get('showAdOn')?.touched"
+      style="color: red;">Please select the page to show the Ad banner</span><br>
+
+    <label>Expiration Date</label>
+    <input type="date" formControlName="expire_At" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('expire_At')?.invalid && sponsoredAdForm.get('expire_At')?.touched"
+      style="color: red;">Please Add the expiration date of sponsore</span><br>
+
+    <label>Banner Pictuer</label>
+    <input type="file" (change)="fileChange($event)" class="form-control"><br>
+
+    <div class="save-btn">
+      <button class="btn btn-success" [disabled]="sponsoredAdForm?.invalid || selectedFile == null"
+        (click)="onSaveSponsoreAd()">Save Sponsore Ad</button>
+    </div>
+
+  </form>
+
+</p-dialog>
+
+
+<!-- Delete Category Conformation -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+  <p-footer>
+    <button type="button" label="Cancel" (click)="cd?.reject()" class="btn btn-primary">Cancel</button>
+    <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
+  </p-footer>
+</p-confirmDialog>

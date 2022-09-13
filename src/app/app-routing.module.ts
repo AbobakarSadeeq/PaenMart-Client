@@ -60,6 +60,7 @@ const routes: Routes = [
   { path: 'Admin/EmployeePayment', loadChildren: () => import('./admin/user/employee-payment/employee-payment.module').then(m => m.EmployeePaymentModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
   { path: 'Admin/ShipperPayment', loadChildren: () => import('./admin/user/shipper-payment/shipper-payment.module').then(m => m.ShipperPaymentModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
 
+  { path: 'Admin/Sponsored-Ad', loadChildren: () => import('./admin/sponsored-ad/sponsored-ad.module').then(m => m.SponsoredAdModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
 
   { path: 'Admin/SendingEmail', loadChildren: () => import('./admin/extra-features/email-sending-info/email-sending-info.module').then(m => m.EmailSendingInfoModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin'] } },
 
