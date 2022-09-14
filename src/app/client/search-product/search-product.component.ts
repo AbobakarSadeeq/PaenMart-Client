@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { SearchProductService } from './search-product.service';
 
 @Component({
@@ -17,10 +18,13 @@ export class SearchProductComponent implements OnInit {
   searchByData: string;
   productTotalCount: number = 0;
   notProductFoundBySearchMesg = null;
-
+  sideProductSearchAd: any;
+  popUpAd: any;
+  sideHomeAd: any;
   constructor(private _activateRoute: ActivatedRoute,
     private _httpRoute: Router,
-    private _searchProductService: SearchProductService) {
+    private _searchProductService: SearchProductService,
+    private _sponsoreAd: SponsoredAdService) {
 
     this._activateRoute.queryParams.subscribe((queries: any) => {
       this.searchProductBySearchValue(queries.searchingData);
@@ -31,6 +35,18 @@ export class SearchProductComponent implements OnInit {
   ngOnInit(): void {
 
 
+    this.subscription = this._sponsoreAd.getAdByPageName("Home").subscribe((data: any) => {
+      for (var singleHomeSponsoreAd of data) {
+        if (singleHomeSponsoreAd.liveOnPageName == "HomePopUpPage") {
+          this.popUpAd = singleHomeSponsoreAd;
+        } else {
+          this.sideHomeAd = singleHomeSponsoreAd;
+        }
+      }
+    })
+    this.subscription = this._sponsoreAd.getAdByPageName("SearchProductPage").subscribe((data: any) => {
+      this.sideProductSearchAd = data;
+    })
 
     let searching = this._activateRoute.snapshot.queryParamMap.get("searchingData");
 

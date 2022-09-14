@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { ClientProductService } from './client-product.service';
 
 @Component({
@@ -13,10 +14,14 @@ export class ClientProductComponent implements OnInit {
   subscription: Subscription;
   brands: any[] = [];
   selectedNestCategoryId = 0;
-
   productList: any;
+  sideMixProductsPage:any;
 
-  constructor(private _activateRoute: ActivatedRoute, private _clientProduct: ClientProductService, private _route: Router) {
+
+  constructor(private _activateRoute: ActivatedRoute,
+     private _clientProduct: ClientProductService,
+      private _route: Router,
+          private _sponsoreAd:SponsoredAdService) {
     this.subscription = this._activateRoute.params.subscribe(
       (params: Params) => {
         this._route.routeReuseStrategy.shouldReuseRoute = function () {
@@ -25,6 +30,15 @@ export class ClientProductComponent implements OnInit {
       });
   }
   ngOnInit(): void {
+
+
+    // ad
+    this.subscription = this._sponsoreAd.getAdByPageName("MixProductsPage").subscribe((data: any) => {
+      this.sideMixProductsPage = data;
+    })
+
+
+
     let getSelectedNestCategoryData = this._activateRoute.snapshot.params['id'];
     this.selectedNestCategoryId = getSelectedNestCategoryData;
 

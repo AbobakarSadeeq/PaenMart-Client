@@ -1,13 +1,20 @@
 <app-navbar></app-navbar>
 <br><br>
 <!-- Carousel Column -->
-<div class="container">
+<div class="my-custom-container">
+
+  <div *ngIf="sideProductDetailPage" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
+    <a href="{{sideProductDetailPage?.sponsoreWebsiteUrl}}" target="_blank"><img
+        src="{{sideProductDetailPage?.sponsoreImageUrl}}" alt=""></a><br><br>
+
+  </div>
+
   <div class="row">
     <div class="col-lg-3">
 
 
 
-      <ngb-carousel style="margin-top: -23px;" *ngIf="productDetails">
+      <ngb-carousel *ngIf="productDetails">
         <ng-template ngbSlide *ngFor="let item of productDetails?.getProductImagess">
           <div class="picsum-img-wrapper">
             <img [src]="item?.url" alt="Random first slide" width="350px" class="d-block " height="400px">
@@ -33,8 +40,8 @@
       <span style="color: grey; font-size: 12px;">Product Id ____{{productDetails?.productID}}____</span>
       <br><br>
       <img *ngIf="productDetails?.showStarsByRatings"
-        src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png" width="130px"
-        height="20px" alt="">
+        src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png"
+        width="130px" height="20px" alt="">
 
       ({{productDetails?.raiting}})
 
@@ -114,6 +121,12 @@
 
     </div>
   </div>
+
+  <div *ngIf="sideMixProductsPage" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
+    <a href="{{sideMixProductsPage?.sponsoreWebsiteUrl}}" target="_blank"><img
+      src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
+
+  </div>
 </div>
 
 
@@ -144,9 +157,11 @@
       <h1>Product Review</h1><br>
 
       <div class="totalReviews">
-        <span class="get-stars">{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}</span><span class="totalStars">/5</span><br>
+        <span class="get-stars">{{productDetails?.showStarsByRatings == 'NaN'? 0:
+          productDetails?.showStarsByRatings}}</span><span class="totalStars">/5</span><br>
         <img *ngIf="productDetails?.showStarsByRatings"
-          src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png" alt="">
+          src="../../../../assets//stars-rating/{{productDetails?.showStarsByRatings == 'NaN'? 0: productDetails?.showStarsByRatings}}.png"
+          alt="">
       </div>
 
       <hr>

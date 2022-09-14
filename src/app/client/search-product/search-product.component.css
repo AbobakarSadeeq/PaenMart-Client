@@ -1,6 +1,6 @@
 .main-div {
   display: grid;
-  grid-template-columns: 15% 70%;
+  grid-template-columns: 15% 70% 15%;
 }
 
 .sidebar-div {
@@ -61,4 +61,17 @@ ngb-pagination ul {
   width: 1430px;
   max-width: 1450px;
   row-gap: 20px;
+}
+
+
+.ad-portion img {
+  width: 250px;
+  height: 600px;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.ad-portion img:hover {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
 }

@@ -1,4 +1,6 @@
-.container {
+.my-custom-container {
+  display: grid;
+  grid-template-columns: 20% 65% 15%;
 }
 
 .totalReviews::first-letter {
@@ -12,4 +14,16 @@
 
 .get-stars {
   font-size: 60px;
+}
+
+.ad-portion img {
+  width: 250px;
+  height: 600px;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.ad-portion img:hover {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
 }

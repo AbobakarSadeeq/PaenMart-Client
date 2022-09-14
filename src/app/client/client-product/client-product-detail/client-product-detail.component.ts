@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { ClientOrderReviewService } from '../../client-order-review/client-order-review.service';
 import { ShoppingCartService } from '../../shopping-cart/shopping-cart.service';
 import { ClientProductService } from '../client-product.service';
@@ -19,14 +20,27 @@ export class ClientProductDetailComponent implements OnInit {
   productSpecificationDetails: any[] = [];
   addQuantity = 1;
   singleProductReviews: any[] = [];
-
+  sideMixProductsPage:any;
+  sideProductDetailPage:any;
   constructor(private _clientProduct: ClientProductService,
     private _activateRoute: ActivatedRoute,
     private _shoppingCartService: ShoppingCartService,
-    private _clientProductOrderReviewService: ClientOrderReviewService
+    private _clientProductOrderReviewService: ClientOrderReviewService,
+    private _sponsoreAd:SponsoredAdService
   ) { }
 
   ngOnInit(): void {
+
+    // ad
+    this.subscription = this._sponsoreAd.getAdByPageName("ProductDetailPage").subscribe((data: any) => {
+      this.sideProductDetailPage = data;
+    })
+
+    // ad
+    this.subscription = this._sponsoreAd.getAdByPageName("MixProductsPage").subscribe((data: any) => {
+      this.sideMixProductsPage = data;
+    })
+
 
     let selectedProductId = this._activateRoute.snapshot.params['id'];
     let productDetailsJsonData = {}

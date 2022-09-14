@@ -45,6 +45,14 @@
       [collectionSize]="productList?.countProducts" [pageSize]="24" [page]="1" [directionLinks]="true"></ngb-pagination>
   </div>
 
+  <div *ngIf="sideMixProductsPage" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
+    <a href="{{sideMixProductsPage?.sponsoreWebsiteUrl}}" target="_blank"><img
+        src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
+   
+  </div>
+
+
+
 </div>
 
 <app-footer></app-footer>

@@ -2,7 +2,16 @@
 
 <div class="main-div">
 
-  <div></div>
+  <div>
+    <br>
+    <div *ngIf="sideProductSearchAd" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
+      <a href="{{sideProductSearchAd?.sponsoreWebsiteUrl}}" target="_blank"><img
+          src="{{sideProductSearchAd?.sponsoreImageUrl}}" alt=""></a><br><br>
+      <a *ngIf="sideHomeAd" href="{{sideHomeAd?.sponsoreWebsiteUrl}}" target="_blank"><img src="{{sideHomeAd?.sponsoreImageUrl}}"
+          alt=""></a>
+    </div>
+
+  </div>
   <!-- <div class="sidebar-div">
     <h1 style="text-align:center;">BRAND</h1>
     <hr>
@@ -45,6 +54,15 @@
 
     <ngb-pagination class="d-flex justify-content-center" (pageChange)="tablePageNoChange($event)"
       [collectionSize]="productTotalCount" [pageSize]="24" [page]="1" [directionLinks]="true"></ngb-pagination>
+  </div>
+
+  <div *ngIf="sideProductSearchAd" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
+    <br>
+    <a href="{{popUpAd?.sponsoreWebsiteUrl}}" target="_blank">
+      <img c src="{{popUpAd?.sponsoreImageUrl}}" alt="">
+    </a><br><br>
+    <a *ngIf="sideProductSearchAd" href="{{sideProductSearchAd?.sponsoreWebsiteUrl}}" target="_blank"><img
+        src="{{sideProductSearchAd?.sponsoreImageUrl}}" alt=""></a>
   </div>
 
 </div>

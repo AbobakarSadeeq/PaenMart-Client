@@ -28,8 +28,12 @@ export class SponsoredAdService {
     return this._httpClient.get("https://localhost:44300/api/SponsoreAds/" + selectedId);
   }
 
-  updateSponsoreAd(data:any){
+  updateSponsoreAd(data: any) {
     return this._httpClient.put("https://localhost:44300/api/SponsoreAds", data);
+  }
+
+  getAdByPageName(pageName: string) {
+    return this._httpClient.get("https://localhost:44300/api/SponsoreAds/SearchingAdsForPageAvailable/" + pageName);
 
   }
 
