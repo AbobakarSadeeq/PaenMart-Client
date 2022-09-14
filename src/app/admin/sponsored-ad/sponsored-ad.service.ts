@@ -24,4 +24,13 @@ export class SponsoredAdService {
     return this._httpClient.get("https://localhost:44300/api/SponsoreAds/SponsoredAdsHistoryList");
   }
 
+  getSponsoreDetail(selectedId: number) {
+    return this._httpClient.get("https://localhost:44300/api/SponsoreAds/" + selectedId);
+  }
+
+  updateSponsoreAd(data:any){
+    return this._httpClient.put("https://localhost:44300/api/SponsoreAds", data);
+
+  }
+
 }

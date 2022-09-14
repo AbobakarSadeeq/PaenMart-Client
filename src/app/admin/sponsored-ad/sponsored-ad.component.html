@@ -1,5 +1,5 @@
 <app-admin-header></app-admin-header>
-
+<br>
 
 <div class="container">
   <div class="row">
@@ -50,11 +50,11 @@
 
                   <td>
                     <a pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-primary"
-                      (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+                      (click)="getSingleSponsoreDetailModel(singleSponsoredAd?.adID)"></a>&nbsp;
                     <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
                       (click)="getAdSponsoreUpdate(singleSponsoredAd?.adID)"></a>&nbsp;
                     <a pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                      (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+                      (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID, singleSponsoredAd?.showAdOnPage)"></a>&nbsp;
 
                   </td>
 
@@ -102,7 +102,7 @@
                   <td>
 
                     <a pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-primary"
-                    (click)="onDeleteSponsoreAd(singleSponsoredAd?.adID)"></a>&nbsp;
+                      (click)="getSingleSponsoreDetailModel(singleSponsoredAd?.adID)"></a>&nbsp;
 
                   </td>
 
@@ -147,10 +147,10 @@
     <label>Show Ad On Page</label>
     <select formControlName="showAdOn" class="form-control">
 
-      <option value="{{null}}" selected disabled>--------------------Select the page to show this ad--------------------
+      <option [value]="null" selected disabled>--------------------Select the page to show this ad--------------------
       </option>
 
-      <option *ngFor="let singlePage of showAdOnPageList" value="{{singlePage?.pageName}}"
+      <option *ngFor="let singlePage of showAdOnPageList" [value]="singlePage?.pageName"
         [disabled]="singlePage?.inUsed">{{singlePage?.inUsed ? singlePage?.pageName + " is on live":
         singlePage?.pageName}}
       </option>
@@ -165,8 +165,10 @@
     <span *ngIf="sponsoredAdForm.get('expire_At')?.invalid && sponsoredAdForm.get('expire_At')?.touched"
       style="color: red;">Please Add the expiration date of sponsore</span><br>
 
+    <img *ngIf="imgSrc" src="{{imgSrc}}" width="100px" height="100px" alt=""><br>
+
     <label>Banner Pictuer</label>
-    <input type="file" (change)="fileChange($event)" class="form-control"><br>
+    <input type="file" style="width:9.5% !important;" (change)="fileChange($event)" class="form-control"><br>
 
     <div class="save-btn">
       <button class="btn btn-success" [disabled]="sponsoredAdForm?.invalid || selectedFile == null"
@@ -186,3 +188,102 @@
     <button type="button" class="btn btn-danger" label="Ok" (click)="cd?.accept()">Remove</button>
   </p-footer>
 </p-confirmDialog>
+
+<p-dialog header="Get Sponsore" [(visible)]="detailModel" [style]="{width: '37vw'}" (onHide)="removeErrorMessage()">
+  <div style="display: flex; gap:8rem;">
+    <div class="detail">
+
+      <p><strong>Sponsore by name:</strong></p>
+      <p>{{sponsoreDetailModel?.sponsoredByName}}</p>
+
+      <p><strong>Sponsore live page name:</strong></p>
+      <p>{{sponsoreDetailModel?.showAdOnPage}}</p>
+
+      <p><strong>Price:</strong></p>
+      <p>{{sponsoreDetailModel?.adPrice | currency:'Rs '}}</p>
+
+      <p><strong>Sponsore Status</strong></p>
+      <p>{{sponsoreDetailModel?.adStatus}}</p>
+
+      <p><strong>Sponsore Created</strong></p>
+      <p>{{sponsoreDetailModel?.created_At | date:'fullDate'}}</p>
+
+      <p><strong>Sponsore Update</strong></p>
+      <p>{{sponsoreDetailModel?.update_At ? (sponsoreDetailModel?.update_At | date:'fullDate') : "not yet updated"}}</p>
+
+      <p><strong>Sponsore Expire</strong></p>
+      <p>{{sponsoreDetailModel?.expire_At | date:'fullDate'}}</p>
+
+      <p><strong>Sponsore Url</strong></p>
+      <p>{{sponsoreDetailModel?.adUrlDestination}}</p>
+
+    </div>
+
+    <div class="banner-img">
+
+      <img src="{{sponsoreDetailModel?.adPictureUrl}}" height="250px" width="250px" alt="">
+
+    </div>
+
+  </div>
+
+
+</p-dialog>
+
+
+<!-- Update model -->
+<p-dialog header="Updating Sponsore Ad" [(visible)]="updateModel" [style]="{width: '50vw'}"
+  (onHide)="removeErrorMessage()">
+  <form [formGroup]="sponsoredAdForm">
+
+    <label>Sponsore Ad Name</label>
+    <input type="text" formControlName="sponsoredByName" placeholder="Sponsored Ad Name" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('sponsoredByName')?.invalid && sponsoredAdForm.get('sponsoredByName')?.touched"
+      style="color: red;">Sponsored Ad Name required</span><br>
+
+
+    <label>Ad Url Destination</label>
+    <input type="text" formControlName="adUrlDestination" placeholder="Sponsore Ad Navigation" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('adUrlDestination')?.invalid && sponsoredAdForm.get('adUrlDestination')?.touched"
+      style="color: red;">Please add the Sponsore Ad Url</span><br>
+
+    <label>Sponsore Price</label>
+    <input type="number" formControlName="adPrice" placeholder="Sponsore Price" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('adPrice')?.invalid && sponsoredAdForm.get('adPrice')?.touched"
+      style="color: red;">Please enter sponsore price</span><br>
+
+    <label>Show Ad On Page</label>
+    <select formControlName="showAdOn" class="form-control">
+
+      <option [value]="null" selected disabled>--------------------Select the page to show this ad--------------------
+      </option>
+
+      <option *ngFor="let singlePage of showAdOnPageList" [value]="singlePage?.pageName"
+        [disabled]="singlePage?.inUsed">{{singlePage?.inUsed ? singlePage?.pageName + " is on live":
+        singlePage?.pageName}}
+      </option>
+
+
+    </select>
+    <span *ngIf="sponsoredAdForm.get('showAdOn')?.invalid && sponsoredAdForm.get('showAdOn')?.touched"
+      style="color: red;">Please select the page to show the Ad banner</span><br>
+
+    <label>Expiration Date</label>
+    <input type="date" formControlName="expire_At" class="form-control">
+    <span *ngIf="sponsoredAdForm.get('expire_At')?.invalid && sponsoredAdForm.get('expire_At')?.touched"
+      style="color: red;">Please Add the expiration date of sponsore</span><br>
+
+    <img src="{{imgSrc?imgSrc:sponsoreDetailModel?.adPictureUrl}}" width="100px" height="100px" alt=""><br>
+    <br>
+    <label>Banner Pictuer</label>
+    <input type="file" style="width:9.5% !important;" title="change picture" value="adasd" (change)="fileChange($event)"
+      class="form-control"><br>
+
+    <div class="save-btn">
+      <button class="btn btn-success" [disabled]="sponsoredAdForm?.invalid"
+        (click)="onSaveUpdateGetAdSponsoreUpdate()">Update Sponsore Ad</button>
+    </div>
+
+  </form>
+
+</p-dialog>
