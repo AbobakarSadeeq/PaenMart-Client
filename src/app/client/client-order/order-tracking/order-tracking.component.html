@@ -24,23 +24,23 @@
         <div class="row">
           <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
             <div class="row justify-content-between">
-              <div class="order-tracking completed">
+              <div [ngClass]="(OrderTrackProducts?.orderStatus == 'Pending')? 'order-tracking' : 'order-tracking completed'"  >
                 <span class="is-complete"></span>
                 <p>Ordered Processing</p>
                 <img width="60px" height="60px" src="../../../../assets//order-tracking//order-processed.png" alt="">
               </div>
-              <div class="order-tracking completed">
+              <div [ngClass]="(OrderTrackProducts?.orderStatus == 'Shipping pending' || OrderTrackProducts?.orderStatus == 'Shipped')? 'order-tracking completed' : 'order-tracking'">
                 <span class="is-complete"></span>
                 <p>Shipping pending</p><img width="60px" height="60px"
                   src="../../../../assets//order-tracking/shipping-pending.png" alt="">
               </div>
 
-              <div class="order-tracking completed">
+              <div [ngClass]="(OrderTrackProducts?.orderStatus == 'Shipping pending' || OrderTrackProducts?.orderStatus == 'Pending')? 'order-tracking' : 'order-tracking completed'">
                 <span class="is-complete"></span>
                 <p>Order on way</p><img width="60px" height="60px"
                   src="../../../../assets//order-tracking/shipping-on-way.png" alt="">
               </div>
-              <div class="order-tracking">
+              <div [ngClass]="(OrderTrackProducts?.orderStatus == 'Shipping pending' || OrderTrackProducts?.orderStatus == 'Pending')? 'order-tracking' : 'order-tracking completed'">
                 <span class="is-complete"></span>
                 <p>Delivered</p><img width="60px" height="60px"
                   src="../../../../assets//order-tracking/order-arrived.png" alt="">
@@ -110,13 +110,6 @@
 
         </table>
         <hr>
-
-
-
-
-
-
-
 
 
 
