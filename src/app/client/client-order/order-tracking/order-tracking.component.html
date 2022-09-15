@@ -1,0 +1,135 @@
+<app-navbar></app-navbar>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col"><br>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="orderTrackerNotFoundOrderMessage">
+        {{orderTrackerNotFoundOrderMessage}}
+      </div>
+
+      <div>
+        <h1>Track an order</h1>
+        <input type="number" (keyup.enter)="OrderTrack(orderTrackInput.value)" placeholder="Order Number"
+          style="width: 550px;" ngModel #orderTrackInput="ngModel" class="form-control"><br>
+        <button class="btn btn-primary" [disabled]="orderTrackInput?.value?.length ==  0 "
+          (click)="OrderTrack(orderTrackInput.value)">Track Order</button>
+      </div><br>
+
+      <!-- tracking order styling -->
+
+      <div *ngIf="OrderTrackProducts" class="order-track-graph">
+        <div class="row">
+          <div class="col-12 col-md-10 hh-grayBox pt45 pb20">
+            <div class="row justify-content-between">
+              <div class="order-tracking completed">
+                <span class="is-complete"></span>
+                <p>Ordered Processing</p>
+                <img width="60px" height="60px" src="../../../../assets//order-tracking//order-processed.png" alt="">
+              </div>
+              <div class="order-tracking completed">
+                <span class="is-complete"></span>
+                <p>Shipping pending</p><img width="60px" height="60px"
+                  src="../../../../assets//order-tracking/shipping-pending.png" alt="">
+              </div>
+
+              <div class="order-tracking completed">
+                <span class="is-complete"></span>
+                <p>Order on way</p><img width="60px" height="60px"
+                  src="../../../../assets//order-tracking/shipping-on-way.png" alt="">
+              </div>
+              <div class="order-tracking">
+                <span class="is-complete"></span>
+                <p>Delivered</p><img width="60px" height="60px"
+                  src="../../../../assets//order-tracking/order-arrived.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <!-- Tracker found order -->
+      <h1 *ngIf="OrderTrackProducts"><strong>"Order Found {{OrderTrackProducts?.orderDetail?.length}}"</strong>
+      </h1>
+
+
+      <!-- Address of User -->
+      <div *ngIf="OrderTrackProducts" style="font-size: 20px; font-style: roboto;">
+        <p>Order Number: <strong>{{OrderTrackProducts?.orderId}}</strong></p>
+        <p>Order by: <strong>{{OrderTrackProducts?.customerName}}</strong></p>
+        <p>Email: <strong>{{OrderTrackProducts?.customerEmail}}</strong></p>
+        <p>Phone Number: <strong>{{OrderTrackProducts?.customerPhoneNumber}}</strong></p>
+        <p>Address: <strong>{{OrderTrackProducts?.customerAddress}}</strong></p>
+        <p>Order Requested: <strong>{{OrderTrackProducts?.orderDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong>
+        <p>Order Shipped: <strong>{{OrderTrackProducts?.orderShippedDate ? (OrderTrackProducts?.orderShippedDate | date
+            :'dd - MMM - yyyy, h:mm:ss a') : "Not yet shipped yet" }} </strong>
+        <p>Order Status: <strong>{{OrderTrackProducts?.orderStatus}}</strong></p>
+        <p>Payment method: <strong>{{OrderTrackProducts?.paymentMethod}}</strong></p>
+        <hr>
+        <p style="text-align: right;">Total Bill: <strong>{{OrderTrackProducts?.totalInvoice | currency: 'Rs ':
+            'symbol':'1.0'}}</strong></p>
+        <hr>
+
+
+
+      </div>
+      <div class="found-order-by-tracker" *ngFor="let singleProduct of OrderTrackProducts?.orderDetail">
+
+        <!-- order-tracks products -->
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+
+            </tr>
+          </thead>
+
+
+          <tbody class="product">
+            <td><img src="{{singleProduct?.productImageUrl}}" width="150px" height="150px" alt=""></td>
+            <td style="padding-top: 4rem;"><a
+                [routerLink]="['/Product-detail/', singleProduct?.productId]">{{singleProduct?.productName }}</a></td>
+            <td style="padding-top: 4rem;">{{singleProduct?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            <td style="padding-top: 4rem;">{{singleProduct?.quantity}}</td>
+            <td style="padding-top: 4rem;">{{singleProduct?.price * singleProduct?.quantity | currency: 'Rs ':
+              'symbol':'1.0'}}</td>
+          </tbody>
+
+
+        </table>
+        <hr>
+
+
+
+
+
+
+
+
+
+
+
+      </div><br>
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+

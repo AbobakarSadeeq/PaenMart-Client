@@ -7,6 +7,7 @@ import { ClientOrderComponent } from './client-order.component';
 import { ConfirmationService } from 'primeng/api';
 import { NavbarModule } from '../navbar/navbar.module';
 import { FooterModule } from '../footer/footer.module';
+import { OrderTrackingComponent } from './order-tracking/order-tracking.component';
 
 
 @NgModule({

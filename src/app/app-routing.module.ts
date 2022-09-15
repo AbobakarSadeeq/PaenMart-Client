@@ -22,6 +22,7 @@ const routes: Routes = [
   // client order
   { path: 'Client/Orders/:id', loadChildren: () => import('./client/client-order/client-order.module').then(m => m.ClientOrderModule) },
   { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule) },
+  { path: 'Client/Order-Track', loadChildren: () => import('./client/client-order/order-tracking/order-tracking.module').then(m => m.OrderTrackingModule) },
 
   // review components
   { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule) },

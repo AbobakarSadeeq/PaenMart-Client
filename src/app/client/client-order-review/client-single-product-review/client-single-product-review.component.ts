@@ -21,6 +21,12 @@ export class ClientSingleProductReviewComponent implements OnInit {
     private _clientOrderReviewService: ClientOrderReviewService) { }
 
   ngOnInit(): void {
+
+    if(!localStorage.getItem("token")){
+      this._route.navigate(['/Auth']);
+    }
+
+
     const getProductIdByRouteParam = +this._activateRoute.snapshot.params['id'];
     this.getSingleProductData(getProductIdByRouteParam);
   }

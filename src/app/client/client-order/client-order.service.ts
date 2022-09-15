@@ -18,4 +18,9 @@ export class ClientOrderService {
     return this._Http.delete("https://localhost:44300/api/UserOrder/DeleteOrderByUser/" + dataId);
 
   }
+
+  trackOrderProductsFetching(data: any) {
+    return this._Http.post("https://localhost:44300/api/UserOrder/OrderTracking", data);
+
+  }
 }
