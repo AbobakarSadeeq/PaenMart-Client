@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+<br>
+<div style="background-color:#eff0f4;height: 100%; width: 100%;">
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>My Wishlist</h1>
+
+        <div class="wish-list-products" *ngFor="let singleProduct of productWishList">
+          <div class="single-product">
+            <div>
+              <p>{{singleProduct?.created_At | date:'fullDate'}}</p>
+              <a [routerLink]="['/Product-detail/',singleProduct?.productId]"
+                style="padding-top: 15px;padding-bottom: 40px;"><img src="{{singleProduct?.productImageUrl}}"
+                  width="80px" height="80px" alt="">&nbsp;
+                <span style="position: relative; top: -32px;">{{singleProduct?.productName}}
+
+                </span>
+                <span>
+
+                </span>
+              </a><br>
+              <i (click)="RemoveItemFromWishList(singleProduct)"class="fa-solid fa-trash" title="Remove from list"></i>
+
+            </div>
+            <div>
+              <p style="padding-top: 30px;">{{singleProduct?.productPrice | currency: 'Rs': 'symbol':'1.0'}}</p>
+
+            </div>
+
+            <div style="padding-top: 25px;">
+              <button class="btn btn-primary" (click)="addToCartProduct(singleProduct)">Add to cart <i class="fa-solid fa-cart-shopping"></i></button>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

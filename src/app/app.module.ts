@@ -17,12 +17,14 @@ import { ContactUsComponent } from './client/footer/contact-us/contact-us.compon
 import { NavbarModule } from './client/navbar/navbar.module';
 import { FooterModule } from './client/footer/footer.module';
 import { AboutUsComponent } from './client/footer/about-us/about-us.component';
+import { WishListComponent } from './client/wish-list/wish-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactUsComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    
   ],
   imports: [
     BrowserModule,

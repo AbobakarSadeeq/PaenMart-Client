@@ -32,7 +32,11 @@
       <br><br>
       <p
         style="color: #282828; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 20px;">
-        {{productDetails?.productName}} ({{productDetails?.productBrandName}} {{productDetails?.color}})</p>
+        {{productDetails?.productName}} ({{productDetails?.productBrandName}} {{productDetails?.color}})
+        &nbsp;
+
+
+      </p>
 
 
 
@@ -44,6 +48,12 @@
         width="130px" height="20px" alt="">
 
       ({{productDetails?.raiting}})
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <i *ngIf="WishListProductAdded" title="Un-Wishlist" (click)="ProductToWishListHandler()"
+        class="fa-solid fa-heart wishlist-heart AddWishListProduct"></i>
+
+      <i (click)="ProductToWishListHandler()" title="Add to Wishlist" *ngIf="!WishListProductAdded"
+        class="fa-regular fa-heart wishlist-heart"></i>
 
       <h4 style="padding-top: 1rem;"><strong
           style="font-size: 24px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{productDetails?.price
@@ -124,7 +134,7 @@
 
   <div *ngIf="sideMixProductsPage" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
     <a href="{{sideMixProductsPage?.sponsoreWebsiteUrl}}" target="_blank"><img
-      src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
+        src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
 
   </div>
 </div>

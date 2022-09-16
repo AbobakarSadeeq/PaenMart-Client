@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { ClientOrderReviewService } from '../../client-order-review/client-order-review.service';
 import { ShoppingCartService } from '../../shopping-cart/shopping-cart.service';
+import { WishListService } from '../../wish-list/wish-list.service';
 import { ClientProductService } from '../client-product.service';
 
 @Component({
@@ -20,16 +21,33 @@ export class ClientProductDetailComponent implements OnInit {
   productSpecificationDetails: any[] = [];
   addQuantity = 1;
   singleProductReviews: any[] = [];
-  sideMixProductsPage:any;
-  sideProductDetailPage:any;
+  sideMixProductsPage: any;
+  sideProductDetailPage: any;
   constructor(private _clientProduct: ClientProductService,
     private _activateRoute: ActivatedRoute,
     private _shoppingCartService: ShoppingCartService,
     private _clientProductOrderReviewService: ClientOrderReviewService,
-    private _sponsoreAd:SponsoredAdService
+    private _sponsoreAd: SponsoredAdService,
+    private _productWishList: WishListService,
+    private _route:Router
   ) { }
 
   ngOnInit(): void {
+
+    // wish list
+    if(localStorage.getItem("token")){
+      let customObj = {
+        userId: JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID,
+        productId: this._activateRoute.snapshot.params['id']
+      };
+      this.subscription = this._productWishList.ProductInWishListByUserAvail(customObj).subscribe((data: any) => {
+        if (data) {
+          this.WishListProductAdded = true;
+        }
+      });
+    }else {
+      this._route.navigate(["/Auth"]);
+    }
 
     // ad
     this.subscription = this._sponsoreAd.getAdByPageName("ProductDetailPage").subscribe((data: any) => {
@@ -117,6 +135,7 @@ export class ClientProductDetailComponent implements OnInit {
 
   }
   // Cart Data
+  // Cart Data
   itemsCart: any[] = [];
   addToCartProduct(productData: any) {
 
@@ -162,6 +181,26 @@ export class ClientProductDetailComponent implements OnInit {
     this.cartNumberFunc();
 
 
+  }
+
+  WishListProductAdded = false;
+  ProductToWishListHandler() {
+    let customObj = {
+      userId: JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID,
+      productId: this._activateRoute.snapshot.params['id']
+    };
+    if (this.WishListProductAdded) {
+      // remove
+      this._productWishList.DeleteProductFromUserWishList(customObj).subscribe((responseData: any) => {
+        this.WishListProductAdded = false;
+      });
+
+    } else {
+      // if product is not in wishlist then add it
+      this._productWishList.AddProductToWishList(customObj).subscribe((responseData: any) => {
+        this.WishListProductAdded = true;
+      });
+    }
   }
 
   ngOnDestroy(): void {

@@ -31,6 +31,7 @@ const routes: Routes = [
   // some common pages
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'about-us', component: AboutUsComponent },
+  { path: 'Client/Wishlist', loadChildren: () => import('./client/wish-list/wish-list.module').then(m => m.WishListModule) },
 
 
   // Admin side routes

@@ -47,11 +47,12 @@
 
         </a>
         <div class="dropdown-content">
-          <a [routerLink]="['/Client/Orders/', userDetails?.id]">My Orders</a>
-          <a [routerLink]="['/User/EditUser/',userDetails?.id]">Edit Profile</a>
-          <a [routerLink]="['/Client/Reviews']">My Reviews</a>
-          <a [routerLink]="['/Client/Order-Track']">Order Track</a>
-          <a (click)="logOutUser()"> Log Out {{userDetails?.email}} </a>
+          <a [routerLink]="['/User/EditUser/',userDetails?.id]"><i class="fa-regular fa-face-smile"></i>&nbsp;&nbsp; My Profile</a>
+          <a  [routerLink]="['/Client/Orders/', userDetails?.id]"><i class="fa-solid fa-box"></i>&nbsp;&nbsp; My Orders</a>
+          <a style="padding-left: 5px; width: 150px;" [routerLink]="['/Client/Order-Track']"><i class="fa-solid fa-truck-fast"></i>&nbsp;&nbsp; Order Track</a>
+          <a style="padding-left: 6px; width: 150px;" [routerLink]="['/Client/Wishlist']"><i class="fa-regular fa-heart"></i>&nbsp;&nbsp; My Wishlist</a>
+          <a style="padding-left: 6px; width: 150px;" [routerLink]="['/Client/Reviews']"><i class="fa-regular fa-star"></i>&nbsp;&nbsp; My Reviews</a>
+          <a style="padding-left: 6px; width: 330px;"(click)="logOutUser()"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp; Log out &nbsp;{{userDetails?.email}} </a>
         </div>
       </div>
     </li>

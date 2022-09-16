@@ -27,3 +27,14 @@
   opacity: 0.3;
   filter: alpha(opacity=30);
 }
+
+.wishlist-heart  {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.AddWishListProduct {
+  color: rgb(236, 48, 79);
+}
+
+

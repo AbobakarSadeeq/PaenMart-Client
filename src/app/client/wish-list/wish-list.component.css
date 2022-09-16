@@ -1,0 +1,32 @@
+.wish-list-products {
+  background-color: white;
+  margin-top: 20px;
+  border-bottom: 1px soild rgb(0, 0, 0);
+}
+
+.single-product {
+  display: grid;
+  grid-template-columns: 900px 200px 200px;
+  padding: 30px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.fa-trash {
+  padding-left: 26px;
+  font-size: 25px;
+  margin-top: 10px;
+  cursor: pointer;
+
+}
+
+.fa-trash:hover {
+  color:red;
+}
