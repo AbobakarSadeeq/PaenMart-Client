@@ -15,31 +15,34 @@ export class WishListComponent implements OnInit {
   constructor(private _wishListSerivce: WishListService,
     private _router: Router,
     private _activateRoute: ActivatedRoute,
-    private _shoppingCart:ShoppingCartService) { }
+    private _shoppingCart: ShoppingCartService) { }
 
   ngOnInit(): void {
 
+
+    if (!localStorage.getItem("token")) {
+      this._router.navigate(["/Auth"]);
+    }
+
     this.getWishListProduct(JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID);
+
+
   }
 
   getWishListProduct(userId: string) {
-    this.subscription = this._wishListSerivce.GetSingleUserWishList(userId).subscribe((data: any) => {
+     this._wishListSerivce.GetSingleUserWishList(userId).subscribe((data: any) => {
       this.productWishList = data;
     })
   }
 
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    this.subscription.unsubscribe();
-  }
+
 
   RemoveItemFromWishList(data: any) {
     let customObj = {
-      productId:data.productId,
-      userId:data.userId
+      productId: data.productId,
+      userId: data.userId
     };
-    this._wishListSerivce.DeleteProductFromUserWishList(customObj).subscribe((data:any)=>{
+    this._wishListSerivce.DeleteProductFromUserWishList(customObj).subscribe((data: any) => {
       this.getWishListProduct(customObj.userId);
     })
   }

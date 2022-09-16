@@ -29,13 +29,14 @@ export class ClientProductDetailComponent implements OnInit {
     private _clientProductOrderReviewService: ClientOrderReviewService,
     private _sponsoreAd: SponsoredAdService,
     private _productWishList: WishListService,
-    private _route:Router
+    private _route: Router
   ) { }
 
   ngOnInit(): void {
 
+
     // wish list
-    if(localStorage.getItem("token")){
+    if (localStorage.getItem("token")) {
       let customObj = {
         userId: JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID,
         productId: this._activateRoute.snapshot.params['id']
@@ -45,10 +46,7 @@ export class ClientProductDetailComponent implements OnInit {
           this.WishListProductAdded = true;
         }
       });
-    }else {
-      this._route.navigate(["/Auth"]);
     }
-
     // ad
     this.subscription = this._sponsoreAd.getAdByPageName("ProductDetailPage").subscribe((data: any) => {
       this.sideProductDetailPage = data;
@@ -185,6 +183,14 @@ export class ClientProductDetailComponent implements OnInit {
 
   WishListProductAdded = false;
   ProductToWishListHandler() {
+
+    // wish list
+    if (!localStorage.getItem("token")) {
+      this._route.navigate(["/Auth"]);
+    }
+
+
+
     let customObj = {
       userId: JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID,
       productId: this._activateRoute.snapshot.params['id']
@@ -201,6 +207,11 @@ export class ClientProductDetailComponent implements OnInit {
         this.WishListProductAdded = true;
       });
     }
+
+
+
+
+
   }
 
   ngOnDestroy(): void {
