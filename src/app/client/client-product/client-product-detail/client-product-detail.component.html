@@ -12,8 +12,6 @@
   <div class="row">
     <div class="col-lg-3">
 
-
-
       <ngb-carousel *ngIf="productDetails">
         <ng-template ngbSlide *ngFor="let item of productDetails?.getProductImagess">
           <div class="picsum-img-wrapper">
@@ -49,11 +47,7 @@
 
       ({{productDetails?.raiting}})
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <i *ngIf="WishListProductAdded" title="Un-Wishlist" (click)="ProductToWishListHandler()"
-        class="fa-solid fa-heart wishlist-heart AddWishListProduct"></i>
 
-      <i (click)="ProductToWishListHandler()" title="Add to Wishlist" *ngIf="!WishListProductAdded"
-        class="fa-regular fa-heart wishlist-heart"></i>
 
       <h4 style="padding-top: 1rem;"><strong
           style="font-size: 24px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{productDetails?.price
@@ -115,7 +109,27 @@
       </div>
 
       <div *ngIf="productDetails?.stockAvailiability">
-        <img src="../../../../assets/12.png" alt="">
+
+        <div class="contact-icons">
+          <button (click)="navigation()" class="btn btn-success"><i class="fa-solid fa-phone"></i>&nbsp; &nbsp;Ask An Expert</button>
+
+          <button (click)="navigation()" class="wishlist-btn" title="contact-us"><i class="fa-regular fa-envelope"></i></button>
+
+          <button class="wishlist-btn" *ngIf="WishListProductAdded" (click)="ProductToWishListHandler()"><i
+              title="Un-Wishlist" class="fa-solid fa-heart wishlist-heart AddWishListProduct"></i></button>
+
+          <button class="wishlist-btn" (click)="ProductToWishListHandler()" *ngIf="!WishListProductAdded"><i
+              title="Add to Wishlist" class="fa-regular fa-heart wishlist-heart"></i></button>
+
+
+          <a class="facebook-btn" href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+
+          <a class="email-btn" href="https://www.gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i></a>
+
+          <a class="whatsapp-btn" href="https://www.whatsapp.com" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+
+
         <br><br><br>
         <div>
           <!-- Add to Cart & Buy Button -->
@@ -125,7 +139,7 @@
 
           <!-- Cart-View -->
           <button type="button" class="btn btn-primary " style="  border-radius: 15%; width: 200px; height: 45px;"
-            id="addData" data-toggle="modal" data-target="#exampleModal">Buy Now</button>
+            id="addData" data-toggle="modal" data-target="#exampleModal" (click)="shoppingCartNavigation(productDetails)">Buy Now</button>
         </div>
       </div>
 

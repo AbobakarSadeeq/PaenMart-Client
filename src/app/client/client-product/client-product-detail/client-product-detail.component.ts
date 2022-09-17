@@ -207,12 +207,21 @@ export class ClientProductDetailComponent implements OnInit {
         this.WishListProductAdded = true;
       });
     }
-
-
-
-
-
   }
+
+
+  navigation(){
+    this._route.navigate(['/contact-us']);
+  }
+
+  shoppingCartNavigation(productData:any){
+    this.addToCartProduct(productData);
+    this._route.navigate(['/Cart']);
+  }
+
+
+
+
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

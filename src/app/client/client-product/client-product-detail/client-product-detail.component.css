@@ -28,8 +28,8 @@
   filter: alpha(opacity=30);
 }
 
-.wishlist-heart  {
-  font-size: 30px;
+.wishlist-heart {
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -37,4 +37,71 @@
   color: rgb(236, 48, 79);
 }
 
+/* get information buttons */
 
+.contact-icons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.facebook-btn {
+  color: white;
+  background-color: #4267b2;
+  border: none;
+  width: 100px;
+  font-size: 1.3rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.facebook-btn:hover {
+  background-color: #81a4ea;
+}
+
+.email-btn {
+  background-color: grey;
+  color: white;
+  width: 100px;
+  border: none;
+  font-size: 1.3rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+
+}
+
+.email-btn:hover {
+  background-color: rgb(74, 72, 72);
+}
+
+.whatsapp-btn {
+  border: none;
+  width: 100px;
+  background-color: #25d366;
+  color: white;
+  font-size: 1.3rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.whatsapp-btn:hover {
+  background-color: #5deb91;
+}
+
+.wishlist-btn {
+  border: none;
+  width: 40px;
+}
+
+.wishlist-btn:hover {
+  background-color: rgb(184, 192, 184);
+}
+
+.fa-envelope {
+  font: 1.1rem;
+}
