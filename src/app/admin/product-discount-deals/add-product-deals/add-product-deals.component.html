@@ -37,7 +37,7 @@
         <div class="selected-product-list-main">
           <h1>Selected products</h1>
 
-          <p-table [value]="selectedProductsInDeal" responsiveLayout="scroll">
+          <p-table [rowHover]="true" [value]="selectedProductsInDeal" responsiveLayout="scroll">
             <ng-template pTemplate="header">
               <tr>
                 <th>Product_Image</th>
@@ -49,21 +49,16 @@
 
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-singleDeal>
+            <ng-template pTemplate="body" let-singleDiscountProduct>
               <tr>
-                <!-- <td><img src="{{carousel?.url}}" width="70px" height="60px" alt=""></td>
-          <td>{{carousel?.imagePriority}}</td>
-          <td>{{carousel?.imageTitle}}</td>
-          <td>{{carousel?.imageDescription}}</td>
-          <td style="max-width: 250px; max-height: 20px;">{{carousel?.navigationUrl}}</td>
-          <td>
-            <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-              (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
-            &nbsp;
-
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-              (click)="openDeleteDialogConfarmation(carousel?.carouselID)"></button>
-          </td> -->
+                <td><img src="{{singleDiscountProduct?.productImageUrl}}" width="70px" height="70px" alt=""></td>
+                <td><a [routerLink]="['/Product-detail/', singleDiscountProduct?.productId]"
+                    style="color: black;">{{singleDiscountProduct?.productName}}</a></td>
+                <td>{{singleDiscountProduct?.percentageVal + "%"}}</td>
+                <td>{{singleDiscountProduct?.productPrice | currency :' Rs '}}</td>
+                <td>{{singleDiscountProduct?.discountProductPrice | currency :' Rs '}}</td>
+                <td> <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    (click)="DeleteProductFromDeals(singleDiscountProduct)"></button></td>
               </tr>
             </ng-template>
             <!-- Extra template not worth to show its icons -->
@@ -130,7 +125,7 @@
             responsiveLayout="scroll">
             <ng-template pTemplate="header">
               <tr>
-                <th>Selected_Product</th>
+                <th>Selecting_Product</th>
                 <th>Product_Image</th>
                 <th>Product_Name</th>
                 <th>Product_Price</th>
@@ -140,11 +135,12 @@
             <ng-template pTemplate="body" let-product>
               <tr>
                 <td>
-                  <mat-checkbox [checked]="productAddedToDiscount" style="font-size: 100px;" (click)="addProductToDiscountDeal(product)">
-                  </mat-checkbox>
+                  <button (click)="addingProductDiscount(product)" class="btn btn-warning">Add Product to
+                    discount</button>
                 </td>
                 <td><img src="{{product?.productImageUrl}}" width="70px" height="70px" alt=""></td>
-                <td>{{product?.productName}}</td>
+                <td><a [routerLink]="['/Product-detail/', product?.productId]"
+                    style="color: black;">{{product?.productName}}</a></td>
                 <td>{{product?.productPrice | currency :' Rs '}}</td>
               </tr>
             </ng-template>
@@ -162,6 +158,11 @@
 
 
       </div>
+      <br>
+      <button style="float:right;margin-right: 2rem;" class="btn btn-primary"
+        [disabled]="this.selectedProductsInDeal?.length == 0 || productDealsForm?.invalid" (click)="submitProductDeals()">Live product discount
+        deal!</button>
+      <br><br>
     </div>
   </div>
 
@@ -176,13 +177,32 @@
 <p-dialog header="Adding discount to selected product" [(visible)]="addingDiscountToProduct"
   (onHide)="removeErrorMessage()" [modal]="true">
   <label for="">Discount Percentage</label>
-  <input type="number" required #discountPercentageInput="ngModel" ngModel class="form-control" maxlength="2"
-    pattern="\d{2}" placeholder="Discount By percentage"><br>
+  <input type="number" (keydown.enter)="applyDiscountOnSingleProduct()"
+    (ngModelChange)="changeProductPercentageHandler($event)" [(ngModel)]="clearInput" required
+    #discountPercentageInput="ngModel" ngModel class="form-control" maxlength="2" pattern="\d{2}"
+    placeholder="Discount By percentage"><br>
   <div *ngIf="discountPercentageInput?.errors">
     <span *ngIf="discountPercentageInput?.errors['touched']" style="color: red;">Please write discount on selected
       product</span>
     <span *ngIf="discountPercentageInput?.errors['pattern']" style="color: red;">2 digits are only allow to write</span>
   </div>
+
+  <div class="discount-result">
+    <div>
+      <strong>
+        <p>Before discount price</p>
+      </strong>
+      <p>{{beforeDiscountPrice | currency : ' Rs '}} </p>
+
+    </div>
+    <div>
+      <strong>
+        <p>After discount price</p>
+      </strong>
+      <p>{{afterDiscountPrice | currency : ' Rs '}} </p>
+    </div>
+  </div>
+
   <br><br>
   <button class="btn btn-primary" [disabled]="discountPercentageInput.invalid"
     (click)="applyDiscountOnSingleProduct()">Apply discount!</button>

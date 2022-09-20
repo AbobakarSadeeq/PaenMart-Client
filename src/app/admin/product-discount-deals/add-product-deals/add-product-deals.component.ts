@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
@@ -126,14 +126,44 @@ export class AddProductDealsComponent implements OnInit {
   // selected product open model for set up the discount price
   addingDiscountToProduct = false;
   productAddedToDiscount = false;
-  addProductToDiscountDeal(selectedProductObj: any) {
-    console.log(selectedProductObj);
+  beforeDiscountPrice = 0;
+  afterDiscountPrice = 0;
+  selectedProductForDiscountObj: any;
+  addingProductDiscount(selectedProductObj: any) {
     this.addingDiscountToProduct = true;
+    this.beforeDiscountPrice = selectedProductObj.productPrice
+    this.selectedProductForDiscountObj = selectedProductObj;
+
   }
 
+  clearInput = '';
+  percentageAdded = 0;
+  changeProductPercentageHandler(percentage: number) {
+    let givingPercentage = percentage;
+    let convertPercentageToDecimal = givingPercentage / 100;
+    let subtractingGivenPercentageFromProduct = convertPercentageToDecimal * this.beforeDiscountPrice;
+    this.afterDiscountPrice = Math.ceil(this.beforeDiscountPrice - subtractingGivenPercentageFromProduct);
+    this.percentageAdded = percentage;
+  }
+
+
   applyDiscountOnSingleProduct() {
-    // remove that object from array as well.
-    // add that object to selected product for discount array.
+    let findingObjIndex = this.selectedCategoriesProducts.findIndex(a => a == this.selectedProductForDiscountObj);
+    this.selectedCategoriesProducts.splice(findingObjIndex, 1);
+    let addingDiscountPriceProperty = { ...this.selectedProductForDiscountObj, discountProductPrice: this.afterDiscountPrice, percentageVal: this.percentageAdded };
+    this.selectedProductsInDeal.push(addingDiscountPriceProperty);
+    this.addingDiscountToProduct = false;
+    this.afterDiscountPrice = 0;
+    this.clearInput = '';
+  }
+
+
+  DeleteProductFromDeals(selectedProduct) {
+    delete selectedProduct['discountProductPrice'];
+    delete selectedProduct['percentageVal'];
+    this.selectedCategoriesProducts.push(selectedProduct);
+    let findingObjIndex = this.selectedProductsInDeal.findIndex(a => a == selectedProduct);
+    this.selectedProductsInDeal.splice(findingObjIndex, 1);
   }
 
 
@@ -145,11 +175,38 @@ export class AddProductDealsComponent implements OnInit {
 
   submitProductDeals() {
 
+    let customizingArr = [];
+    for (var singleProductInDeal of this.selectedProductsInDeal) {
+      let customizingObj = {
+        productId: singleProductInDeal.productId,
+        productBeforePrice: singleProductInDeal.productPrice,
+        productAfterDiscountPrice: singleProductInDeal.discountProductPrice,
+        productPercentage: singleProductInDeal.percentageVal,
+      }
+      customizingArr.push(customizingObj);
+    }
+
+    let discountDealDetail = {
+      dealName: this.productDealsForm.value['dealName'],
+      dealExpireAt: this.productDealsForm.value['expire_at'],
+      selectedProductsInDeal: customizingArr
+    };
+    console.log(discountDealDetail);
+    this._productDiscountDealsService.AddProductsDiscountDeal(discountDealDetail).subscribe((data: any) => {
+      this._route.navigate(['/Admin/Product-discount-deals']);
+    })
+
   }
+
+
 
   removeErrorMessage() {
     this.addingDiscountToProduct = false;
+    this.afterDiscountPrice = 0;
+    this.clearInput = '';
   }
+
+
 
 
   ngOnDestroy(): void {
@@ -159,3 +216,6 @@ export class AddProductDealsComponent implements OnInit {
   }
 
 }
+
+
+

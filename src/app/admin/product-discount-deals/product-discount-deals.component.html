@@ -21,25 +21,29 @@
                 <th>Created_At</th>
                 <th>Expire_At</th>
                 <th>Deal_Status</th>
+                <th>Live_Products_Count</th>
                 <th>Actions</th>
 
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-singleDeal>
               <tr>
-                <!-- <td><img src="{{carousel?.url}}" width="70px" height="60px" alt=""></td>
-            <td>{{carousel?.imagePriority}}</td>
-            <td>{{carousel?.imageTitle}}</td>
-            <td>{{carousel?.imageDescription}}</td>
-            <td style="max-width: 250px; max-height: 20px;">{{carousel?.navigationUrl}}</td>
-            <td>
-              <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
-              &nbsp;
+                <td>{{singleDeal?.discountDealID}}</td>
+                <td>{{singleDeal?.dealName}}</td>
+                <td>{{singleDeal?.dealCreatedAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                <td>{{singleDeal?.dealExpireAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                <td>{{singleDeal?.dealStatus}}</td>
+                <td>{{singleDeal?.countProducts}}</td>
+                <td>
+                  <button pButton pRipple icon="pi pi-info" class="p-button-rounded p-button-info"></button> &nbsp;
+                  <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></a>
+                  &nbsp;
 
-              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                (click)="openDeleteDialogConfarmation(carousel?.carouselID)"></button>
-            </td> -->
+
+
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                </td>
+
               </tr>
             </ng-template>
             <!-- Extra template not worth to show its icons -->

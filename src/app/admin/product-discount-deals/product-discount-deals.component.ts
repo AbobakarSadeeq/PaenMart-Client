@@ -31,6 +31,20 @@ export class ProductDiscountDealsComponent implements OnInit {
     this._adminService.sideBar.subscribe((data: string) => {
       this.getStyleFromNav = data;
     });
+
+    this.getAllDiscountDeals();
+  }
+
+  getAllDiscountDeals(){
+    this.subscription = this._productDiscountDealsService.getLiveDiscountDeals().subscribe((data:any)=>{
+      this.dealsList = data
+    })
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
   }
 
 }

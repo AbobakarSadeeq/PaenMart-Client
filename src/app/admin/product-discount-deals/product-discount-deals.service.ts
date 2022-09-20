@@ -9,7 +9,16 @@ export class ProductDiscountDealsService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  getSelectedNestCategoryProductList(selectedNestId: number): Observable<any>  {
+  getSelectedNestCategoryProductList(selectedNestId: number): Observable<any> {
     return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/" + selectedNestId);
+  }
+
+  getLiveDiscountDeals(): Observable<any> {
+    return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals");
+  }
+
+
+  AddProductsDiscountDeal(productsDealObj: any) {
+    return this._httpClient.post("https://localhost:44300/api/ProductDiscountDeals", productsDealObj);
   }
 }
