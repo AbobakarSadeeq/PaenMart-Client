@@ -1,0 +1,190 @@
+<app-admin-header></app-admin-header>
+
+<div [style]="getStyleFromNav">
+
+
+  <div class="container-fluid">
+    <div class="col">
+      <div class="row">
+
+        <div class="product-deal-form">
+          <h1>Add Products Discount Deal</h1>
+          <form [formGroup]="productDealsForm">
+
+            <div class="product-deal-form-inputs">
+
+              <div>
+                <label>Deal Name:</label>
+                <input type="text" required formControlName="dealName" class="form-control" placeholder="Deal name">
+                <span *ngIf="productDealsForm.get('dealName')?.invalid && productDealsForm.get('dealName')?.touched"
+                  style="color: red;">Please add discount deal name</span>
+              </div>
+
+              <div>
+                <label>Expire At:</label>
+                <input type="Date" required formControlName="expire_at" class="form-control">
+                <span *ngIf="productDealsForm.get('expire_at')?.invalid && productDealsForm.get('expire_at')?.touched"
+                  style="color: red;">Please add expire date of deal</span>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+
+        <!-- Selected Product-list -->
+
+        <div class="selected-product-list-main">
+          <h1>Selected products</h1>
+
+          <p-table [value]="selectedProductsInDeal" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Product_Image</th>
+                <th>Product_Name</th>
+                <th>Discount_Percentage</th>
+                <th>Before_Price</th>
+                <th>After_Price</th>
+                <th>Actions</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-singleDeal>
+              <tr>
+                <!-- <td><img src="{{carousel?.url}}" width="70px" height="60px" alt=""></td>
+          <td>{{carousel?.imagePriority}}</td>
+          <td>{{carousel?.imageTitle}}</td>
+          <td>{{carousel?.imageDescription}}</td>
+          <td style="max-width: 250px; max-height: 20px;">{{carousel?.navigationUrl}}</td>
+          <td>
+            <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+              (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
+            &nbsp;
+
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+              (click)="openDeleteDialogConfarmation(carousel?.carouselID)"></button>
+          </td> -->
+              </tr>
+            </ng-template>
+            <!-- Extra template not worth to show its icons -->
+            <ng-template pTemplate="paginatorleft">
+              <p-button type="button" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+              <p-button type="button" styleClass="p-button-text"></p-button>
+            </ng-template>
+          </p-table>
+
+        </div> <br><br>
+
+
+        <!-- Selecting Categories and its products -->
+
+        <div class="selected-category-product-list-main">
+          <h1>Selecting products in deal</h1>
+
+          <div class="categories-selecting">
+
+
+
+            <div><label>Category Name</label>
+              <select class="form-select categories-selecting-width" (change)="categorySelected($event)" required>
+                <option [value]="null" selected>Please Select the Category</option>
+                <option *ngFor="let singleCategory of categories" [value]="singleCategory?.categoryID">
+                  {{singleCategory?.categoryName}}</option>
+              </select>
+            </div>
+
+            <div>
+              <div *ngIf="showSubCategory">
+                <label>Sub-Category Name</label>
+                <select class="form-select categories-selecting-width" (change)="subCategorySelected($event)" required>
+                  <option [value]="null" selected>Please Select the Sub-Category</option>
+                  <option *ngFor="let singleSubCategory of subCategories" [value]="singleSubCategory?.subCategoryID">
+                    {{singleSubCategory?.subCategoryName}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div *ngIf="showNestSubCategory">
+                <label>Nest-Sub-Category Name</label>
+                <select class="form-select categories-selecting-width" (change)="selectedNestSubCategories($event)"
+                  required>
+                  <option [value]="null" selected>Please Select the Nest-Sub-Category</option>
+                  <option [disabled]="singleNestSubCategory?.foundInList"
+                    *ngFor="let singleNestSubCategory of nestSubCategories"
+                    [value]="singleNestSubCategory?.nestSubCategoryID">
+                    {{singleNestSubCategory?.foundInList? "This category already have form " +
+                    singleNestSubCategory?.nestSubCategoryName : singleNestSubCategory?.nestSubCategoryName }}</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <br>
+
+          <h1 style="color:red" *ngIf="selectedCategoriesProducts.length == 0">Please select the categories to show
+            products</h1>
+          <p-table [rowHover]="true" *ngIf="selectedCategoriesProducts.length > 0" [value]="selectedCategoriesProducts"
+            responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Selected_Product</th>
+                <th>Product_Image</th>
+                <th>Product_Name</th>
+                <th>Product_Price</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr>
+                <td>
+                  <mat-checkbox [checked]="productAddedToDiscount" style="font-size: 100px;" (click)="addProductToDiscountDeal(product)">
+                  </mat-checkbox>
+                </td>
+                <td><img src="{{product?.productImageUrl}}" width="70px" height="70px" alt=""></td>
+                <td>{{product?.productName}}</td>
+                <td>{{product?.productPrice | currency :' Rs '}}</td>
+              </tr>
+            </ng-template>
+            <!-- Extra template not worth to show its icons -->
+            <ng-template pTemplate="paginatorleft">
+              <p-button type="button" styleClass="p-button-text"></p-button>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+              <p-button type="button" styleClass="p-button-text"></p-button>
+            </ng-template>
+          </p-table>
+
+        </div> <br><br>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+<p-dialog header="Adding discount to selected product" [(visible)]="addingDiscountToProduct"
+  (onHide)="removeErrorMessage()" [modal]="true">
+  <label for="">Discount Percentage</label>
+  <input type="number" required #discountPercentageInput="ngModel" ngModel class="form-control" maxlength="2"
+    pattern="\d{2}" placeholder="Discount By percentage"><br>
+  <div *ngIf="discountPercentageInput?.errors">
+    <span *ngIf="discountPercentageInput?.errors['touched']" style="color: red;">Please write discount on selected
+      product</span>
+    <span *ngIf="discountPercentageInput?.errors['pattern']" style="color: red;">2 digits are only allow to write</span>
+  </div>
+  <br><br>
+  <button class="btn btn-primary" [disabled]="discountPercentageInput.invalid"
+    (click)="applyDiscountOnSingleProduct()">Apply discount!</button>
+
+</p-dialog>

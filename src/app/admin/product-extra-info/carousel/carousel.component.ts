@@ -41,6 +41,7 @@ export class CarouselComponent implements OnInit {
       imagePriority: ['', Validators.required],
       imageTitle: ['', Validators.required],
       imageDescription: ['', Validators.required],
+      navigationUrl: ['', Validators.required],
       File: ['', Validators.required],
     });
 
@@ -65,6 +66,7 @@ export class CarouselComponent implements OnInit {
         imagePriority: [data.imagePriority],
         imageTitle: [data.imageTitle],
         imageDescription: [data.imageDescription],
+        navigationUrl: [data.navigationUrl, Validators.required],
         carouselID: [dataId]
       });
       this.currentImagePriority = data.imagePriority;
@@ -88,6 +90,7 @@ export class CarouselComponent implements OnInit {
       formFrom.append("imagePriority", this.CarouselFormData.value['imagePriority']);
       formFrom.append("imageTitle", this.CarouselFormData.value['imageTitle']);
       formFrom.append("imageDescription", this.CarouselFormData.value['imageDescription']);
+      formFrom.append("navigationUrl", this.CarouselFormData.value['navigationUrl']);
       formFrom.append("File", this.selectedFile, this.selectedFile?.name);
       this.display = false;
       this._CarouselService.AddCarousel(formFrom).subscribe(() => {
@@ -99,9 +102,7 @@ export class CarouselComponent implements OnInit {
   }
 
   updateCarouselForm() {
-    debugger;
-    console.log(this.currentImagePriority);
-    console.log(this.CarouselFormData.value['imagePriority']);
+
     if (this.currentImagePriority == this.CarouselFormData.value['imagePriority']) {
 
       const formFrom = new FormData();
@@ -110,6 +111,8 @@ export class CarouselComponent implements OnInit {
       formFrom.append("imagePriority", this.CarouselFormData.value['imagePriority']);
       formFrom.append("imageTitle", this.CarouselFormData.value['imageTitle']);
       formFrom.append("imageDescription", this.CarouselFormData.value['imageDescription']);
+      formFrom.append("navigationUrl", this.CarouselFormData.value['navigationUrl']);
+
       this.updateModelDisplay = false;
       this._CarouselService.updateCarousel(formFrom).subscribe(() => {
         this.myLoadingIndicator = false;

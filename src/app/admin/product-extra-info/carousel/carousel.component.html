@@ -17,6 +17,7 @@
               <th>Image-Priority</th>
               <th>Image-title</th>
               <th>Image-description</th>
+              <th style="max-width: 250px;">Navigation Url</th>
               <th>Actions</th>
 
             </tr>
@@ -27,6 +28,7 @@
               <td>{{carousel?.imagePriority}}</td>
               <td>{{carousel?.imageTitle}}</td>
               <td>{{carousel?.imageDescription}}</td>
+              <td style="max-width: 250px; max-height: 20px;">{{carousel?.navigationUrl}}</td>
               <td>
                 <a pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
                   (click)="UpdateCarouselModel(carousel?.carouselID)"></a>
@@ -67,6 +69,7 @@
     <span *ngIf="showError" style="color: red;">This Image Priority Already has been taken</span>
     <input formControlName="imageTitle" type="text" class="form-control" placeholder="Image Title"><br>
     <input formControlName="imageDescription" type="text" class="form-control" placeholder="Image Description"><br>
+    <input formControlName="navigationUrl" type="text" class="form-control" placeholder="Navigation Url"><br>
     <input (change)="fileChange($event)" type="file" formControlName="File" class="form-control-file"
       id="exampleFormControlFile1">
     <br><br>
@@ -82,6 +85,7 @@
     <input formControlName="imagePriority" type="number" class="form-control" placeholder="Image Priority"><br>
     <span *ngIf="showError" style="color: red;">This Image Priority Already has been taken</span>
     <input formControlName="imageTitle" type="text" class="form-control" placeholder="Image Title"><br>
+    <input formControlName="navigationUrl" type="text" class="form-control" placeholder="Navigation Url"><br>
     <input formControlName="imageDescription" type="text" class="form-control" placeholder="Image Description"><br>
     <br><br>
     <button class="btn btn-primary" (click)="updateCarouselForm()">Update Carousel</button>

@@ -35,13 +35,13 @@ export class HomeComponent implements OnInit {
 
     // sponsore ad getting
     this.subscription = this._sponsoredAdService.getAdByPageName("Home").subscribe((data: any) => {
-      for (var singleHomeSponsoreAd of data) {
-        if (singleHomeSponsoreAd.liveOnPageName == "HomePopUpPage") {
-          this.popUpAd = singleHomeSponsoreAd;
-        } else {
-          this.sideHomeAd = singleHomeSponsoreAd;
-        }
-      }
+      // for (var singleHomeSponsoreAd of data) {
+      //   if (singleHomeSponsoreAd.liveOnPageName == "HomePopUpPage") {
+      //     this.popUpAd = singleHomeSponsoreAd;
+      //   } else {
+      //     this.sideHomeAd = singleHomeSponsoreAd;
+      //   }
+      // }
     })
 
 

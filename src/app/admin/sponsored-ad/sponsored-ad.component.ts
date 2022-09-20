@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { AdminService } from '../admin.service';
 import { SponsoredAdService } from './sponsored-ad.service';
 
 @Component({
@@ -19,15 +20,20 @@ export class SponsoredAdComponent implements OnInit {
   displayAddAdSponsoreModel: boolean;
   sponsoredAdForm: FormGroup;
   showAdOnPageList: any[] = [];
-
+  getStyleFromNav: string = null;
 
   constructor(private _route: Router,
     private _activatedRoute: ActivatedRoute,
     private _sponsoredAdService: SponsoredAdService,
     private _fb: FormBuilder,
-    private _confirmService: ConfirmationService) { }
+    private _confirmService: ConfirmationService,
+    private _adminService: AdminService) { }
 
   ngOnInit(): void {
+
+    this._adminService.sideBar.subscribe((data: string) => {
+      this.getStyleFromNav = data;
+    });
 
     this.showAdOnPageList = [
       { pageName: 'HomePage', inUsed: false },
@@ -120,7 +126,7 @@ export class SponsoredAdComponent implements OnInit {
         sponsoredByName: [data?.sponsoredByName, [Validators.required]],
         adUrlDestination: [data?.adUrlDestination, [Validators.required]],
         adPrice: [data?.adPrice, [Validators.required]],
-        showAdOn: [data?.showAdOnPage,[Validators.required]],
+        showAdOn: [data?.showAdOnPage, [Validators.required]],
         expire_At: [customizingDate.getFullYear() + "-" + String(customizingDate.getMonth() + 1).padStart(2, '0') + "-" + String(customizingDate.getDate()).padStart(2, '0'), [Validators.required]],
       });
     })

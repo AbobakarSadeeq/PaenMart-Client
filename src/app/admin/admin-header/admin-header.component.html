@@ -42,6 +42,13 @@
         </a>
       </li>
 
+      <li *appHasRole="['Admin', 'Employee']">
+        <a [routerLink]="['/Admin/Product-discount-deals']">
+          <span class="icon"><i class="fa-solid fa-tag"></i></span>
+          <span class="item">Products Discount Deals</span>
+        </a>
+      </li>
+
       <li *appHasRole="['Admin']">
         <a (click)="adminAccountAndPaymentsDropDown = !adminAccountAndPaymentsDropDown">
           <span class="icon"><i class="fas fa-user-shield"></i> </span>

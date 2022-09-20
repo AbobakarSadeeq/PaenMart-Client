@@ -73,3 +73,13 @@ div.a_cont {
   opacity: 0.3;
   filter: alpha(opacity=30);
 }
+
+:host ::ng-deep a.carousel-control-prev {
+    background-color: black !important;
+    margin-top: 23px !important;
+}
+
+::ng-deep a.carousel-control-next {
+  background-color: black !important;
+  margin-top: 23px !important;
+}

@@ -87,7 +87,9 @@ const routes: Routes = [
   { path: 'Admin/Shipper/ShipperShipmentDoneOrders/:id', loadChildren: () => import('./admin/user/orders/shipper-side/shipper-shipment-orders/shipper-shipment-orders.module').then(m => m.ShipperShipmentOrdersModule), canActivate: [AuthGuard], data: { permittedRoles: ['Shipper'] } },
 
 
-
+  // Discount deals of products
+  { path: 'Admin/Product-discount-deals', loadChildren: () => import('./admin/product-discount-deals/product-discount-deals.module').then(m => m.ProductDiscountDealsModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
+  { path: 'Admin/Add-Product-discount-deals', loadChildren: () => import('./admin/product-discount-deals/add-product-deals/add-product-deals.module').then(m => m.AddProductDealsModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
 
 
 

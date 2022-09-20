@@ -7,6 +7,7 @@ import { AdminHeaderModule } from './admin-header/admin-header.module';
 import { RouterModule } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from '../shared/Modules/shared.module';
+import { ProductDiscountDealsComponent } from './product-discount-deals/product-discount-deals.component';
 
 
 
