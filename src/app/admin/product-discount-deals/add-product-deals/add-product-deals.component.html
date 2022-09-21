@@ -22,7 +22,7 @@
 
               <div>
                 <label>Expire At:</label>
-                <input type="Date" required formControlName="expire_at" class="form-control">
+                <input type="Date" min="{{currentDate | date:'yyyy-MM-dd'}}"  required formControlName="expire_at" class="form-control">
                 <span *ngIf="productDealsForm.get('expire_at')?.invalid && productDealsForm.get('expire_at')?.touched"
                   style="color: red;">Please add expire date of deal</span>
               </div>
@@ -135,8 +135,11 @@
             <ng-template pTemplate="body" let-product>
               <tr>
                 <td>
-                  <button (click)="addingProductDiscount(product)" class="btn btn-warning">Add Product to
-                    discount</button>
+                  <button [disabled]="product?.onDiscount" (click)="addingProductDiscount(product)"
+                    class="btn btn-warning">Add Product to
+                    discount</button> <span *ngIf="product?.onDiscount"
+                    style="color:red; font-size: 20px; padding-left: 40px;">Already on discount
+                    deal</span>
                 </td>
                 <td><img src="{{product?.productImageUrl}}" width="70px" height="70px" alt=""></td>
                 <td><a [routerLink]="['/Product-detail/', product?.productId]"
@@ -160,7 +163,8 @@
       </div>
       <br>
       <button style="float:right;margin-right: 2rem;" class="btn btn-primary"
-        [disabled]="this.selectedProductsInDeal?.length == 0 || productDealsForm?.invalid" (click)="submitProductDeals()">Live product discount
+        [disabled]="this.selectedProductsInDeal?.length == 0 || productDealsForm?.invalid"
+        (click)="submitProductDeals()">Live product discount
         deal!</button>
       <br><br>
     </div>

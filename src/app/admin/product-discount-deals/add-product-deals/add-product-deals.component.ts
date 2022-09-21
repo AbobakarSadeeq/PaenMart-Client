@@ -15,7 +15,7 @@ import { ProductDiscountDealsService } from '../product-discount-deals.service';
   styleUrls: ['./add-product-deals.component.css']
 })
 export class AddProductDealsComponent implements OnInit {
-
+  currentDate = new Date();
   getStyleFromNav: string = null;
   subscription: Subscription;
 
@@ -186,11 +186,23 @@ export class AddProductDealsComponent implements OnInit {
       customizingArr.push(customizingObj);
     }
 
+
+
+
+
+
+
+
+
+
     let discountDealDetail = {
       dealName: this.productDealsForm.value['dealName'],
       dealExpireAt: this.productDealsForm.value['expire_at'],
       selectedProductsInDeal: customizingArr
     };
+
+
+
     console.log(discountDealDetail);
     this._productDiscountDealsService.AddProductsDiscountDeal(discountDealDetail).subscribe((data: any) => {
       this._route.navigate(['/Admin/Product-discount-deals']);
@@ -209,6 +221,7 @@ export class AddProductDealsComponent implements OnInit {
 
 
 
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
@@ -216,6 +229,7 @@ export class AddProductDealsComponent implements OnInit {
   }
 
 }
+
 
 
 

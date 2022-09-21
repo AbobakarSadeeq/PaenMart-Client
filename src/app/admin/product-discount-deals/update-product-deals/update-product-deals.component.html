@@ -1,0 +1,40 @@
+<app-admin-header></app-admin-header>
+
+<div [style]="getStyleFromNav">
+  <div class="container-fluid">
+    <div class="col">
+      <div class="row">
+
+        <div class="product-deal-form">
+          <h1>Add Products Discount Deal</h1>
+          <form [formGroup]="updateProductDealsForm">
+
+            <div class="product-deal-form-inputs">
+
+              <div>
+                <label>Deal Name:</label>
+                <input type="text" required formControlName="dealName" class="form-control" placeholder="Deal name">
+                <span
+                  *ngIf="updateProductDealsForm.get('dealName')?.invalid && updateProductDealsForm.get('dealName')?.touched"
+                  style="color: red;">Please add discount deal name</span>
+              </div>
+
+              <div>
+                <label>Expire At:</label>
+                <input type="Date" min="{{selectedDate | date:'yyyy-MM-dd'}}" required formControlName="expire_at"
+                  class="form-control">
+                <span
+                  *ngIf="updateProductDealsForm.get('expire_at')?.invalid && updateProductDealsForm.get('expire_at')?.touched"
+                  style="color: red;">Please add expire date of deal</span>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

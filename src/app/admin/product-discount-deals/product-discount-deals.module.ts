@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { AdminHeaderModule } from '../admin-header/admin-header.module';
 import { ConfirmationService } from 'primeng/api';
 import { AddProductDealsComponent } from './add-product-deals/add-product-deals.component';
+import { UpdateProductDealsComponent } from './update-product-deals/update-product-deals.component';
 
 
 @NgModule({

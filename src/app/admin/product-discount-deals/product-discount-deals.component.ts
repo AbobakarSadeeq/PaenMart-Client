@@ -35,11 +35,38 @@ export class ProductDiscountDealsComponent implements OnInit {
     this.getAllDiscountDeals();
   }
 
-  getAllDiscountDeals(){
-    this.subscription = this._productDiscountDealsService.getLiveDiscountDeals().subscribe((data:any)=>{
+  getAllDiscountDeals() {
+    this.subscription = this._productDiscountDealsService.getLiveDiscountDeals().subscribe((data: any) => {
       this.dealsList = data
     })
   }
+
+
+  openDeleteDialogConfarmation(dataId: number) {
+    this.DialogService.confirm({
+      message: 'Are you sure you want to Delete Discount Deal?',
+      accept: () => {
+        this._productDiscountDealsService.DeleteDiscountDeal(dataId).subscribe(() => {
+          this.getAllDiscountDeals();
+        })
+      }
+    });
+
+  }
+
+
+  displayDetailProductDeal = false;
+  selectedDealProductsList:any[]=[];
+  openDetailDealOfProductsDialog(id:number) {
+    this.displayDetailProductDeal = true;
+    this.subscription = this._productDiscountDealsService.getSingleDealProducts(id).subscribe((data:any)=>{
+      this.selectedDealProductsList = data;
+    })
+
+  }
+
+
+
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

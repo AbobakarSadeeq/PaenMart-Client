@@ -90,6 +90,7 @@ const routes: Routes = [
   // Discount deals of products
   { path: 'Admin/Product-discount-deals', loadChildren: () => import('./admin/product-discount-deals/product-discount-deals.module').then(m => m.ProductDiscountDealsModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
   { path: 'Admin/Add-Product-discount-deals', loadChildren: () => import('./admin/product-discount-deals/add-product-deals/add-product-deals.module').then(m => m.AddProductDealsModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
+  { path: 'Admin/Update-Product-discount-deals/:id', loadChildren: () => import('./admin/product-discount-deals/update-product-deals/update-product-deals.module').then(m => m.UpdateProductDealsModule), canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'Employee'] } },
 
 
 

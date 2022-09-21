@@ -21,4 +21,14 @@ export class ProductDiscountDealsService {
   AddProductsDiscountDeal(productsDealObj: any) {
     return this._httpClient.post("https://localhost:44300/api/ProductDiscountDeals", productsDealObj);
   }
+
+  DeleteDiscountDeal(selectedId: number) {
+    return this._httpClient.delete("https://localhost:44300/api/ProductDiscountDeals/" + selectedId);
+  }
+
+  getSingleDealProducts(id:number){
+    return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/SelectedDealProductsDetail/" + id);
+  }
+
+  
 }
