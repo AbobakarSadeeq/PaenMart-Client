@@ -26,9 +26,14 @@ export class ProductDiscountDealsService {
     return this._httpClient.delete("https://localhost:44300/api/ProductDiscountDeals/" + selectedId);
   }
 
-  getSingleDealProducts(id:number){
+  getSingleDealProducts(id: number) {
     return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/SelectedDealProductsDetail/" + id);
   }
 
-  
+  updateSingleDealProducts(data: any) {
+    return this._httpClient.put("https://localhost:44300/api/ProductDiscountDeals", data);
+
+  }
+
+
 }

@@ -133,7 +133,6 @@ export class AddProductDealsComponent implements OnInit {
     this.addingDiscountToProduct = true;
     this.beforeDiscountPrice = selectedProductObj.productPrice
     this.selectedProductForDiscountObj = selectedProductObj;
-
   }
 
   clearInput = '';
@@ -186,24 +185,12 @@ export class AddProductDealsComponent implements OnInit {
       customizingArr.push(customizingObj);
     }
 
-
-
-
-
-
-
-
-
-
     let discountDealDetail = {
       dealName: this.productDealsForm.value['dealName'],
       dealExpireAt: this.productDealsForm.value['expire_at'],
       selectedProductsInDeal: customizingArr
     };
 
-
-
-    console.log(discountDealDetail);
     this._productDiscountDealsService.AddProductsDiscountDeal(discountDealDetail).subscribe((data: any) => {
       this._route.navigate(['/Admin/Product-discount-deals']);
     })
