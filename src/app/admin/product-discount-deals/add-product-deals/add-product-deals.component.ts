@@ -41,6 +41,9 @@ export class AddProductDealsComponent implements OnInit {
       this.getStyleFromNav = data;
     });
 
+    this._productDiscountDealsService.expirationUpdate.subscribe(() => {
+
+    });
 
     this.productDealsForm = this.fb.group({
       dealName: ['', [Validators.required]],
@@ -192,6 +195,7 @@ export class AddProductDealsComponent implements OnInit {
     };
 
     this._productDiscountDealsService.AddProductsDiscountDeal(discountDealDetail).subscribe((data: any) => {
+      this._productDiscountDealsService.expirationUpdate.next(true);
       this._route.navigate(['/Admin/Product-discount-deals']);
     })
 

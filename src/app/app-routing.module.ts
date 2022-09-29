@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'about-us', component: AboutUsComponent },
   { path: 'Client/Wishlist', loadChildren: () => import('./client/wish-list/wish-list.module').then(m => m.WishListModule) },
+  { path: 'Client/Product-discount-deal/:id', loadChildren: () => import('../app/client/client-product-discount-deal/client-product-discount-deal.module').then(m => m.ClientProductDiscountDealModule) },
 
 
   // Admin side routes

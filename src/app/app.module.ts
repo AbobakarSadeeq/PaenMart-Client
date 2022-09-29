@@ -11,20 +11,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from './auth/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../app/auth/auth-interceptor.service';
-import { SearchProductComponent } from './client/search-product/search-product.component';
-import { FooterComponent } from './client/footer/footer.component';
 import { ContactUsComponent } from './client/footer/contact-us/contact-us.component';
 import { NavbarModule } from './client/navbar/navbar.module';
 import { FooterModule } from './client/footer/footer.module';
 import { AboutUsComponent } from './client/footer/about-us/about-us.component';
-import { WishListComponent } from './client/wish-list/wish-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ContactUsComponent,
     AboutUsComponent,
-    
+
   ],
   imports: [
     BrowserModule,

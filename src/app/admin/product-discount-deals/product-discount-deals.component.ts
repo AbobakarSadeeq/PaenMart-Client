@@ -56,13 +56,25 @@ export class ProductDiscountDealsComponent implements OnInit {
 
 
   displayDetailProductDeal = false;
-  selectedDealProductsList:any[]=[];
-  openDetailDealOfProductsDialog(id:number) {
+  selectedDealProductsList: any[] = [];
+  openDetailDealOfProductsDialog(id: number) {
     this.displayDetailProductDeal = true;
-    this.subscription = this._productDiscountDealsService.getSingleDealProducts(id).subscribe((data:any)=>{
+    this.subscription = this._productDiscountDealsService.getSingleDealProducts(id).subscribe((data: any) => {
       this.selectedDealProductsList = data;
     })
 
+  }
+
+  expireDealList: any[] = [];
+  onTabChanged(pageNo: any) {
+    if (pageNo.index == 1) {
+      // expires discount deal
+      this.subscription = this._productDiscountDealsService.GetListExpireDiscountDeal().subscribe((data: any) => {
+        this.expireDealList = data;
+      })
+
+
+    }
   }
 
 

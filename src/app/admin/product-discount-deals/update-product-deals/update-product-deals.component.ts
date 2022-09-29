@@ -46,6 +46,10 @@ export class UpdateProductDealsComponent implements OnInit {
       expire_at: ['', [Validators.required]],
     });
 
+    this._productDiscountDealsService.expirationUpdate.subscribe(() => {
+
+    });
+
     this.subscription = this._productDiscountDealsService.getSingleDealProducts(this._activatedRouter.snapshot.params['id'])
       .subscribe((data: any) => {
         this.selectedProductsInDeal = data;
@@ -211,6 +215,7 @@ export class UpdateProductDealsComponent implements OnInit {
     console.log(customizingRequestData);
 
     this._productDiscountDealsService.updateSingleDealProducts(customizingRequestData).subscribe((data: any) => {
+      this._productDiscountDealsService.expirationUpdate.next(true);
       this._route.navigate(['/Admin/Product-discount-deals']);
     })
 

@@ -7,3 +7,11 @@
 .add-deals-btn {
   width: 100%;
 }
+
+::ng-deep .mat-tab-label {
+  height: 27px !important;
+  min-height: 50px !important;
+  margin: 3px !important;
+  width: 33.99rem !important;
+  min-width: 5px !important;
+}

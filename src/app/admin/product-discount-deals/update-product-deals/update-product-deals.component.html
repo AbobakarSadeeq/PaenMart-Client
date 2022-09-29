@@ -19,14 +19,14 @@
                   style="color: red;">Please add discount deal name</span>
               </div>
 
-              <div>
+              <!-- <div>
                 <label>Expire At:</label>
                 <input type="Date" min="{{selectedDate | date:'yyyy-MM-dd'}}" required formControlName="expire_at"
                   class="form-control">
                 <span
                   *ngIf="updateProductDealsForm.get('expire_at')?.invalid && updateProductDealsForm.get('expire_at')?.touched"
                   style="color: red;">Please add expire date of deal</span>
-              </div>
+              </div> -->
 
             </div>
           </form>
@@ -60,7 +60,7 @@
                     class="p-button-rounded p-button-warning"
                     (click)="DeleteProductFromDeals(singleDiscountProduct)"></button>
                   <span *ngIf="!singleDiscountProduct?.newProductAddToOldList" style="color: red;">Cannot delete the
-                    live product in deal</span>
+                    live product from deal</span>
                 </td>
               </tr>
             </ng-template>

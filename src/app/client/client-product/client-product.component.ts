@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ProductDiscountDealsService } from 'src/app/admin/product-discount-deals/product-discount-deals.service';
 import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { ClientProductService } from './client-product.service';
 
@@ -15,13 +16,14 @@ export class ClientProductComponent implements OnInit {
   brands: any[] = [];
   selectedNestCategoryId = 0;
   productList: any;
-  sideMixProductsPage:any;
+  sideMixProductsPage: any;
 
 
   constructor(private _activateRoute: ActivatedRoute,
-     private _clientProduct: ClientProductService,
-      private _route: Router,
-          private _sponsoreAd:SponsoredAdService) {
+    private _clientProduct: ClientProductService,
+    private _route: Router,
+    private _sponsoreAd: SponsoredAdService,
+    private _ProductDiscountDealService: ProductDiscountDealsService) {
     this.subscription = this._activateRoute.params.subscribe(
       (params: Params) => {
         this._route.routeReuseStrategy.shouldReuseRoute = function () {
@@ -29,6 +31,8 @@ export class ClientProductComponent implements OnInit {
         };
       });
   }
+
+  LiveDiscountDeal: any[] = [];
   ngOnInit(): void {
 
 
@@ -37,6 +41,10 @@ export class ClientProductComponent implements OnInit {
       this.sideMixProductsPage = data;
     })
 
+
+    this.subscription = this._ProductDiscountDealService.getLiveDiscountDeals().subscribe((data: any) => {
+      this.LiveDiscountDeal = data;
+    })
 
 
     let getSelectedNestCategoryData = this._activateRoute.snapshot.params['id'];
@@ -55,7 +63,7 @@ export class ClientProductComponent implements OnInit {
     };
     this.subscription = this._clientProduct.getProductsByCategory(selectedData).subscribe((data: any) => {
       this.productList = data;
-
+      console.log(data);
     });
 
   }
@@ -63,7 +71,7 @@ export class ClientProductComponent implements OnInit {
   isProductBrandValid = false;
   selectedProductBrand = 0;
   filterProductShows(brandId: number) {
-
+    this.dealProducts = [];
     this.selectedProductBrand = brandId;
     this.productList = {};
 
@@ -94,6 +102,14 @@ export class ClientProductComponent implements OnInit {
       });
     }
 
+  }
+
+  dealProducts: any[] = [];
+  filterProductByDiscountDealShows(selectedDiscountId: number) {
+    this.productList = [];
+    this.subscription = this._ProductDiscountDealService.getSingleDealProducts(selectedDiscountId).subscribe((data: any) => {
+      this.dealProducts = data;
+    })
   }
 
   tablePageNoChange(pageNo: number) {

@@ -61,6 +61,7 @@ export class ClientProductDetailComponent implements OnInit {
     let selectedProductId = this._activateRoute.snapshot.params['id'];
     let productDetailsJsonData = {}
     this.subscription = this._clientProduct.get(selectedProductId).subscribe((data: any) => {
+       
       setTimeout(() => {
         let convertJsonStringToJsonObj = JSON.parse(data.productDetails);
         let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);

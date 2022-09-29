@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductDiscountDealsService {
+  expirationUpdate = new Subject<boolean>();
 
   constructor(private _httpClient: HttpClient) { }
 
@@ -35,5 +36,17 @@ export class ProductDiscountDealsService {
 
   }
 
+  GetListExpireDiscountDeal() {
+    return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/GetExpireDiscountDeal");
+  }
+
+  GetListForExpirationDiscountDeal() {
+    return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/GetLiveDiscountDealForCheckingExpiration");
+  }
+
+  ExpiringPostDiscountDeal(id) {
+    return this._httpClient.get("https://localhost:44300/api/ProductDiscountDeals/ExpiringDiscountDeal/" + id);
+
+  }
 
 }

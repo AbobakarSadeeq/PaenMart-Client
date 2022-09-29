@@ -8,60 +8,122 @@
 
         <br>
         <div class="list-discounts-deals">
-          <a [routerLink]="['/Admin/Add-Product-discount-deals']" class="btn btn-warning add-deals-btn">Add Products
-            Deals <i class="fa fa-plus"></i></a><br><br>
 
-          <p-table [value]="dealsList" [paginator]="true" [rows]="12" [showCurrentPageReport]="true"
-            responsiveLayout="scroll" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [rowsPerPageOptions]="[10,25,50]">
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Deal_Id</th>
-                <th>Deal_Name</th>
-                <th>Created_At</th>
-                <th>Expire_At</th>
-                <th>Deal_Status</th>
-                <th>Live_Products_Count</th>
-                <th>Actions</th>
+          <mat-tab-group (selectedTabChange)="onTabChanged($event)">
 
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-singleDeal>
-              <tr>
-                <td>{{singleDeal?.discountDealID}}</td>
-                <td>{{singleDeal?.dealName}}</td>
-                <td>{{singleDeal?.dealCreatedAt | date: 'd/M/yyyy, h:mm a'}}</td>
-                <td>{{singleDeal?.dealExpireAt | date: 'd/M/yyyy, h:mm a'}}</td>
-                <td>{{singleDeal?.dealStatus}}</td>
-                <td>{{singleDeal?.countProducts}}</td>
-                <td>
-                  <button pButton pRipple (click)="openDetailDealOfProductsDialog(singleDeal?.discountDealID)"
-                    icon="pi pi-info" class="p-button-rounded p-button-info"></button> &nbsp;
-                  <a pButton pRipple
-                    [routerLink]="['/Admin/Update-Product-discount-deals/', singleDeal?.discountDealID ]"
-                    icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></a>
-                  &nbsp;
+            <mat-tab label="Live Product Discount Deal">
+              <br>
+              <div class="list-discounts-deals">
+                <a [routerLink]="['/Admin/Add-Product-discount-deals']" class="btn btn-warning add-deals-btn">Add
+                  Products
+                  Deals <i class="fa fa-plus"></i></a><br><br>
 
+                <p-table [value]="dealsList" [paginator]="true" [rows]="12" [showCurrentPageReport]="true"
+                  responsiveLayout="scroll"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                  [rowsPerPageOptions]="[10,25,50]">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Deal_Id</th>
+                      <th>Deal_Name</th>
+                      <th>Created_At</th>
+                      <th>Expire_At</th>
+                      <th>Deal_Status</th>
+                      <th>Live_Products_Count</th>
+                      <th>Actions</th>
 
-
-                  <button pButton pRipple (click)="openDeleteDialogConfarmation(singleDeal?.discountDealID)"
-                    icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
-                </td>
-
-              </tr>
-            </ng-template>
-            <!-- Extra template not worth to show its icons -->
-            <ng-template pTemplate="paginatorleft">
-              <p-button type="button" styleClass="p-button-text"></p-button>
-            </ng-template>
-            <ng-template pTemplate="paginatorright">
-              <p-button type="button" styleClass="p-button-text"></p-button>
-            </ng-template>
-          </p-table>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-singleDeal>
+                    <tr>
+                      <td>{{singleDeal?.discountDealID}}</td>
+                      <td>{{singleDeal?.dealName}}</td>
+                      <td>{{singleDeal?.dealCreatedAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                      <td>{{singleDeal?.dealExpireAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                      <td>{{singleDeal?.dealStatus}}</td>
+                      <td>{{singleDeal?.countProducts}}</td>
+                      <td>
+                        <button pButton pRipple (click)="openDetailDealOfProductsDialog(singleDeal?.discountDealID)"
+                          icon="pi pi-info" class="p-button-rounded p-button-info"></button> &nbsp;
+                        <a pButton pRipple
+                          [routerLink]="['/Admin/Update-Product-discount-deals/', singleDeal?.discountDealID ]"
+                          icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></a>
+                        &nbsp;
 
 
+
+                        <button pButton pRipple (click)="openDeleteDialogConfarmation(singleDeal?.discountDealID)"
+                          icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                      </td>
+
+                    </tr>
+                  </ng-template>
+                  <!-- Extra template not worth to show its icons -->
+                  <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" styleClass="p-button-text"></p-button>
+                  </ng-template>
+                  <ng-template pTemplate="paginatorright">
+                    <p-button type="button" styleClass="p-button-text"></p-button>
+                  </ng-template>
+                </p-table>
+
+
+
+              </div><br>
+
+            </mat-tab>
+
+            <mat-tab label="Expire Product Discount Deal">
+              <br>
+              <p-table [value]="expireDealList" [paginator]="true" [rows]="12" [showCurrentPageReport]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10,25,50]">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Deal_Id</th>
+                    <th>Deal_Name</th>
+                    <th>Created_At</th>
+                    <th>Expire_At</th>
+                    <th>Deal_Status</th>
+                    <th>Live_Products_Count</th>
+                    <th>Actions</th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-singleDeal>
+                  <tr>
+                    <td>{{singleDeal?.discountDealID}}</td>
+                    <td>{{singleDeal?.dealName}}</td>
+                    <td>{{singleDeal?.dealCreatedAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                    <td>{{singleDeal?.dealExpireAt | date: 'd/M/yyyy, h:mm a'}}</td>
+                    <td>{{singleDeal?.dealStatus}}</td>
+                    <td>{{singleDeal?.countProducts}}</td>
+                    <td>
+                      <button pButton pRipple (click)="openDetailDealOfProductsDialog(singleDeal?.discountDealID)"
+                        icon="pi pi-info" class="p-button-rounded p-button-info"></button> &nbsp;
+                      &nbsp;
+                    </td>
+
+                  </tr>
+                </ng-template>
+              </p-table>
+
+
+
+              <br>
+
+            </mat-tab>
+
+          </mat-tab-group>
 
         </div>
+
+
+
+
+
+
 
 
 
