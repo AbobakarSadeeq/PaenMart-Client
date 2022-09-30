@@ -23,13 +23,25 @@
           <tr *ngFor="let cartItem of cartDataList">
             <div style=" display: inline-block; position: relative;">
               <a><button
-                  style="position: absolute;top: 0;right: 0; border: none; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"><i style="padding: 5px;" (click)="RemoveItemFromCart(cartItem?.productID)"
-                  class="fa-solid fa-xmark "></i></button> </a>
-                  <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px"
-                      height="80px" alt=""></th>
+                  style="position: absolute;top: 0;right: 0; border: none; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"><i
+                    style="padding: 5px;" (click)="RemoveItemFromCart(cartItem?.productID)"
+                    class="fa-solid fa-xmark "></i></button> </a>
+              <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px" height="80px"
+                  alt=""></th>
             </div>
             <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
-            <td>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+
+            <!-- discount price -->
+            <td style="font-size: 15px;" *ngIf="cartItem?.afterDiscountPrice > 0">
+              <p style="padding: 0; margin: 0;">{{cartItem?.afterDiscountPrice | currency :"Rs ":
+                "symbol":"1.0" }}</p>
+              <p style="padding: 0; margin: 0;"><del>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
+              <p style="padding: 0; margin: 0;">- {{cartItem?.discountPercentage}}%</p>
+            </td>
+
+
+
+            <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
             <td style="padding-top:26px !important">
               <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
                 [disabled]="cartItem?.quantity==1">-</button>&nbsp;
@@ -37,7 +49,10 @@
               <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
                 [disabled]="cartItem?.quantity == 5">+</button>
             </td>
-            <td>{{cartItem?.price * cartItem?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity | currency:
+              'Rs ': 'symbol':'1.0'}}</td>
+            <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price * cartItem?.quantity | currency: 'Rs ':
+              'symbol':'1.0'}}</td>
           </tr>
         </tbody>
       </table>
@@ -103,7 +118,19 @@
                     height="80px" alt=""></th>
               </div>
               <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
-              <td>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+
+
+              <td style="font-size: 15px;" *ngIf="cartItem?.afterDiscountPrice > 0">
+                <p style="padding: 0; margin: 0;">{{cartItem?.afterDiscountPrice | currency :"Rs ":
+                  "symbol":"1.0" }}</p>
+                <p style="padding: 0; margin: 0;"><del>{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
+                <p style="padding: 0; margin: 0;">- {{cartItem?.discountPercentage}}%</p>
+              </td>
+
+              <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+
+
+
               <td style="padding-top:26px !important">
                 <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
                   [disabled]="cartItem?.quantity==1">-</button>&nbsp;
@@ -111,7 +138,10 @@
                 <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
                   [disabled]="cartItem?.quantity == 5">+</button>
               </td>
-              <td>{{cartItem?.price * cartItem?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
+              <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity | currency:
+                'Rs ': 'symbol':'1.0'}}</td>
+              <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price * cartItem?.quantity | currency: 'Rs ':
+                'symbol':'1.0'}}</td>
             </tr>
           </tbody>
         </table>

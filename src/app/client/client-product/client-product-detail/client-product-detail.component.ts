@@ -61,7 +61,7 @@ export class ClientProductDetailComponent implements OnInit {
     let selectedProductId = this._activateRoute.snapshot.params['id'];
     let productDetailsJsonData = {}
     this.subscription = this._clientProduct.get(selectedProductId).subscribe((data: any) => {
-       
+
       setTimeout(() => {
         let convertJsonStringToJsonObj = JSON.parse(data.productDetails);
         let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);
@@ -137,7 +137,7 @@ export class ClientProductDetailComponent implements OnInit {
   // Cart Data
   itemsCart: any[] = [];
   addToCartProduct(productData: any) {
-
+    console.log(productData);
     // Making LocalStorage for Cart
 
     let filteringDataOfProduct = {
@@ -147,6 +147,8 @@ export class ClientProductDetailComponent implements OnInit {
       price: productData.price,
       imageUrl: productData.getProductImagess[0].url,
       productID: productData.productID,
+      afterDiscountPrice: productData.afterDiscountPrice,
+      discountPercentage: productData.discountPercentage,
     }
 
 
@@ -211,11 +213,11 @@ export class ClientProductDetailComponent implements OnInit {
   }
 
 
-  navigation(){
+  navigation() {
     this._route.navigate(['/contact-us']);
   }
 
-  shoppingCartNavigation(productData:any){
+  shoppingCartNavigation(productData: any) {
     this.addToCartProduct(productData);
     this._route.navigate(['/Cart']);
   }

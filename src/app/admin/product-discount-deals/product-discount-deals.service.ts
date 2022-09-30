@@ -49,4 +49,9 @@ export class ProductDiscountDealsService {
 
   }
 
+  SelectedProductsInLocalStorage(ids:number[]){
+    return this._httpClient.post("https://localhost:44300/api/ProductDiscountDeals/SelectedLocalStorageProducts/", ids);
+
+  }
+
 }

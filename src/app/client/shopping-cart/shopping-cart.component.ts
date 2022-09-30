@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription, SubscriptionLike } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { ProductDiscountDealsService } from 'src/app/admin/product-discount-deals/product-discount-deals.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ShoppingCartService } from './shopping-cart.service';
 
@@ -38,10 +39,54 @@ export class ShoppingCartComponent implements OnInit {
     private _shoppingCartService: ShoppingCartService,
     private _route: Router,
     private _activateRoute: ActivatedRoute,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private _productDealService: ProductDiscountDealsService
   ) { }
 
   ngOnInit(): void {
+
+
+    // every time when this component execute or opened then check the localStorage products selected that are in deal or not
+
+    if (localStorage.getItem("ProductCartData")) {
+      let userCartProductsArr: any[] = JSON.parse(localStorage.getItem("ProductCartData"));
+      let selectedProductsId = [];
+      for (var singleSelectedCartProduct of userCartProductsArr) {
+        selectedProductsId.push(singleSelectedCartProduct.productID);
+      }
+      this._productDealService.SelectedProductsInLocalStorage(selectedProductsId).subscribe((data: any) => {
+        this.totalPrice = 0;
+        console.log(data);
+
+        for (var singleProduct of data) {
+          var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId);
+          var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId);
+          debugger;
+          if (singleProduct.productInDeal == false) {
+            findingProductInLocalStorage.afterDiscountPrice = 0;
+            findingProductInLocalStorage.discountPercentage = 0;
+            this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+          } else {
+
+            if (!findingProductInLocalStorage.afterDiscountPrice) {
+              this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity);
+              userCartProductsArr[findingIndexOfSelectedProduct].afterDiscountPrice = singleProduct.afterDiscountPrice;
+              userCartProductsArr[findingIndexOfSelectedProduct].discountPercentage = singleProduct.discountPercentage;
+            } else {
+              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity);
+
+            }
+
+
+
+          }
+        }
+        localStorage.setItem("ProductCartData", JSON.stringify(userCartProductsArr));
+        this.cartDataList = userCartProductsArr;
+
+
+      })
+    }
 
     this.paymentSelect = [
       { url: '../../../assets/payment methods pic/easypaisa.PNG', selected: false, name: 'EasyPaisa' },
@@ -103,6 +148,7 @@ export class ShoppingCartComponent implements OnInit {
   addingProductQuantity(cartItemData: any) {
     for (var indexArray = 0; indexArray < this.cartDataList.length; indexArray++) {
       if (this.cartDataList[indexArray].productID == cartItemData.productID) {
+
         this.cartDataList[indexArray].quantity = parseInt(cartItemData.quantity) + 1;
       }
     }
@@ -139,7 +185,16 @@ export class ShoppingCartComponent implements OnInit {
       this.cartDataList = gettingLocalStorageData
       this.totalPrice = 0;
       for (var cartItem of this.cartDataList) {
-        this.totalPrice = this.totalPrice + (cartItem.quantity * cartItem.price);
+
+        if (cartItem?.afterDiscountPrice > 0) {
+          // product is in sale
+          this.totalPrice = this.totalPrice + (cartItem.quantity * cartItem.afterDiscountPrice)
+        } else {
+          // product is not in sale
+          this.totalPrice = this.totalPrice + (cartItem.quantity * cartItem.price);
+
+        }
+
       }
 
 
