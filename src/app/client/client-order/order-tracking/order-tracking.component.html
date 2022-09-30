@@ -104,14 +104,14 @@
             <td style="padding-top: 4rem;">{{singleProduct?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
             <td style="padding-top: 4rem;">{{singleProduct?.quantity}}</td>
 
-            <td style="font-size: 15px;" *ngIf="singleProduct?.afterDiscountPrice > 0">
+            <td style="font-size: 15px;" *ngIf="singleProduct?.discountPercentage > 0">
               <p style="">{{singleProduct?.afterDiscountPrice | currency :"Rs ":
                 "symbol":"1.0" }}</p>
               <p style=""><del>{{singleProduct?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
               <p style="">- {{singleProduct?.discountPercentage}}%</p>
             </td>
 
-            <td style="    padding-top: 60px;" *ngIf="singleProduct?.afterDiscountPrice == 0">{{singleProduct?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</td>
+            <td style="    padding-top: 60px;" *ngIf="singleProduct?.discountPercentage == 0">{{singleProduct?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</td>
 
 
           </tbody>
