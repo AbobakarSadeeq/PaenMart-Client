@@ -60,9 +60,9 @@
       </h4><br>
 
       <h4
-        style="color:#1c1018; font-size: 20px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"
+        style=" font-size: 20px; "
         *ngIf="productDetails?.afterDiscountPrice > 0"><del>{{productDetails?.price | currency: 'Rs ':
-          'symbol':'1.0'}} </del> &nbsp;&nbsp; - {{productDetails?.discountPercentage}}%</h4>
+          'symbol':'1.0'}} </del> &nbsp;&nbsp; <span class="discount-badge">- {{productDetails?.discountPercentage}}%</span></h4>
 
       <p *ngIf="productDetails?.afterDiscountPrice > 0"><strong>Offer ends {{productDetails?.discountExpireAt |
           date:'long'}}</strong>

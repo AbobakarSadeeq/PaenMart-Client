@@ -41,7 +41,16 @@
             *ngFor="let orderDetailData of userOrderDetailData?.orderDetail">
             <td>{{orderDetailData?.productName}}</td>
             <td>{{orderDetailData?.quantity}}</td>
-            <td>{{orderDetailData?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
+              <td style="font-size: 15px;" *ngIf="orderDetailData?.afterDiscountPrice > 0">
+                <p style="padding: 0; margin: 0;">{{orderDetailData?.afterDiscountPrice | currency :"Rs ":
+                  "symbol":"1.0" }}</p>
+                <p style="padding: 0; margin: 0;"><del>{{orderDetailData?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
+                <p style="padding: 0; margin: 0;">- {{orderDetailData?.discountPercentage}}%</p>
+              </td>
+
+              <td *ngIf="orderDetailData?.afterDiscountPrice == 0">{{orderDetailData?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</td>
+
+
             <td>{{orderDetailData?.price * orderDetailData?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
           </tr>
         </tbody>

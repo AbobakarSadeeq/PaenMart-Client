@@ -25,7 +25,18 @@
 
             </div>
             <div>
-              <p style="padding-top: 30px;">{{singleProduct?.productPrice | currency: 'Rs': 'symbol':'1.0'}}</p>
+
+              <div style="font-size: 15px;" *ngIf="singleProduct?.afterDiscountPrice > 0">
+                <p style="padding: 0; margin: 0;">{{singleProduct?.afterDiscountPrice | currency :"Rs ":
+                  "symbol":"1.0" }}</p>
+                <p style="padding: 0; margin: 0;"><del>{{singleProduct?.productPrice | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
+                <p style="padding: 0; margin: 0;">- {{singleProduct?.discountPercentage}}%</p>
+              </div>
+
+              <p *ngIf="singleProduct?.afterDiscountPrice == 0">{{singleProduct?.productPrice | currency: 'Rs ': 'symbol':'1.0'}}</p>
+
+
+              <!-- <p style="padding-top: 30px;">{{singleProduct?.productPrice | currency: 'Rs': 'symbol':'1.0'}}</p> -->
 
             </div>
 

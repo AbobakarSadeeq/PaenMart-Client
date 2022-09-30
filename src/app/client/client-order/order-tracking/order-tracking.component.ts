@@ -22,7 +22,6 @@ export class OrderTrackingComponent implements OnInit {
       this.route.navigate(['/Auth']);
     }
 
-
   }
 
   OrderTrack(trackVal: any) {
@@ -32,6 +31,7 @@ export class OrderTrackingComponent implements OnInit {
     }
    this._orderService.trackOrderProductsFetching(customObj).subscribe((data: any) => {
       this.OrderTrackProducts = data
+      
       console.log(data);
       this.orderTrackerNotFoundOrderMessage = null;
     }, (error: HttpErrorResponse) => {

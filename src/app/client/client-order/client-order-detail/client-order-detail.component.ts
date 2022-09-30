@@ -55,6 +55,7 @@ export class ClientOrderDetailComponent implements OnInit {
     const getOrderId = this._activateRoute.snapshot.params['id'];
     this.subscription = this._userOrders.getOrderDetails(getOrderId).subscribe((data: any) => {
       this.userOrderDetailData = data;
+      console.log(data);
       for (var cartItem of data.orderDetail) {
         this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
       }

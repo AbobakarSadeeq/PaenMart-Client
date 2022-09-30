@@ -56,12 +56,10 @@ export class ShoppingCartComponent implements OnInit {
       }
       this._productDealService.SelectedProductsInLocalStorage(selectedProductsId).subscribe((data: any) => {
         this.totalPrice = 0;
-        console.log(data);
 
         for (var singleProduct of data) {
           var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId);
           var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId);
-          debugger;
           if (singleProduct.productInDeal == false) {
             findingProductInLocalStorage.afterDiscountPrice = 0;
             findingProductInLocalStorage.discountPercentage = 0;
@@ -70,8 +68,8 @@ export class ShoppingCartComponent implements OnInit {
 
             if (!findingProductInLocalStorage.afterDiscountPrice) {
               this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity);
-              userCartProductsArr[findingIndexOfSelectedProduct].afterDiscountPrice = singleProduct.afterDiscountPrice;
               userCartProductsArr[findingIndexOfSelectedProduct].discountPercentage = singleProduct.discountPercentage;
+              userCartProductsArr[findingIndexOfSelectedProduct].afterDiscountPrice = singleProduct.afterDiscountPrice;
             } else {
               this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity);
 
@@ -279,11 +277,13 @@ export class ShoppingCartComponent implements OnInit {
           quantity: orderData.quantity,
           productName: orderData.productName,
           paymentMethod: 'Cash on delivery',
+          afterDiscountPrice:orderData.afterDiscountPrice,
+          discountPercentage:orderData.discountPercentage,
           // User Address
           fullName: this.userDetails?.fullName,
           userEmail: this.userDetails?.email,
           userAddress: this.userAddress?.completeAddress,
-          phoneNumber: this.userAddress?.phoneNumber,
+          phoneNumber: this.userAddress?.phoneNumber
 
         }
       )
