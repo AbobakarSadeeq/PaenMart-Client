@@ -6,6 +6,18 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { AdminService } from '../admin.service';
 import { DynamicFormStructureService } from '../product-extra-info/dynamic-form-structure/dynamic-form-structure.service';
 import { AdminHeaderService } from './admin-header.service';
+import * as signalR from '@microsoft/signalr';
+
+
+var connectionSignalR = new signalR.HubConnectionBuilder()
+  .withUrl("https://localhost:44300/notificationhub", {
+    skipNegotiation: true,
+    transport: signalR.HttpTransportType.WebSockets
+  }
+  ).build();
+
+
+
 
 @Component({
   selector: 'app-admin-header',
@@ -29,6 +41,8 @@ export class AdminHeaderComponent implements OnInit {
 
   dynamicFormStructure: any[] = [];
   convertStringToArrRole: any[] = [];
+  pendingOrdersCountingLive = null;
+  shippingPendingOrdersCountingLive = null;
 
   constructor(private _adminService: AdminService,
     private _dynamicFormStructure: DynamicFormStructureService,
@@ -40,6 +54,82 @@ export class AdminHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
+
+    var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
+    var userRole = payload.role;
+
+
+    // admin side getting live orders
+    if (userRole == "Admin" || userRole == "Employee") {
+
+      connectionSignalR.start().then(
+        () => {
+        },
+        (error) => {
+        }
+      );
+
+      setTimeout(() => {
+        connectionSignalR
+          .invoke("LivePendingOrders")
+          .then(
+            () => {
+            },
+            (errors) => {
+            }
+          );
+
+        connectionSignalR.on("PendingLiveOrders", (pendingOrderCount) => {
+          this.pendingOrdersCountingLive = pendingOrderCount;
+        });
+
+
+        connectionSignalR
+          .invoke("LiveShippingPendingOrders")
+          .then(
+            () => {
+            },
+            (errors) => {
+            }
+          );
+
+        connectionSignalR.on("ShippingPendingOrdersCountLive", (shippingPendingOrderCount) => {
+          this.shippingPendingOrdersCountingLive = shippingPendingOrderCount;
+        });
+
+
+      }, 1000)
+
+
+    }
+
+    if (userRole == "Shipper") {
+      connectionSignalR.start().then(
+        () => {
+        },
+        (error) => {
+        }
+      );
+
+
+      setTimeout(() => {
+
+        connectionSignalR
+          .invoke("LiveShippingPendingOrders")
+          .then(
+            () => {
+            },
+            (errors) => {
+            }
+          );
+
+        connectionSignalR.on("ShippingPendingOrdersCountLive", (shippingPendingOrderCount) => {
+          this.shippingPendingOrdersCountingLive = shippingPendingOrderCount;
+        });
+      }, 1000)
+    }
 
     // sendingData to dashboard/home
     this._adminService.userData.subscribe((data: any) => {

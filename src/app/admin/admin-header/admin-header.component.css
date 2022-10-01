@@ -1,16 +1,16 @@
 .main-navbar {
   height: 53px;
   width: 100%;
-  background-color: 	#c5aa6a;
+  background-color: #c5aa6a;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 225px);
-	margin-left: 225px;
-	transition: all 0.5s ease;
+  margin-left: 225px;
+  transition: all 0.5s ease;
 }
 
-.main-navbar>div {
+.main-navbar > div {
   padding: 10px;
 }
 
@@ -23,10 +23,9 @@
   margin-left: 10px;
 }
 
-.left-side-btns a:hover{
-  color: #113B55;
+.left-side-btns a:hover {
+  color: #113b55;
 }
-
 
 .right-side-btns a {
   cursor: pointer;
@@ -34,7 +33,6 @@
   color: white;
   display: inline-block;
   text-decoration: none;
-
 }
 
 .right-side-btns img {
@@ -43,49 +41,45 @@
   height: 36px;
 }
 
-
-.right-side-btns a:hover{
-  color: #113B55;
+.right-side-btns a:hover {
+  color: #113b55;
 }
-
-
 
 /* Sidebar */
 
-.wrapper .sidebar{
-	background: rgb(5, 68, 104);
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 225px;
-	height: 100%;
-	padding: 20px 0;
+.wrapper .sidebar {
+  background: rgb(5, 68, 104);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 225px;
+  height: 100%;
+  padding: 20px 0;
   transition-delay: 2s;
   overflow: auto;
 }
 
-.wrapper .sidebar .profile{
-	margin-bottom: 30px;
-	text-align: center;
+.wrapper .sidebar .profile {
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.wrapper .sidebar .profile img{
-	display: block;
-	width: 100px;
-	height: 100px;
+.wrapper .sidebar .profile img {
+  display: block;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-	margin: 0 auto;
-  object-fit:cover;
+  margin: 0 auto;
+  object-fit: cover;
 }
 
-
-.wrapper .sidebar .profile h3{
-	color: #ffffff;
-	margin: 10px 0 5px;
+.wrapper .sidebar .profile h3 {
+  color: #ffffff;
+  margin: 10px 0 5px;
 }
-.wrapper .sidebar .profile p{
-	color: rgb(206, 240, 253);
-	font-size: 14px;
+.wrapper .sidebar .profile p {
+  color: rgb(206, 240, 253);
+  font-size: 14px;
 }
 
 .wrapper .sidebar ul {
@@ -94,43 +88,43 @@
   margin: 0px;
 }
 
-.wrapper .sidebar ul li a{
-	display: block;
-	padding: 13px 30px;
-	border-bottom: 1px solid #10558d;
-	color: rgb(241, 237, 237);
-	font-size: 16px;
-	position: relative;
+.wrapper .sidebar ul li a {
+  display: block;
+  padding: 13px 30px;
+  border-bottom: 1px solid #10558d;
+  color: rgb(241, 237, 237);
+  font-size: 16px;
+  position: relative;
   text-decoration: none;
 }
-.wrapper .sidebar ul li a .icon{
-	color: #dee4ec;
-	width: 30px;
-	display: inline-block;
+.wrapper .sidebar ul li a .icon {
+  color: #dee4ec;
+  width: 30px;
+  display: inline-block;
 }
 
 .wrapper .sidebar ul li a:hover,
-.wrapper .sidebar ul li a.active{
-	color: #0c7db1;
-	background:white;
-    border-right: 2px solid rgb(5, 68, 104);
+.wrapper .sidebar ul li a.active {
+  color: #0c7db1;
+  background: white;
+  border-right: 2px solid rgb(5, 68, 104);
 }
 .wrapper .sidebar ul li a:hover .icon,
-.wrapper .sidebar ul li a.active .icon{
-	color: #0c7db1;
+.wrapper .sidebar ul li a.active .icon {
+  color: #0c7db1;
 }
 .wrapper .sidebar ul li a:hover:before,
-.wrapper .sidebar ul li a.active:before{
-	display: block;
+.wrapper .sidebar ul li a.active:before {
+  display: block;
 }
 
- .onSideBar {
-	left: -225px;
+.onSideBar {
+  left: -225px;
 }
 
- .offSidebar {
-	margin-left: 0;
-	width: 100%;
+.offSidebar {
+  margin-left: 0;
+  width: 100%;
 }
 
 /* expand nested menu of side-bar */
@@ -138,7 +132,7 @@ li a {
   cursor: pointer;
 }
 
-li a .fa-caret-down{
+li a .fa-caret-down {
   padding-left: 10px;
 }
 
@@ -146,4 +140,41 @@ a#nest-links {
   padding-left: 65px;
 }
 
+.notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 28%;
+  font-size: 17px;
+  border-radius: 20px;
+  border: solid 1px #c93a3a;
+  position: absolute;
+  top: 6px;
+  left: 195px;
+}
 
+.left-side-notification {
+  left: 417px;
+}
+
+.order-notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 28%;
+  font-size: 17px;
+  border-radius: 20px;
+  border: solid 1px #c93a3a;
+  margin-left: 15px;
+  position: absolute;
+  top: 6px;
+  left: 185px;
+}
+
+.order-shipping-pending-notification-badge {
+  background-color: rgb(224, 224, 121);
+  color: black;
+  border-radius: 28%;
+  font-size: 17px;
+  border-radius: 20px;
+  border: solid 1px #c93a3a;
+  margin-left: 15px;
+}

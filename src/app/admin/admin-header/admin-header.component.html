@@ -2,6 +2,10 @@
   <div class="left-side-btns hamburger">
     <a (click)="openAdminSidePanel()"><i class="fa-solid fa-store"></i> Paen Mart</a>
     <a (click)="toggleMenuBtn()"><i class="fa-solid fa-align-justify"></i></a>
+    <span *ngIf="pendingOrdersCountingLive" class="notification-badge "
+      [ngClass]="showSideBar ? 'left-side-notification' : ''">{{pendingOrdersCountingLive}}!</span>
+    <span class="order-notification-badge " *appHasRole="['Shipper']">{{shippingPendingOrdersCountingLive}}!</span>
+
   </div>
 
   <div class="right-side-btns">
@@ -71,21 +75,39 @@
           <span class="icon"><i class="fas fa-user-shield"></i> </span>
           <span class="item">Paen Mart Orders</span>
           <i class="fa-solid fa-caret-down"></i>
-
+          <span class="order-notification-badge" *ngIf="pendingOrdersCountingLive">{{pendingOrdersCountingLive}}!</span>
+          <span class="order-notification-badge" *appHasRole="['Shipper']">{{shippingPendingOrdersCountingLive}}!</span>
         </a>
 
         <div *ngIf="userOrdersDropDown">
+
           <ul>
             <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
-                [routerLink]="['/Admin/PendingUserOrders']">Pending User Orders</a></li>
+                [routerLink]="['/Admin/PendingUserOrders']">Pending User Orders
+                <span class="order-notification-badge"
+                  *ngIf="pendingOrdersCountingLive">{{pendingOrdersCountingLive}}!</span>
+              </a>
+
+
+            </li>
+
             <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
-                [routerLink]="['/Admin/ShippingPendingUserOrders']">Shipping Pending User Orders</a></li>
+                [routerLink]="['/Admin/ShippingPendingUserOrders']">Shipping Pending User Orders <span
+                  class="order-shipping-pending-notification-badge"
+                  *ngIf="shippingPendingOrdersCountingLive">{{shippingPendingOrdersCountingLive}}!</span></a>
+            </li>
             <li *appHasRole="['Admin', 'Employee']"><a id="nest-links"
                 [routerLink]="['/Admin/ShippedUserOrders']">Shipped User Orders</a></li>
             <li *appHasRole="['Admin', 'Employee']"><a id="nest-links" [routerLink]="['/Admin/CancelUserOrders']">Cancel
                 User Orders</a></li>
             <li *appHasRole="['Shipper']"><a id="nest-links"
-                [routerLink]="['/Admin/Shipper/ShipperPendingOrders']">Shipping orders pending</a></li>
+                [routerLink]="['/Admin/Shipper/ShipperPendingOrders']">Shipping orders pending
+                <span class="order-notification-badge"
+                  *appHasRole="['Shipper']">{{shippingPendingOrdersCountingLive}}!</span>
+              </a>
+
+
+            </li>
 
             <li *appHasRole="['Shipper']"><a id="nest-links"
                 [routerLink]="['/Admin/Shipper/ShipperShipmentDoneOrders/', userDetails?.id]">Your shipments orders

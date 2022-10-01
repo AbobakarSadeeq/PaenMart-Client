@@ -11,7 +11,7 @@ import { SharedModule } from 'src/app/shared/Modules/shared.module';
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [AdminHeaderComponent]
 })

@@ -10,6 +10,18 @@ import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 import { Observable } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { SearchProductService } from '../search-product/search-product.service';
+import * as signalR from '@microsoft/signalr';
+
+
+var connectionSignalR = new signalR.HubConnectionBuilder()
+  .withUrl("https://localhost:44300/notificationhub", {
+    skipNegotiation: true,
+    transport: signalR.HttpTransportType.WebSockets
+  }
+  ).build();
+
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -18,6 +30,7 @@ import { SearchProductService } from '../search-product/search-product.service';
     '(document:click)': 'onClick($event)',
   }
 })
+
 export class NavbarComponent implements OnInit {
   subscription: Subscription;
 
@@ -33,6 +46,8 @@ export class NavbarComponent implements OnInit {
 
   showAutoCompleteSuggestionDrop = false;
   recommendedSearchList: any[] = [];
+  pendingOrdersCountingLive = null;
+  shippingPendingOrdersCountingLive = null;
 
   constructor(private _categoryService: CategoryService,
     private _subCategoryService: SubCategoryService,
@@ -61,31 +76,82 @@ export class NavbarComponent implements OnInit {
           this.subscription = this._searchProductService.GetAllRecommendedSearch({ searchText: value, pageNo: 0 }).subscribe((data: any) => {
             this.recommendedSearchList = data;
           })
-
-
-
-
           this.showAutoCompleteSuggestionDrop = true;
           this.showSearchHistory = false;
         }
-
-
-
-
-
-
-
-
-
-        console.log(value);
       });
   }
 
 
 
 
-
   ngOnInit(): void {
+
+
+    // notification of pending order
+    var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
+    var userRole = payload.role;
+
+
+
+    if (userRole == "Admin" || userRole == "Employee") {
+
+      connectionSignalR.start().then(
+        () => {
+        },
+        (error) => {
+        }
+      );
+
+      setTimeout(() => {
+        connectionSignalR
+          .invoke("LivePendingOrders")
+          .then(
+            () => {
+            },
+            (errors) => {
+            }
+          );
+
+        connectionSignalR.on("PendingLiveOrders", (pendingOrderCount) => {
+          this.pendingOrdersCountingLive = pendingOrderCount;
+        });
+      }, 1000)
+
+
+    }
+
+
+    if (userRole == "Shipper") {
+      connectionSignalR.start().then(
+        () => {
+        },
+        (error) => {
+        }
+      );
+
+
+      setTimeout(() => {
+
+        connectionSignalR
+          .invoke("LiveShippingPendingOrders")
+          .then(
+            () => {
+            },
+            (errors) => {
+            }
+          );
+
+        connectionSignalR.on("ShippingPendingOrdersCountLive", (shippingPendingOrderCount) => {
+          this.shippingPendingOrdersCountingLive = shippingPendingOrderCount;
+        });
+      }, 1000)
+    }
+
+
+
+
+
     this.cartItemFunc();
 
     if (this._activateRoute.snapshot.queryParamMap.has('searchingData')) {
@@ -252,7 +318,6 @@ export class NavbarComponent implements OnInit {
     // const keyup$ = fromEvent(searchBox, 'keyup');
     // this.subscription = keyup$
     //   .pipe(debounceTime(1500))
-    //   .subscribe(data => console.log(data));
   }
 
 

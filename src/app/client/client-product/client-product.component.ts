@@ -38,7 +38,7 @@ export class ClientProductComponent implements OnInit {
 
     // ad
     this.subscription = this._sponsoreAd.getAdByPageName("MixProductsPage").subscribe((data: any) => {
-      this.sideMixProductsPage = data;
+        this.sideMixProductsPage = data;
     })
 
 

@@ -271,3 +271,28 @@ nav {
   background-color: rgb(245, 241, 241);
   cursor: pointer;
 }
+
+.notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 28%;
+  font-size: 18px;
+  border-radius: 20px;
+  border: solid 1px #c93a3a;
+  position: absolute;
+  top: 16px;
+  left: 360px;
+}
+
+
+.shipper-notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 28%;
+  font-size: 18px;
+  border-radius: 20px;
+  border: solid 1px #c93a3a;
+  position: absolute;
+  top: 16px;
+  left: 350px;
+}
