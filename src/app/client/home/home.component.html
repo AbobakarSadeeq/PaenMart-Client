@@ -41,14 +41,61 @@
             [routerLink]="['/Product-detail/', singleProduct?.productID]">
             <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
               style=" max-width: max-content; height: 200px;" />
+            <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+              -{{singleProduct?.discountPercentage}}%</p>
             <span
               style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
               &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
-            <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price
-                |
+            <p *ngIf="singleProduct?.afterDiscountPrice == 0"
+              style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price |
                 currency: 'Rs ': 'symbol':'1.0'}}</b></p>
 
-                <p></p>
+            <p *ngIf="singleProduct?.afterDiscountPrice > 0"
+              style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+              <b>{{singleProduct?.afterDiscountPrice |
+                currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
+                'symbol':'1.0'}}</del>
+            </p>
+
+            <img *ngIf="singleProduct?.showStarsByRatings"
+              src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0: singleProduct?.showStarsByRatings}}.png"
+              width="100px" height="20px" alt="">
+
+            ({{singleProduct?.raiting}})
+          </a>
+        </div>
+
+
+
+
+
+
+      </div> <br><br>
+      <hr>
+
+
+      <h1>Products On Sale</h1>
+
+      <div class="my-row">
+
+        <div class="col-2" *ngFor="let singleProduct of fiveDiscountProducts">
+          <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+            [routerLink]="['/Product-detail/', singleProduct?.productID]">
+            <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv"
+              style=" max-width: max-content; height: 200px;" />
+            <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+              -{{singleProduct?.discountPercentage}}%</p>
+            <span
+              style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+              &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
+
+            <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+              <b>{{singleProduct?.afterDiscountPrice |
+                currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
+                'symbol':'1.0'}}</del>
+            </p>
+
+
 
             <img *ngIf="singleProduct?.showStarsByRatings"
               src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0: singleProduct?.showStarsByRatings}}.png"
@@ -60,10 +107,118 @@
 
 
       </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="latest-review-row">
+
+  <h1 class="heading">Latest Reviews</h1>
+  <hr>
+
+  <div class="latest-review-products-list">
+    <div class="single-review-product" *ngFor="let singleProduct of fiveProductsReview">
+      <img src="{{singleProduct?.productImageUrl}}" width="115px" height="115px" alt="">
+      <div>
+
+        <a [routerLink]="['/Product-detail/', singleProduct?.productId]" style="color:black;">
+          <p style="font-size: 16px;font-weight: 500;">{{singleProduct?.productName}}</p>
+        </a>
+
+        <div>
+          <img *ngIf="singleProduct?.raitingStars"
+            src="../../../assets/stars-rating/{{singleProduct?.raitingStars == 'NaN'? 0: singleProduct?.raitingStars}}.png"
+            width="100px" height="20px" alt=""> &nbsp;<span>{{singleProduct?.reviewDate | date :'d' }} days ago</span>
+          <p style="max-width: 230px; margin-top: 0.7rem; max-height: 240px;overflow: auto;">{{singleProduct?.comment}}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <hr>
+</div>
+<br><br><br><br>
+
+<div class="popular-categories">
+  <div>
+    <h1 style="font-size: 30px; font-weight: bold;">Popular Categories</h1>
+  </div>
+
+  <div>
+    <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="popularCategorySlidesConfig">
+      <div ngxSlickItem *ngFor="let slide of popularCategorySlides" class="slide">
+        <img src="{{ slide.img }}" height="250px" alt="" width="100%">
+      </div>
+    </ngx-slick-carousel>
+  </div>
+</div><br><br>
+<hr>
+
+<div class="cards">
+
+  <div class="first-card">
+    <i class="fa-solid fa-truck-fast" style="font-size: 55px; padding-top:20px;"></i>
+    <div>
+      <h1 style="padding-top:12px; margin: 0;">Fast Delivery</h1>
+      <span style="color:rgb(119, 112, 112); font-size: 16px;">Everywhere</span>
+    </div>
+
+  </div>
+
+  <div class="second-card">
+    <i class="fa-solid fa-tag" style="font-size: 55px; padding-top:20px;"></i>
+    <div>
+      <h1 style="padding-top:12px; margin: 0;">Responsible Product Price</h1>
+      <span style="color:rgb(119, 112, 112); font-size: 16px;">Friendly to pocket</span>
+    </div>
+  </div>
+
+  <div class="third-card">
+    <i class="fa-solid fa-store" style="font-size: 55px; padding-top:20px;"></i>
+    <div>
+      <h1 style="padding-top:12px; margin: 0;">Trust On Us</h1>
+      <span style="color:rgb(119, 112, 112); font-size: 16px;">Lorem, ipsum.</span>
+    </div>
+  </div>
+
+  <div class="forth-card">
+    <i class="fa-solid fa-user" style="font-size: 55px; padding-top:20px;"></i>
+    <div>
+      <h1 style="padding-top:12px; margin: 0;">Positive Customer</h1>
+      <span style="color:rgb(119, 112, 112); font-size: 16px;">Best Reviews</span>
     </div>
   </div>
 
 </div>
+
+<br><br><br>
+<hr>
+
+<ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+  <div ngxSlickItem *ngFor="let slide of slides" class="slide">
+    <img src="{{ slide.img }}" height="220px" alt="" width="100%">
+  </div>
+</ngx-slick-carousel>
+<br><br>
+
+
+<app-footer></app-footer>
+
+
+
+
+
+
 
 
 

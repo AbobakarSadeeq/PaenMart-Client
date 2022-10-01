@@ -7,6 +7,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { SharedModule } from 'src/app/shared/Modules/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 import { FooterModule } from '../footer/footer.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 
 
@@ -17,7 +18,8 @@ import { FooterModule } from '../footer/footer.module';
     HomeRoutingModule,
     SharedModule,
     NavbarModule,
-    FooterModule
+    FooterModule,
+    SlickCarouselModule
   ]
 })
 export class HomeModule { }

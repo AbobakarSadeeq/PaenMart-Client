@@ -13,6 +13,14 @@ export class HomeService {
     return this._Http.get("https://localhost:44300/api/Product/GetMostSellFiveProducts");
   }
 
+  GetFiveDiscountProducst(): Observable<any> {
+    return this._Http.get("https://localhost:44300/api/Home");
+  }
+
+  GetFiveProductReview(): Observable<any> {
+    return this._Http.get("https://localhost:44300/api/Home/GetFiveLatestProductReview");
+  }
+
 
   GetCarouselImages(): Observable<any> {
     return this._Http.get("https://localhost:44300/api/Carousel");
