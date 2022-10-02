@@ -59,7 +59,8 @@
 
         <p>Currently Live sale</p>
         <ul>
-          <li *ngFor="let item of LiveDiscountDeal"><a [routerLink]="['/Products', nestCategories[0]?.nestSubCategoryID]">{{item?.dealName}} </a></li>
+          <li *ngFor="let item of LiveDiscountDeal"><a
+              [routerLink]="['/Client/Product-discount-deal/', item?.discountDealID ]">{{item?.dealName}} </a></li>
 
         </ul>
 

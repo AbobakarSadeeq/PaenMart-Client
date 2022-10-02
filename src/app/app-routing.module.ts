@@ -27,6 +27,7 @@ const routes: Routes = [
   // review components
   { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule), canActivate: [AuthGuard] },
   { path: 'Client/Write-Reviews/Product/:id', loadChildren: () => import('./client/client-order-review/client-single-product-review/client-single-product-review.module').then(m => m.ClientSingleProductReviewModule), canActivate: [AuthGuard] },
+  { path: 'Client/Product-discount-deal/:id', loadChildren: () => import('./client/client-product-discount-deal/client-product-discount-deal.module').then(m => m.ClientProductDiscountDealModule)},
 
   // some common pages
   { path: 'contact-us', component: ContactUsComponent },

@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+<br>
+<div class="main-div">
+
+  <div>
+
+    <div *ngIf="LiveDiscountDeal?.length > 0" class="sidebar-div">
+      <h1 style="text-align:center;">DISCOUNT DEAL</h1>
+      <hr>
+      <ul>
+        <li *ngFor="let singleDiscount of LiveDiscountDeal"><a style="padding: 0;"
+            [routerLink]="['/Client/Product-discount-deal/', singleDiscount?.discountDealID ]">{{singleDiscount?.dealName}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div>
+    <h1>Main section "{{selectedDealName}}"</h1>
+
+
+
+
+    <div class="row" *ngIf="dealProducts?.length > 0">
+      <div class="col-2" *ngFor="let singleProduct of dealProducts">
+        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+          [routerLink]="['/Product-detail/', singleProduct?.productId]">
+          <img src="{{singleProduct?.productImageUrl}}" class="card-img-top" alt="adv"
+            style=" max-width: max-content; height: 200px;" />
+          <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+            -{{singleProduct?.discountPercentage}}%</p>
+          <span
+            style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+          </span>
+          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+            <b>{{singleProduct?.afterPrice |
+              currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.beforePrice | currency: 'Rs ':
+              'symbol':'1.0'}}</del>
+          </p>
+          <img
+            src="../../../assets/stars-rating/{{singleProduct?.showStarsByRatings == 'NaN'? 0 : singleProduct?.showStarsByRatings}}.png"
+            width="100px" height="20px" alt="">
+
+          ({{singleProduct?.raiting}})
+        </a>
+        <br><br><br>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
+<br><br><br>
+<app-footer></app-footer>

@@ -35,6 +35,12 @@ export class ClientProductDetailComponent implements OnInit {
   ngOnInit(): void {
 
 
+
+
+
+
+
+
     // wish list
     if (localStorage.getItem("token")) {
       let customObj = {
@@ -61,6 +67,61 @@ export class ClientProductDetailComponent implements OnInit {
     let selectedProductId = this._activateRoute.snapshot.params['id'];
     let productDetailsJsonData = {}
     this.subscription = this._clientProduct.get(selectedProductId).subscribe((data: any) => {
+
+      if (data) {
+
+        if (localStorage.getItem("RecentlyViewedProduct")) {
+          let recentlyViewProduct = [...JSON.parse(localStorage.getItem("RecentlyViewedProduct"))];
+
+          if (recentlyViewProduct.length == 5) {
+            recentlyViewProduct.splice(0, 1);
+          }
+
+          let customObj = {
+            productId: data.productID,
+            productName: data.productName + " (" + data.color + " " + data.productBrandName + ")",
+            price: data.price,
+            discountPercentage: data.discountPercentage,
+            afterDiscountProductPrice: data.afterDiscountPrice,
+            productImageUrl: data.getProductImagess[0].url,
+            raiting: data.raiting,
+            showProductStars: data.showStarsByRatings
+          }
+
+          recentlyViewProduct.push(customObj);
+
+          localStorage.setItem("RecentlyViewedProduct", JSON.stringify(recentlyViewProduct));
+
+
+        } else {
+          // not found this local storage
+
+
+          let recentlyViewProduct = [];
+
+
+          let customObj = {
+            productId: data.productID,
+            productName: data.productName + " (" + data.color + " " + data.productBrandName + ")",
+            price: data.price,
+            discountPercentage: data.discountPercentage,
+            afterDiscountProductPrice: data.afterDiscountPrice,
+            productImageUrl: data.getProductImagess[0].url,
+            raiting: data.raiting,
+            showProductStars: data.showStarsByRatings
+          }
+          recentlyViewProduct.push(customObj);
+
+          localStorage.setItem("RecentlyViewedProduct", JSON.stringify(recentlyViewProduct));
+
+
+        }
+      }
+
+
+
+
+
 
       setTimeout(() => {
         let convertJsonStringToJsonObj = JSON.parse(data.productDetails);

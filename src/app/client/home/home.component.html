@@ -152,6 +152,43 @@
 </div>
 <br><br><br><br>
 
+<!-- Recently products -->
+
+<h1 style="margin-left: 130px; font-weight: bold; font-size: 30px;">Recently Viewed Products</h1>
+
+<div class="my-row recently-products">
+  <div class="col-2" *ngFor="let singleProduct of recentlyViewProducts">
+    <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+      [routerLink]="['/Product-detail/', singleProduct?.productId]">
+      <img src="{{singleProduct?.productImageUrl}}" class="card-img-top" alt="adv"
+        style=" max-width: max-content; height: 200px;" />
+      <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+        -{{singleProduct?.discountPercentage}}%</p>
+      <span style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+      </span>
+
+      <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+        <b>{{singleProduct?.afterDiscountProductPrice |
+          currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
+          'symbol':'1.0'}}</del>
+      </p>
+
+
+
+      <img *ngIf="singleProduct?.showProductStars"
+        src="../../../assets/stars-rating/{{singleProduct?.showProductStars == 'NaN'? 0: singleProduct?.showProductStars}}.png"
+        width="100px" height="20px" alt="">
+
+      ({{singleProduct?.raiting}})
+    </a>
+  </div>
+
+
+</div>
+
+<hr>
+<br><br><br><br>
+
 <div class="popular-categories">
   <div>
     <h1 style="font-size: 30px; font-weight: bold;">Popular Categories</h1>

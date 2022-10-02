@@ -45,11 +45,17 @@ export class HomeComponent implements OnInit {
   sideHomeAd: any;
   fiveDiscountProducts: any[] = [];
   fiveProductsReview: any[] = [];
+  recentlyViewProducts: any[] = [];
 
   constructor(private _HomeService: HomeService,
     private _sponsoredAdService: SponsoredAdService) { }
 
   ngOnInit(): void {
+
+    // get 5 Recently viewed product
+    if (localStorage.getItem("RecentlyViewedProduct")) {
+      this.recentlyViewProducts = JSON.parse(localStorage.getItem("RecentlyViewedProduct"));
+    }
 
     // get 5 discount products
     this.subscription = this._HomeService.GetFiveDiscountProducst().subscribe((data: any) => {
