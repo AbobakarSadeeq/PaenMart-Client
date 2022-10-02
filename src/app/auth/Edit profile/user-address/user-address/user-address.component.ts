@@ -36,10 +36,16 @@ export class UserAddressComponent implements OnInit {
   editDisplayModelUserAddress = false;
   displayModelUserAddress = false;
 
-  constructor(private cdr: ChangeDetectorRef, private myActivateParams: ActivatedRoute, private fb: FormBuilder, private route: Router, private _authService: AuthService) { }
+  constructor(private cdr: ChangeDetectorRef,
+     private myActivateParams: ActivatedRoute,
+      private fb: FormBuilder,
+       private route: Router,
+       private _authService: AuthService) { }
 
   ngOnInit(): void {
-
+    if (!localStorage.getItem("token")) {
+      this.route.navigate(['/Auth']);
+    }
     // Loading Spinner
     // this.subscription =  this._authService.loadingSpinnerLogOut.subscribe((data:any)=>{
     //   this.loadingIndicator = data;

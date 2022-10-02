@@ -36,7 +36,7 @@ export class AdminComponent implements OnInit {
   chartOptions: Partial<ChartOptions> | any;
 
   subscription: Subscription;
-  dashboardDetails: any
+  dashboardDetails: any = null;
   getStyleFromNav: string = null;
   lastFiveShippedData: any[] = [];
   userDetails: any;
@@ -63,7 +63,7 @@ export class AdminComponent implements OnInit {
 
     }
 
-    
+
 
   }
 

@@ -89,63 +89,64 @@ export class NavbarComponent implements OnInit {
 
 
     // notification of pending order
-    var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
-    var userRole = payload.role;
+    if (localStorage.getItem("token")) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
+      var userRole = payload.role;
 
 
+      if (userRole == "Admin" || userRole == "Employee") {
 
-    if (userRole == "Admin" || userRole == "Employee") {
+        connectionSignalR.start().then(
+          () => {
+          },
+          (error) => {
+          }
+        );
 
-      connectionSignalR.start().then(
-        () => {
-        },
-        (error) => {
-        }
-      );
+        setTimeout(() => {
+          connectionSignalR
+            .invoke("LivePendingOrders")
+            .then(
+              () => {
+              },
+              (errors) => {
+              }
+            );
 
-      setTimeout(() => {
-        connectionSignalR
-          .invoke("LivePendingOrders")
-          .then(
-            () => {
-            },
-            (errors) => {
-            }
-          );
-
-        connectionSignalR.on("PendingLiveOrders", (pendingOrderCount) => {
-          this.pendingOrdersCountingLive = pendingOrderCount;
-        });
-      }, 1000)
-
-
-    }
+          connectionSignalR.on("PendingLiveOrders", (pendingOrderCount) => {
+            this.pendingOrdersCountingLive = pendingOrderCount;
+          });
+        }, 1000)
 
 
-    if (userRole == "Shipper") {
-      connectionSignalR.start().then(
-        () => {
-        },
-        (error) => {
-        }
-      );
+      }
 
 
-      setTimeout(() => {
+      if (userRole == "Shipper") {
+        connectionSignalR.start().then(
+          () => {
+          },
+          (error) => {
+          }
+        );
 
-        connectionSignalR
-          .invoke("LiveShippingPendingOrders")
-          .then(
-            () => {
-            },
-            (errors) => {
-            }
-          );
 
-        connectionSignalR.on("ShippingPendingOrdersCountLive", (shippingPendingOrderCount) => {
-          this.shippingPendingOrdersCountingLive = shippingPendingOrderCount;
-        });
-      }, 1000)
+        setTimeout(() => {
+
+          connectionSignalR
+            .invoke("LiveShippingPendingOrders")
+            .then(
+              () => {
+              },
+              (errors) => {
+              }
+            );
+
+          connectionSignalR.on("ShippingPendingOrdersCountLive", (shippingPendingOrderCount) => {
+            this.shippingPendingOrdersCountingLive = shippingPendingOrderCount;
+          });
+        }, 1000)
+      }
     }
 
 

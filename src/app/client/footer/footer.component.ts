@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ProductDiscountDealsService } from 'src/app/admin/product-discount-deals/product-discount-deals.service';
 import { ProductsByBrandService } from '../client-product/products-by-Footer-selected/products-by-Footer-selected.service';
 
 @Component({
@@ -10,10 +11,24 @@ import { ProductsByBrandService } from '../client-product/products-by-Footer-sel
 export class FooterComponent implements OnInit {
   brands: any[] = [];
   nestCategories: any[] = [];
+  LiveDiscountDeal: any[] = [];
   subscription: Subscription;
-  constructor(private _productsByBrand: ProductsByBrandService) { }
+
+  userId = null;
+
+  constructor(private _productsByBrand: ProductsByBrandService, private _ProductDiscountDealService: ProductDiscountDealsService) { }
 
   ngOnInit(): void {
+
+    if (localStorage.getItem("token")) {
+      this.userId = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID;
+    }
+
+    this.subscription = this._ProductDiscountDealService.getLiveDiscountDeals().subscribe((data: any) => {
+      this.LiveDiscountDeal = data;
+    });
+
+
     this.subscription = this._productsByBrand.GetAllBrands().subscribe((data: any) => {
       this.brands = data.slice(0, 10);
     })

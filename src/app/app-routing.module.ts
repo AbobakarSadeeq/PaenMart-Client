@@ -17,16 +17,16 @@ const routes: Routes = [
   { path: 'Auth/ForgetPassword', loadChildren: () => import('../app/auth/forget-password/forget-password.module').then(m => m.ForgetPasswordModule) },
   { path: 'Auth/ResetPassword', loadChildren: () => import('../app/auth/reset-password/reset-password.module').then(m => m.ResetPasswordModule) },
 
-  { path: 'User/EditUser/:id', loadChildren: () => import('./auth/Edit profile/authorized-images/authorized-images.module').then(m => m.AuthorizedImagesModule) },
+  { path: 'User/EditUser/:id', loadChildren: () => import('./auth/Edit profile/authorized-images/authorized-images.module').then(m => m.AuthorizedImagesModule), canActivate: [AuthGuard] },
 
   // client order
-  { path: 'Client/Orders/:id', loadChildren: () => import('./client/client-order/client-order.module').then(m => m.ClientOrderModule) },
-  { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule) },
-  { path: 'Client/Order-Track', loadChildren: () => import('./client/client-order/order-tracking/order-tracking.module').then(m => m.OrderTrackingModule) },
+  { path: 'Client/Orders/:id', loadChildren: () => import('./client/client-order/client-order.module').then(m => m.ClientOrderModule), canActivate: [AuthGuard] },
+  { path: 'Client/OrdersDetail/:id', loadChildren: () => import('./client/client-order/client-order-detail/client-order-detail.module').then(m => m.ClientOrderDetailModule), canActivate: [AuthGuard] },
+  { path: 'Client/Order-Track', loadChildren: () => import('./client/client-order/order-tracking/order-tracking.module').then(m => m.OrderTrackingModule), canActivate: [AuthGuard] },
 
   // review components
-  { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule) },
-  { path: 'Client/Write-Reviews/Product/:id', loadChildren: () => import('./client/client-order-review/client-single-product-review/client-single-product-review.module').then(m => m.ClientSingleProductReviewModule) },
+  { path: 'Client/Reviews', loadChildren: () => import('./client/client-order-review/client-order-review.module').then(m => m.ClientOrderReviewModule), canActivate: [AuthGuard] },
+  { path: 'Client/Write-Reviews/Product/:id', loadChildren: () => import('./client/client-order-review/client-single-product-review/client-single-product-review.module').then(m => m.ClientSingleProductReviewModule), canActivate: [AuthGuard] },
 
   // some common pages
   { path: 'contact-us', component: ContactUsComponent },

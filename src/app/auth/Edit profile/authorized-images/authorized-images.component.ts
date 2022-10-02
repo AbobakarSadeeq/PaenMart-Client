@@ -22,7 +22,7 @@ export class AuthorizedImagesComponent implements OnInit {
   imageForMainProfile: any = null;
   getSingleUserIdForPhotos: any;
   selectedTab: any = 0;
-  userLoggedIn:any = false;
+  userLoggedIn: any = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -38,13 +38,17 @@ export class AuthorizedImagesComponent implements OnInit {
 
   ngOnInit(): void {
 
+    if (!localStorage.getItem("token")) {
+      this.route.navigate(['/Auth']);
+    }
+
     // Getting Query String data for selecting Tab
     const selectingAddressTab = this.myActivateParams.snapshot.queryParamMap.get('selectAddressTab');
     this.selectedTab = selectingAddressTab;
 
-    if(localStorage.getItem("token")){
+    if (localStorage.getItem("token")) {
       this.userLoggedIn = true;
-    }else{
+    } else {
       this.userLoggedIn = false;
     }
     // this.subscription =  this._authService.loadingSpinnerLogOut.subscribe((data:any)=>{

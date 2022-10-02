@@ -18,6 +18,7 @@ export class ClientOrderReviewComponent implements OnInit {
     private _clientOrderReviewService: ClientOrderReviewService) { }
 
   ngOnInit(): void {
+    debugger;
 
     if (!localStorage.getItem('token')) {
       this._route.navigate(['/Auth'], { queryParams: { orderReview: true } });

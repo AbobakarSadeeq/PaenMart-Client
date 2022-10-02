@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,9 +16,14 @@ export class ForgetPasswordComponent implements OnInit {
 
 
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _authService: AuthService, private _route: Router) { }
 
   ngOnInit(): void {
+
+    if (localStorage.getItem("token")) {
+      this._route.navigate(['/']);
+    }
+
   }
 
   forgetPasswordData(enteredEmail: any) {
@@ -29,7 +35,7 @@ export class ForgetPasswordComponent implements OnInit {
     }
 
     this._authService.forgetPassword({ email: enteredEmail.email }).subscribe((data: any) => {
-        this.tokenFound = false;
+      this.tokenFound = false;
     },
       (error: HttpErrorResponse) => {
         this.forgetPasswordError = error.error;

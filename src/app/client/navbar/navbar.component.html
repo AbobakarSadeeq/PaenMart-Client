@@ -18,7 +18,7 @@
     <input type="text" ngModel #searchValue placeholder="Search everything by brand and product name and category name"
       [(ngModel)]="searchState" (focus)="showHistoryHandlerToggle()" id="search"
       (keyup.enter)="SearchValue(searchValue?.value)" class="form-control searchEngine"
-      (ngModelChange)="this.userQuestionUpdate.next($event)">
+      (ngModelChange)="this.userQuestionUpdate.next($event)" autocomplete="off">
     <!-- (ngModelChange)="autoCompleteSearchCall($event)" -->
 
 

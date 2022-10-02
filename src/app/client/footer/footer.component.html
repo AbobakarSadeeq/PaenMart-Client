@@ -59,10 +59,7 @@
 
         <p>Currently Live sale</p>
         <ul>
-          <li><a [routerLink]="['/']">White friday </a></li>
-          <li><a [routerLink]="['/']">Holidays </a></li>
-          <li><a [routerLink]="['/']">Weekend </a></li>
-          <li><a [routerLink]="['/']">Summar </a></li>
+          <li *ngFor="let item of LiveDiscountDeal"><a [routerLink]="['/Products', nestCategories[0]?.nestSubCategoryID]">{{item?.dealName}} </a></li>
 
         </ul>
 
@@ -71,10 +68,10 @@
       <div class="col-4">
         <p>Order Info</p>
         <ul>
-          <li><a [routerLink]="['/']">Checks your orders</a></li>
-          <li><a [routerLink]="['/']">Track your orders</a></li>
-          <li><a [routerLink]="['/']">Check pending orders</a></li>
-          <li><a [routerLink]="['/']">Shopping cart</a></li>
+          <li><a [routerLink]="['/Client/Orders/', userId]">Checks your orders</a></li>
+          <li><a [routerLink]="['/Client/Order-Track']">Track your orders</a></li>
+          <li><a [routerLink]="['/Client/Orders/', userId]">Check pending orders</a></li>
+          <li><a [routerLink]="['/Cart']">Shopping cart</a></li>
 
         </ul>
 
@@ -83,26 +80,25 @@
         <p>About Paen-Mart</p>
         <ul>
           <li><a [routerLink]="['/about-us']">About Us</a></li>
-          <li><a [routerLink]="['/']">Our Story</a></li>
-          <li><a [routerLink]="['/']">Our Company</a></li>
+          <li><a [routerLink]="['/about-us']">Our Story</a></li>
+          <li><a [routerLink]="['/about-us']">Our Company</a></li>
 
         </ul>
 
         <p>Support</p>
         <ul>
           <li><a [routerLink]="['/contact-us']">Contact Us</a></li>
-          <li><a [routerLink]="['/']">Help</a></li>
+          <li><a [routerLink]="['/contact-us']">Help</a></li>
 
         </ul>
       </div>
       <div class="col-6">
         <p>Account</p>
         <ul>
-          <li><a [routerLink]="['/']">My Profile</a></li>
-          <li><a [routerLink]="['/']">My Product Reviews</a></li>
-          <li><a [routerLink]="['/']">Sign In</a></li>
-          <li><a [routerLink]="['/']">Forget password</a></li>
-
+          <li><a [routerLink]="['/User/EditUser/', userId]">My Profile</a></li>
+          <li><a [routerLink]="['/Client/Reviews']">My Product Reviews</a></li>
+          <li><a [routerLink]="['/Auth']">Sign In</a></li>
+          <li><a [routerLink]="['/Auth/ForgetPassword']">Forget password</a></li>
         </ul>
       </div>
 

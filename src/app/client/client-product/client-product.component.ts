@@ -44,7 +44,7 @@ export class ClientProductComponent implements OnInit {
 
     this.subscription = this._ProductDiscountDealService.getLiveDiscountDeals().subscribe((data: any) => {
       this.LiveDiscountDeal = data;
-    })
+    });
 
 
     let getSelectedNestCategoryData = this._activateRoute.snapshot.params['id'];

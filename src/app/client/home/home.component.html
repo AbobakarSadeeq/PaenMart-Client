@@ -74,8 +74,11 @@
       <hr>
 
 
-      <h1>Products On Sale</h1>
+      <h1 style="">Top Products On Sale
+        <a [routerLink]="['/Products', 1]" style="font-size: 1rem;">Show More</a>
 
+
+      </h1>
       <div class="my-row">
 
         <div class="col-2" *ngFor="let singleProduct of fiveDiscountProducts">
