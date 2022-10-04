@@ -15,6 +15,7 @@ import { ContactUsComponent } from './client/footer/contact-us/contact-us.compon
 import { NavbarModule } from './client/navbar/navbar.module';
 import { FooterModule } from './client/footer/footer.module';
 import { AboutUsComponent } from './client/footer/about-us/about-us.component';
+import { HttpInterceptorService } from './shared/services/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,12 @@ import { AboutUsComponent } from './client/footer/about-us/about-us.component';
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
-  }],
+  },
+    , {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }],
 
   bootstrap: [AppComponent]
 })

@@ -1,2 +1,8 @@
-<router-outlet></router-outlet>
+<div *ngIf="loadingSpinnerShowValid"
+   class="spinner-main">
+  <mat-spinner class="matSpinner" [diameter]="150"></mat-spinner>
+</div>
 
+
+
+<router-outlet></router-outlet>
