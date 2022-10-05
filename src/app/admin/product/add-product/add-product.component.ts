@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { single, Subscription } from 'rxjs';
+import { of, single, Subscription } from 'rxjs';
 import { AdminService } from '../../admin.service';
 import { DynamicFormStructureService } from '../../product-extra-info/dynamic-form-structure/dynamic-form-structure.service';
 import { ProductBrandService } from '../../product-extra-info/product-brand/product-brand.service';
 import { AddProductService } from './add-product.service';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -21,13 +21,13 @@ export class AddProductComponent implements OnInit {
   // Structure of form properties only
   userMadeForm: any[] = [];
   selectFileslength = [];
-  filterdCheckBoxData:any [] = [];
+  filterdCheckBoxData: any[] = [];
   customizeArrayCheckBox = [];
   checkBoxChecked = false;
   selectedFileData: any[] = [];
 
   // getting data for submitting form
-  brands:any[] = [];
+  brands: any[] = [];
 
   // Submit form
   userDynamicForm: FormGroup;
@@ -39,8 +39,8 @@ export class AddProductComponent implements OnInit {
   constructor(private _adminService: AdminService,
     private _activateRoute: ActivatedRoute,
     private _dynamicFormStructureService: DynamicFormStructureService,
-    private _productBrandService:ProductBrandService,
-    private _addProductService:AddProductService,
+    private _productBrandService: ProductBrandService,
+    private _addProductService: AddProductService,
     private fb: FormBuilder,
     private _route: Router,
     private _location: Location) {
@@ -48,7 +48,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     // dynamically form added data
-    this._adminService.sideBar.subscribe((data:string)=>{
+    this._adminService.sideBar.subscribe((data: string) => {
       this.getStyleFromNav = data;
     })
 
@@ -58,58 +58,66 @@ export class AddProductComponent implements OnInit {
 
     this.userDynamicForm = this.fb.group({
 
-      commonInputsOfProducts:this.fb.group({
-        productName:['', [Validators.required]],
-        price:['', [Validators.required]],
-        color:['', [Validators.required]],
-        stockAvailiability:['', [Validators.required]],
-        quantity:['', [Validators.required]],
-        productBrandId:[null, [Validators.required]],
-       })
+      commonInputsOfProducts: this.fb.group({
+        productName: ['', [Validators.required]],
+        price: ['', [Validators.required]],
+        color: ['', [Validators.required]],
+        stockAvailiability: ['', [Validators.required]],
+        quantity: ['', [Validators.required]],
+        productBrandId: [null, [Validators.required]],
+      }),
     });
 
 
     this.selectedFormName = this._activateRoute.snapshot.params['NestCategoryName'];
 
- 
-    this._addProductService.getBrands(+this._activateRoute.snapshot.queryParamMap.get('NestCategoryId')).subscribe((data:any)=>{
+
+    this._addProductService.getBrands(+this._activateRoute.snapshot.queryParamMap.get('NestCategoryId')).subscribe((data: any) => {
       this.brands = data;
-      console.log(data);
     });
 
   }
 
 
-
+  hideQuantityInputOfProduct = true;
   getDynamicFormStructureByNestCategoryId(selectFormId: number) {
     let countAddedFileInputs = 0;
     this.subscription = this._dynamicFormStructureService.get(selectFormId).subscribe((data: any) => {
+      // if product size is true then dont add the quantity input
+      if (data.productSize) {
+        console.log(this.userDynamicForm);
+        this.hideQuantityInputOfProduct = false;
 
-    // adding by default all checkbox value
+      }
+
+
+
+
+      // adding by default all checkbox value
       let convertDataToArr = JSON.parse(data.formStructure);
       let filteringDataForCheckBox = [];
 
-      for(var singleInput of convertDataToArr){
-        if(singleInput.inputType == 'checkbox'){
-          for(var singleCheckBoxData of singleInput.labelName){
-            let filterCheckBox = {checkBoxValuee:singleCheckBoxData.multipleOptionValue};
-            filteringDataForCheckBox.push({checkBoxValue:filterCheckBox.checkBoxValuee, check:false});
-            }
-            this.filterdCheckBoxData.push({nameOfInput:singleInput.nameOfInput, lableName:filteringDataForCheckBox});
-            filteringDataForCheckBox = [];
+      for (var singleInput of convertDataToArr) {
+        if (singleInput.inputType == 'checkbox') {
+          for (var singleCheckBoxData of singleInput.labelName) {
+            let filterCheckBox = { checkBoxValuee: singleCheckBoxData.multipleOptionValue };
+            filteringDataForCheckBox.push({ checkBoxValue: filterCheckBox.checkBoxValuee, check: false });
           }
-
-          if (singleInput.inputType == 'file') {
-            countAddedFileInputs = singleInput.numberOfChooseFileInputs;
-          }
-
-          this.userDynamicForm.addControl(singleInput.nameOfInput, this.fb.control("", [Validators.required]));
+          this.filterdCheckBoxData.push({ nameOfInput: singleInput.nameOfInput, lableName: filteringDataForCheckBox });
+          filteringDataForCheckBox = [];
         }
+
+        if (singleInput.inputType == 'file') {
+          countAddedFileInputs = singleInput.numberOfChooseFileInputs;
+        }
+
+        this.userDynamicForm.addControl(singleInput.nameOfInput, this.fb.control("", [Validators.required]));
+      }
 
 
       // productSize
-      if(data.productSize == true){
-        this.productSizes =  ["S", "M", "L", "XL"];
+      if (data.productSize == true) {
+        this.productSizes = ["S", "M", "L", "XL"];
       }
 
       this.selectedFormNestCategoryId = data.nestSubCategoryId;
@@ -128,9 +136,9 @@ export class AddProductComponent implements OnInit {
     // findingValue that click on checked
 
     // first Time adding or checking Value
-    let findingLabelName = this.filterdCheckBoxData.findIndex(a=>a.nameOfInput == labelNameOfCheckBoxes);
-    for(var singleCheckBox of this.filterdCheckBoxData[findingLabelName].lableName){
-      if(singleCheckBox.checkBoxValue == selectCheckData){
+    let findingLabelName = this.filterdCheckBoxData.findIndex(a => a.nameOfInput == labelNameOfCheckBoxes);
+    for (var singleCheckBox of this.filterdCheckBoxData[findingLabelName].lableName) {
+      if (singleCheckBox.checkBoxValue == selectCheckData) {
         singleCheckBox.check = !singleCheckBox.check;
 
       }
@@ -143,8 +151,22 @@ export class AddProductComponent implements OnInit {
   }
 
 
-  customInputValidationError:string = null;
+  customInputValidationError: string = null;
   CustomInputDataSubmit() {
+
+
+    // means if size is found then hide input from dom and become false so, whenever storing product then store its all sizes quantity in main quantity input
+    if (this.hideQuantityInputOfProduct == false) {
+      for (var singleSizeQuantity of this.selectedProductSize) {
+        this.totalSizeQuantities = this.totalSizeQuantities + (+singleSizeQuantity.sizeQuantity);
+      }
+
+      this.userDynamicForm.get('commonInputsOfProducts.quantity').setValue(this.totalSizeQuantities);
+    }
+
+
+
+
     this.customInputValidationError = null;
     let completeDynamicFormData = this.userDynamicForm.value;
 
@@ -162,14 +184,14 @@ export class AddProductComponent implements OnInit {
     for (let singleProp in completeDynamicFormData) {
       if (completeDynamicFormData[singleProp] == "") {
         let currentIndexCheckBoxLabelName = singleProp;
-        let findingIndexCheckBox = this.filterdCheckBoxData.findIndex(a=>a.nameOfInput == currentIndexCheckBoxLabelName);
-        if(findingIndexCheckBox == -1){
+        let findingIndexCheckBox = this.filterdCheckBoxData.findIndex(a => a.nameOfInput == currentIndexCheckBoxLabelName);
+        if (findingIndexCheckBox == -1) {
           this.customInputValidationError = "you are missing adding inputs value";
           completeDynamicFormData = null;
           return;
         }
         completeDynamicFormData[singleProp] = this.filterdCheckBoxData[findingIndexCheckBox].lableName;
-    }
+      }
 
     }
 
@@ -179,22 +201,21 @@ export class AddProductComponent implements OnInit {
     for (let i = 0; i < this.selectedFileData.length; i++) {
       formFrom.append(`File`, this.selectedFileData[i], this.selectedFileData[i]?.name);
     }
-
+    debugger;
     let getCommonFormData = completeDynamicFormData.commonInputsOfProducts;
     let findingEmptyPropInObj = Object.fromEntries(Object.entries(getCommonFormData).filter(([_, v]) => v == ''));
     let findingEmptyValue = Object.keys(findingEmptyPropInObj).length > 0;
 
-    if(findingEmptyValue){
+    if (findingEmptyValue) {
       this.customInputValidationError = "you are missing adding inputs value";
       completeDynamicFormData = null;
       return;
     }
 
     // removing single property from object
-    debugger;
     delete completeDynamicFormData.commonInputsOfProducts;
-    if(this.productSizes){
-      completeDynamicFormData = {...completeDynamicFormData, productSize:this.selectedProductSize};
+    if (this.productSizes) {
+      completeDynamicFormData = { ...completeDynamicFormData, productSize: this.selectedProductSize };
     }
 
 
@@ -209,8 +230,7 @@ export class AddProductComponent implements OnInit {
     formFrom.append("productBrandId", getCommonFormData.productBrandId);
     formFrom.append("nestSubCategoryId", this.selectedFormNestCategoryId.toString());
     formFrom.append("productDetails", convertJsonObjToJsonString);
-
-      this.subscription = this._addProductService.AddProduct(formFrom).subscribe(()=>{
+    this.subscription = this._addProductService.AddProduct(formFrom).subscribe(() => {
 
       this._location.back();
     })
@@ -224,16 +244,23 @@ export class AddProductComponent implements OnInit {
 
 
   // product size
-  productSizes:string[] = null;
-  selectedProductSize:string[] = [];
-  changeProductSize(event:Event){
+  productSizes: string[] = null;
+  selectedProductSize: any[] = [];
+  totalSizeQuantities = 0;
+  changeProductSize(event: Event) {
     let selectedCheckBox = (event.target as HTMLInputElement).value;
-    let findingCheckBoxIndex = this.selectedProductSize.findIndex(a=>a == selectedCheckBox);
-    if(findingCheckBoxIndex > -1){ // if value is founded
-      this.selectedProductSize.splice(findingCheckBoxIndex,1);
-    }else{
-      this.selectedProductSize.push(selectedCheckBox);
+    let findingCheckBoxIndex = this.selectedProductSize.findIndex(a => a.sizeName == selectedCheckBox);
+    if (findingCheckBoxIndex > -1) { // if value is founded
+      this.selectedProductSize.splice(findingCheckBoxIndex, 1);
+    } else {
+      this.selectedProductSize.push({ sizeName: selectedCheckBox, sizeQuantity: 0 });
     }
+
+  }
+
+  sizeQuantityChange(event: any) {
+    let findingChangeQuantityInputIndex = this.selectedProductSize.findIndex(a => a.sizeName == event.target.name);
+    this.selectedProductSize[findingChangeQuantityInputIndex].sizeQuantity = event.target.value;
   }
 
 

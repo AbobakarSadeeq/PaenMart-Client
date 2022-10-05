@@ -132,7 +132,8 @@
     <div class="col-sm-3">
       <div *ngFor="let item of dynamicData">
         <td><strong>{{item?.objectKey}}</strong></td><br>
-        <td><span>{{item?.objectValue}}</span></td><br>
+        <td><span>{{item?.objectKey == "Product size" ? ( item?.objectValue | json ) : item?.objectValue }}</span></td>
+        <br>
       </div>
     </div>
 

@@ -41,11 +41,14 @@ import { HttpInterceptorService } from './shared/services/http-interceptor.servi
     useClass: AuthInterceptor,
     multi: true
   },
-    , {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorService,
-      multi: true
-    }],
+
+  // , {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: HttpInterceptorService,
+  //   multi: true
+  // }
+
+   ],
 
   bootstrap: [AppComponent]
 })

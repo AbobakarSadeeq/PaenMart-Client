@@ -8,92 +8,87 @@
 
     <form [formGroup]="userDynamicForm" (ngSubmit)="CustomInputDataSubmit()">
 
-        <!-- Common inputs -->
-        <div formGroupName="commonInputsOfProducts" class="row commonInputs">
-          <div  class="form-group col-md-3">
+      <!-- Common inputs -->
+      <div formGroupName="commonInputsOfProducts" class="row commonInputs">
+        <div class="form-group col-md-3">
 
-            <label class="form-lable">Product-Name</label>
-            <input type="text" placeholder="please write the product name"
-            formControlName="productName" id="dynamicFormInputCSS" class="form-control"
-            required>
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.productName')?.invalid && userDynamicForm?.get('commonInputsOfProducts.productName')?.touched"
-              style="color: red;">Please write the product name</span>
+          <label class="form-lable">Product-Name</label>
+          <input type="text" placeholder="please write the product name" formControlName="productName"
+            id="dynamicFormInputCSS" class="form-control" required>
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.productName')?.invalid && userDynamicForm?.get('commonInputsOfProducts.productName')?.touched"
+            style="color: red;">Please write the product name</span>
 
-          </div>
-
-
-          <div  class="form-group col-md-3">
-
-            <label class="form-lable">Color</label>
-            <input type="text" placeholder="please write the color"
-            formControlName="color" id="dynamicFormInputCSS" class="form-control"
-            required>
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.color')?.invalid && userDynamicForm?.get('commonInputsOfProducts.color')?.touched"
-              style="color: red;">Please write the color</span>
-
-          </div>
-
-          <div  class="form-group col-md-3">
-
-            <label class="form-lable">Price</label>
-            <input type="number" placeholder="please write the product price"
-            formControlName="price" id="dynamicFormInputCSS" class="form-control"
-            required>
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.price')?.invalid && userDynamicForm?.get('commonInputsOfProducts.price')?.touched"
-              style="color: red;">Please write the price</span>
-
-          </div>
-
-          <div  class="form-group col-md-3">
-
-            <label class="form-lable">Quantity</label>
-            <input type="number" placeholder="please write the product quantity"
-            formControlName="quantity" id="dynamicFormInputCSS" class="form-control"
-            required>
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.quantity')?.invalid && userDynamicForm?.get('commonInputsOfProducts.quantity')?.touched"
-              style="color: red;">Please write the product quantity</span>
-
-          </div>
+        </div>
 
 
-          <div  class="form-group col-md-3"  >
+        <div class="form-group col-md-3">
 
-            <label class="form-lable">Product Stock Availability</label><br>
-            <input type="radio"
-            formControlName="stockAvailiability" id="dynamicFormInputCSS" value="{{true}}"
-            required> Yes &nbsp;
-            <input type="radio"
-            formControlName="stockAvailiability" id="dynamicFormInputCSS" value="{{false}}"
-            required> No
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.stockAvailiability')?.invalid && userDynamicForm?.get('commonInputsOfProducts.stockAvailiability')?.touched"
-              style="color: red;">Please choose stock availability</span>
+          <label class="form-lable">Color</label>
+          <input type="text" placeholder="please write the color" formControlName="color" id="dynamicFormInputCSS"
+            class="form-control" required>
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.color')?.invalid && userDynamicForm?.get('commonInputsOfProducts.color')?.touched"
+            style="color: red;">Please write the color</span>
 
-          </div>
+        </div>
 
-          <div  class="form-group col-md-3">
+        <div class="form-group col-md-3">
 
-            <label class="form-lable">Product-Brand-Select</label>
-            <select formControlName="productBrandId" required class="form-control" >
-              <option [value]="null" selected disabled>-------------- Please select brand --------------</option>
-              <option *ngFor="let singleBrand of brands" [value]="singleBrand?.brandID">{{singleBrand?.brandName}}</option>
-            </select>
-              <span
-              *ngIf="userDynamicForm?.get('commonInputsOfProducts.productBrandId')?.invalid && userDynamicForm?.get('commonInputsOfProducts.productBrandId')?.touched"
-              style="color: red;">Please select the product brand</span>
+          <label class="form-lable">Price</label>
+          <input type="number" placeholder="please write the product price" formControlName="price"
+            id="dynamicFormInputCSS" class="form-control" required>
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.price')?.invalid && userDynamicForm?.get('commonInputsOfProducts.price')?.touched"
+            style="color: red;">Please write the price</span>
 
-          </div>
+        </div>
+
+        <div class="form-group col-md-3" *ngIf="hideQuantityInputOfProduct">
+
+          <label class="form-lable">Quantity</label>
+          <input type="number" placeholder="please write the product quantity" formControlName="quantity"
+            id="dynamicFormInputCSS" class="form-control" required>
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.quantity')?.invalid && userDynamicForm?.get('commonInputsOfProducts.quantity')?.touched"
+            style="color: red;">Please write the product quantity</span>
+
+        </div>
+
+
+        <div class="form-group col-md-3">
+
+          <label class="form-lable">Product Stock Availability</label><br>
+          <input type="radio" formControlName="stockAvailiability" id="dynamicFormInputCSS" value="{{true}}" required>
+          Yes &nbsp;
+          <input type="radio" formControlName="stockAvailiability" id="dynamicFormInputCSS" value="{{false}}" required>
+          No
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.stockAvailiability')?.invalid && userDynamicForm?.get('commonInputsOfProducts.stockAvailiability')?.touched"
+            style="color: red;">Please choose stock availability</span>
+
+        </div>
+
+        <div class="form-group col-md-3">
+
+          <label class="form-lable">Product-Brand-Select</label>
+          <select formControlName="productBrandId" required class="form-control">
+            <option [value]="null" selected disabled>-------------- Please select brand --------------</option>
+            <option *ngFor="let singleBrand of brands" [value]="singleBrand?.brandID">{{singleBrand?.brandName}}
+            </option>
+          </select>
+          <span
+            *ngIf="userDynamicForm?.get('commonInputsOfProducts.productBrandId')?.invalid && userDynamicForm?.get('commonInputsOfProducts.productBrandId')?.touched"
+            style="color: red;">Please select the product brand</span>
+
+        </div>
 
         <!-- Size Selection -->
-        <div  class="form-group col-md-3" *ngIf="productSizes">
+        <div class="form-group col-md-3" *ngIf="productSizes">
 
           <label class="form-lable">Product-Size</label><br>
           <span *ngFor="let singleSize of productSizes"> &nbsp;
-            <input type="checkbox" (change)="changeProductSize($event)"  value="{{singleSize}}" class="form-check-input" >
+            <input type="checkbox" (change)="changeProductSize($event)" value="{{singleSize}}" class="form-check-input">
             {{singleSize}}
           </span>
 
@@ -103,16 +98,27 @@
 
         </div>
 
-        </div><br>
 
 
 
-        <div class="row">
-          <div *ngFor="let customBuildSingleForm of userMadeForm" class="form-group col-md-3">
+        <div class="form-group col-md-3" *ngFor="let item of selectedProductSize">
+          <label class="form-lable">{{item?.sizeName}}</label><br>
+          <input type="number" class="form-control" placeholder="write the quantity of {{item?.sizeName}} size"
+            (change)="sizeQuantityChange($event)" name="{{item?.sizeName}}">
+
+        </div>
 
 
-            <!-- Input  -->
-            <div *ngIf="
+      </div><br>
+
+
+
+      <div class="row">
+        <div *ngFor="let customBuildSingleForm of userMadeForm" class="form-group col-md-3">
+
+
+          <!-- Input  -->
+          <div *ngIf="
    [
      'text',
      'password',
@@ -120,65 +126,66 @@
      'number',
    ].includes(customBuildSingleForm?.inputType)
   ">
-              <label class="form-lable">{{customBuildSingleForm?.labelName[0].multipleOptionValue}}</label>
-              <input type="{{customBuildSingleForm?.inputType}}" placeholder="{{customBuildSingleForm?.placeHolder}}"
+            <label class="form-lable">{{customBuildSingleForm?.labelName[0].multipleOptionValue}}</label>
+            <input type="{{customBuildSingleForm?.inputType}}" placeholder="{{customBuildSingleForm?.placeHolder}}"
               formControlName="{{customBuildSingleForm?.nameOfInput}}" id="dynamicFormInputCSS" class="form-control"
               required>
-                <span
-                *ngIf="userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.invalid && userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.touched"
-                style="color: red;">Please fill the input with valid value</span>
-            </div>
+            <span
+              *ngIf="userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.invalid && userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.touched"
+              style="color: red;">Please fill the input with valid value</span>
+          </div>
 
 
 
-            <!-- Checkbox button -->
-            <div style="display: flex; gap:1rem;" *ngIf="customBuildSingleForm?.inputType == 'checkbox'">
-              <label>{{customBuildSingleForm?.nameOfInput}}</label>
-              <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleForm?.labelName"><br>
-                <span class="form-label">
-                  <input type="checkbox" (change)="checkBoxChanged($event, customBuildSingleForm?.nameOfInput)"
+          <!-- Checkbox button -->
+          <div style="display: flex; gap:1rem;" *ngIf="customBuildSingleForm?.inputType == 'checkbox'">
+            <label>{{customBuildSingleForm?.nameOfInput}}</label>
+            <div *ngFor="let singleCheckRadioBtnDetail of customBuildSingleForm?.labelName"><br>
+              <span class="form-label">
+                <input type="checkbox" (change)="checkBoxChanged($event, customBuildSingleForm?.nameOfInput)"
                   id="dyanmicFormCheckboxCSS" class="form-check-input"
                   value="{{singleCheckRadioBtnDetail?.multipleOptionValue}}">
-                  {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
-              </div>
+                {{singleCheckRadioBtnDetail?.multipleOptionValue}}</span>
             </div>
+          </div>
 
 
-            <!-- Radio button -->
-            <div *ngIf="customBuildSingleForm?.inputType == 'radio'" style="display: flex; gap:1rem;">
-              <label>{{customBuildSingleForm?.nameOfInput}}</label>
-              <div *ngFor="let singleRadio of customBuildSingleForm?.labelName; let i = index"><br>
-                <span>
-                  <input id="dyanmicFormRadioCSS" name="{{customBuildSingleForm?.nameOfInput}}" type="radio"
+          <!-- Radio button -->
+          <div *ngIf="customBuildSingleForm?.inputType == 'radio'" style="display: flex; gap:1rem;">
+            <label>{{customBuildSingleForm?.nameOfInput}}</label>
+            <div *ngFor="let singleRadio of customBuildSingleForm?.labelName; let i = index"><br>
+              <span>
+                <input id="dyanmicFormRadioCSS" name="{{customBuildSingleForm?.nameOfInput}}" type="radio"
                   formControlName="{{customBuildSingleForm?.nameOfInput}}" value="{{singleRadio?.multipleOptionValue}}"
                   required>
-                  {{singleRadio?.multipleOptionValue}}</span>
-              </div>
-              <span
+                {{singleRadio?.multipleOptionValue}}</span>
+            </div>
+            <span
               *ngIf="userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.invalid && userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.touched"
               style="color: red;">Please choose the option</span>
+          </div>
+
+          <!-- file button -->
+          <div *ngIf="customBuildSingleForm?.inputType == 'file'">
+
+            <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
+              <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
+              <input id="dyanmicFormRadioCSS" (change)="fileChange($event)" type="file"
+                formControlName="{{customBuildSingleForm?.nameOfInput}}" required style="padding-top:10px;"
+                #myFileInput>
             </div>
-
-            <!-- file button -->
-            <div *ngIf="customBuildSingleForm?.inputType == 'file'">
-
-              <div *ngFor="let iteratingOnly of selectFileslength; let i = index">
-                <label>{{customBuildSingleForm?.labelName[0].multipleOptionValue + " " + (i + 1)}} &nbsp;&nbsp;</label>
-                <input id="dyanmicFormRadioCSS" (change)="fileChange($event)" type="file"
-                formControlName="{{customBuildSingleForm?.nameOfInput}}" required style="padding-top:10px;" #myFileInput>
-              </div>
-              <span
+            <span
               *ngIf="userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.invalid && userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.touched"
               style="color: red;">Please add photo</span>
 
-            </div>
+          </div>
 
 
-            <!-- Select-list -->
-            <div *ngIf="customBuildSingleForm?.inputType == 'selectList'">
+          <!-- Select-list -->
+          <div *ngIf="customBuildSingleForm?.inputType == 'selectList'">
 
-              <label> {{customBuildSingleForm?.nameOfInput}}</label>
-              <select required name="{{customBuildSingleForm?.nameOfInput}}"
+            <label> {{customBuildSingleForm?.nameOfInput}}</label>
+            <select required name="{{customBuildSingleForm?.nameOfInput}}"
               formControlName="{{customBuildSingleForm?.nameOfInput}}" id="dyanmicSelectListCSS" class="form-select">
               <option value="{{null}}" disabled selected>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-------------{{customBuildSingleForm?.placeHolder}}--------------
@@ -188,22 +195,25 @@
                 {{singleListData?.multipleOptionValue}}
               </option>
             </select>
-              <span
+            <span
               *ngIf="userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.invalid && userDynamicForm?.get(customBuildSingleForm?.nameOfInput)?.touched"
               style="color: red;">Please select the option</span>
-            </div><br>
-          </div>
+          </div><br>
+        </div>
 
-          <span style="color:red;" *ngIf="selectedFileData.length > selectFileslength.length">
-            You have added pictures more then required so, you have to refresh the page to re-add the product
-          </span>
-          <span *ngIf="customInputValidationError" style="color:red;font-size: 20px;">{{customInputValidationError}}</span>
+        <span style="color:red;" *ngIf="selectedFileData.length > selectFileslength.length">
+          You have added pictures more then required so, you have to refresh the page to re-add the product
+        </span>
+        <span *ngIf="customInputValidationError"
+          style="color:red;font-size: 20px;">{{customInputValidationError}}</span>
 
       </div><br>
 
 
-          <!-- Submit button of form -->
-    <button type="submit" class="btn btn-info" [disabled]="selectedFileData.length != selectFileslength.length && userDynamicForm.invalid" *ngIf="userMadeForm?.length>0">Save {{selectedFormName}}</button><br>
+      <!-- Submit button of form -->
+      <button type="submit" class="btn btn-info"
+        [disabled]="selectedFileData.length != selectFileslength.length && userDynamicForm.invalid"
+        *ngIf="userMadeForm?.length>0">Save {{selectedFormName}}</button><br>
 
 
     </form>
@@ -211,5 +221,3 @@
   </div>
 
 </div>
-
-

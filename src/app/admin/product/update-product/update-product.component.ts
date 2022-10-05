@@ -97,15 +97,22 @@ export class UpdateProductComponent implements OnInit {
 
   // get form structure
   subCheckBoxArr: any[] = [];
+  hideQuantityInputOfProduct = true;
+
   getDynamicFormStructureByNestCategoryId(selectFormId: number) {
     let countAddedFileInputs = 0;
     this.subscription = this._dynamicFormStructureService.get(selectFormId).subscribe((data: any) => {
       // productSize
-      setTimeout(()=>{
+
+      // if product size is true then dont add the quantity input
+      if (data.productSize) {
+        this.hideQuantityInputOfProduct = false;
+      }
+      setTimeout(() => {
         if (data.productSize == false) {
           this.productSizeValid = false;
         }
-      },1000)
+      }, 1000)
 
 
 
@@ -127,7 +134,7 @@ export class UpdateProductComponent implements OnInit {
           this.fatchedCheckBoxData.push({ [singleInput.nameOfInput]: singleInput.labelName });
         }
 
-      // productSize
+        // productSize
 
         // if(singleInput.inputType == 'checkbox'){
         // let checkBoxArrValue = null;
@@ -227,9 +234,10 @@ export class UpdateProductComponent implements OnInit {
 
       if (convertJsonToJsObj.productSize) {
         for (var checkedProductSize of convertJsonToJsObj.productSize) {
-          let findingSelectedCheckProductSizeIndex = this.productSizes.findIndex(a => a.sizeName == checkedProductSize);
+          let findingSelectedCheckProductSizeIndex = this.productSizes.findIndex(a => a.sizeName == checkedProductSize.sizeName);
           if (findingSelectedCheckProductSizeIndex > -1) {
             this.productSizes[findingSelectedCheckProductSizeIndex].check = true;
+            this.productSizes[findingSelectedCheckProductSizeIndex].sizeQuantity = checkedProductSize.sizeQuantity;
           }
         }
       }
@@ -242,19 +250,7 @@ export class UpdateProductComponent implements OnInit {
   }
 
 
-  // product size
-  productSizes: any[] = [{ sizeName: "S", check: false }, { sizeName: "M", check: false }, { sizeName: "L", check: false }, { sizeName: "XL", check: false }];
-  selectedProductSize: string[] = [];
-  productSizeValid = true;
-  changeProductSize(selectedIndex) {
-    let selectedCheckBox = this.productSizes[selectedIndex];
-    for(var checkBoxSize of this.productSizes){
-      if(checkBoxSize.sizeName == selectedCheckBox.sizeName){
-        checkBoxSize.check = !checkBoxSize.check;
-        break;
-      }
-    }
-  }
+
 
 
   // checkbox
@@ -292,23 +288,23 @@ export class UpdateProductComponent implements OnInit {
 
   }
 
-    // Delete Product
-    stopDoubleFuncCalls = false;
-    imageDeleting(selectedImgIndex: number) {
-      this.stopDoubleFuncCalls = true;
+  // Delete Product
+  stopDoubleFuncCalls = false;
+  imageDeleting(selectedImgIndex: number) {
+    this.stopDoubleFuncCalls = true;
 
-      let getSelectedImageId = this.productImagesGetting[selectedImgIndex].publicId;
-      this.DialogService.confirm({
-        message: `Are you sure you want to delete image permanantly?`,
-        accept: () => {
-          this._updateProductService.DeleteImage(getSelectedImageId).subscribe(() => {
-            this.productImagesGetting.splice(selectedImgIndex, 1);
-            this.selectFileslength.push(1);
-          });
-        }
-      });
+    let getSelectedImageId = this.productImagesGetting[selectedImgIndex].publicId;
+    this.DialogService.confirm({
+      message: `Are you sure you want to delete image permanantly?`,
+      accept: () => {
+        this._updateProductService.DeleteImage(getSelectedImageId).subscribe(() => {
+          this.productImagesGetting.splice(selectedImgIndex, 1);
+          this.selectFileslength.push(1);
+        });
+      }
+    });
 
-    }
+  }
 
 
 
@@ -316,73 +312,103 @@ export class UpdateProductComponent implements OnInit {
   // submitting the update data
   fatchedCheckBoxData: any[] = [];
   CustomInputUpdateDataSubmit() {
-    if(!this.stopDoubleFuncCalls){
-    let completeDynamicFormData = this.userDynamicForm.value;
-    console.log(completeDynamicFormData);
+    if (!this.stopDoubleFuncCalls) {
+      let completeDynamicFormData = this.userDynamicForm.value;
+      console.log(completeDynamicFormData);
 
-    for (let singleProp in completeDynamicFormData) {
-      if (completeDynamicFormData[singleProp] == "") {
+      for (let singleProp in completeDynamicFormData) {
+        if (completeDynamicFormData[singleProp] == "") {
 
-        for (var checkBoxData of this.fatchedCheckBoxData) {
-          if (singleProp in checkBoxData) {
-            completeDynamicFormData[singleProp] = [];
-            completeDynamicFormData[singleProp] = checkBoxData[singleProp];
-            break;
-          }else{
-            delete completeDynamicFormData[singleProp];
+          for (var checkBoxData of this.fatchedCheckBoxData) {
+            if (singleProp in checkBoxData) {
+              completeDynamicFormData[singleProp] = [];
+              completeDynamicFormData[singleProp] = checkBoxData[singleProp];
+              break;
+            } else {
+              delete completeDynamicFormData[singleProp];
+            }
+
           }
-
-        }
-      }
-    }
-
-    let getCommonFormData = completeDynamicFormData.commonInputsOfProducts;
-    delete completeDynamicFormData['commonInputsOfProducts'];
-
-    if(this.productSizeValid){
-      for(var sizeAdded of this.productSizes){
-        if(sizeAdded.check){
-          this.selectedProductSize.push(sizeAdded.sizeName);
         }
       }
 
-      completeDynamicFormData = {...completeDynamicFormData, productSize:this.selectedProductSize};
-    }
+      let getCommonFormData = completeDynamicFormData.commonInputsOfProducts;
+      delete completeDynamicFormData['commonInputsOfProducts'];
+
+      if (this.productSizeValid) {
+        for (var sizeAdded of this.productSizes) {
+          if (sizeAdded.check) {
+            let findingIndex = this.selectedProductSize.findIndex(a => a.sizeName == sizeAdded.sizeName);
+            if (findingIndex != -1) {
+              this.selectedProductSize.splice(findingIndex, 1);
+            }
+
+            this.selectedProductSize.push({ sizeName: sizeAdded.sizeName, sizeQuantity: sizeAdded.sizeQuantity.toString() });
+            this.totalSizeQuantities = this.totalSizeQuantities + (+sizeAdded.sizeQuantity);
+          } else {
+            let findingIndex = this.selectedProductSize.findIndex(a => a.sizeName == sizeAdded.sizeName);
+            if (findingIndex != -1) {
+              this.selectedProductSize.splice(findingIndex, 1);
+            }
+          }
+        }
 
 
-    let convertConvertJsArrToJson = JSON.stringify(completeDynamicFormData);
-    let convertJsonObjToJsonString = JSON.stringify(convertConvertJsArrToJson);
-    console.log(convertJsonObjToJsonString);
-
-
-
-    // for images adding formData object
-    const formFrom = new FormData();
-
-
-    if (this.selectedFileData.length > 0) {
-      // adding data to the formData of images which is selected
-      for (let i = 0; i < this.selectedFileData.length; i++) {
-        formFrom.append(`File`, this.selectedFileData[i], this.selectedFileData[i]?.name);
+        completeDynamicFormData = { ...completeDynamicFormData, productSize: this.selectedProductSize };
       }
-    }
-    formFrom.append("productID", this._activateRoute.snapshot.queryParamMap.get("productId"));
-    formFrom.append("productName", getCommonFormData.productName);
-    formFrom.append("price", getCommonFormData.price);
-    formFrom.append("color", getCommonFormData.color);
-    formFrom.append("stockAvailiability", getCommonFormData.stockAvailiability);
-    formFrom.append("quantity", getCommonFormData.quantity);
-    formFrom.append("productBrandId", getCommonFormData.productBrandId);
-    formFrom.append("nestSubCategoryId", this.selectedFormNestCategoryId.toString());
-    formFrom.append("productDetails", convertJsonObjToJsonString);
 
-     this._updateProductService.UpdateProduct(formFrom).subscribe((responseData:any)=>{
-         this._location.back();
-     });
+
+      let convertConvertJsArrToJson = JSON.stringify(completeDynamicFormData);
+      let convertJsonObjToJsonString = JSON.stringify(convertConvertJsArrToJson);
+      // for images adding formData object
+      const formFrom = new FormData();
+
+
+      if (this.selectedFileData.length > 0) {
+        // adding data to the formData of images which is selected
+        for (let i = 0; i < this.selectedFileData.length; i++) {
+          formFrom.append(`File`, this.selectedFileData[i], this.selectedFileData[i]?.name);
+        }
+      }
+      formFrom.append("productID", this._activateRoute.snapshot.queryParamMap.get("productId"));
+      formFrom.append("productName", getCommonFormData.productName);
+      formFrom.append("price", getCommonFormData.price);
+      formFrom.append("color", getCommonFormData.color);
+      formFrom.append("stockAvailiability", getCommonFormData.stockAvailiability);
+      formFrom.append("quantity", this.totalSizeQuantities == 0 ? getCommonFormData.quantity : this.totalSizeQuantities);
+      formFrom.append("productBrandId", getCommonFormData.productBrandId);
+      formFrom.append("nestSubCategoryId", this.selectedFormNestCategoryId.toString());
+      formFrom.append("productDetails", convertJsonObjToJsonString);
+
+      this._updateProductService.UpdateProduct(formFrom).subscribe((responseData: any) => {
+        this._location.back();
+      });
 
     }
     this.stopDoubleFuncCalls = false;
 
+  }
+
+  // product size
+  productSizes: any[] = [{ sizeName: "S", check: false, sizeQuantity: 0 }, { sizeName: "M", check: false, sizeQuantity: 0 }, { sizeName: "L", check: false, sizeQuantity: 0 }, { sizeName: "XL", check: false, sizeQuantity: 0 }];
+  selectedProductSize: any[] = [];
+  productSizeValid = true;
+  changeProductSize(selectedIndex) {
+    let selectedCheckBox = this.productSizes[selectedIndex];
+    for (var checkBoxSize of this.productSizes) {
+      if (checkBoxSize.sizeName == selectedCheckBox.sizeName) {
+        checkBoxSize.check = !checkBoxSize.check;
+        break;
+      }
+    }
+  }
+
+
+  totalSizeQuantities = 0;
+
+  sizeQuantityChange(event: any) {
+    let findingChangeQuantityInputIndex = this.productSizes.findIndex(a => a.sizeName == event.target.name);
+    this.productSizes[findingChangeQuantityInputIndex].sizeQuantity = event.target.value;
   }
 
 
