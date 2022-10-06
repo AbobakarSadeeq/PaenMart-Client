@@ -29,7 +29,12 @@
               <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px" height="80px"
                   alt=""></th>
             </div>
-            <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
+            <td>
+              <a [routerLink]="['/Product-detail', cartItem?.productID]" style="color:black">{{cartItem?.productName + "
+                (" + cartItem?.color + ')' }}
+                <p *ngIf="cartItem?.productSize"><strong>Size:</strong> {{cartItem?.productSize?.sizeName}}</p>
+              </a>
+            </td>
 
             <!-- discount price -->
             <td style="font-size: 15px;" *ngIf="cartItem?.afterDiscountPrice > 0">
@@ -44,10 +49,10 @@
             <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
             <td style="padding-top:26px !important">
               <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
-                [disabled]="cartItem?.quantity==1">-</button>&nbsp;
+                [disabled]="cartItem?.quantity==1" [hidden]="cartItem?.productSize" >-</button>&nbsp;
               <span>{{cartItem?.quantity}}</span> &nbsp;
-              <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
-                [disabled]="cartItem?.quantity == 5">+</button>
+              <button class="btn" style="background-color:white;"
+                (click)="addingProductQuantity(cartItem)" [disabled]="cartItem?.quantity == 5" [hidden]="cartItem?.productSize">+</button>
             </td>
             <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity | currency:
               'Rs ': 'symbol':'1.0'}}</td>
@@ -117,7 +122,9 @@
                 <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px"
                     height="80px" alt=""></th>
               </div>
-              <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}</td>
+              <td>{{cartItem?.productName + " (" + cartItem?.color + ')' }}
+                <p *ngIf="cartItem?.productSize"><strong>Size:</strong> {{cartItem?.productSize?.sizeName}}</p>
+              </td>
 
 
               <td style="font-size: 15px;" *ngIf="cartItem?.afterDiscountPrice > 0">
@@ -133,12 +140,13 @@
 
               <td style="padding-top:26px !important">
                 <button class="btn" style="background-color:white;" (click)="subtractingProductQuantity(cartItem)"
-                  [disabled]="cartItem?.quantity==1">-</button>&nbsp;
+                  [disabled]="cartItem?.quantity==1" [hidden]="cartItem?.productSize">-</button>&nbsp;
                 <span>{{cartItem?.quantity}}</span> &nbsp;
                 <button class="btn" style="background-color:white;" (click)="addingProductQuantity(cartItem)"
-                  [disabled]="cartItem?.quantity == 5">+</button>
+                  [disabled]="cartItem?.quantity == 5" [hidden]="cartItem?.productSize">+</button>
               </td>
-              <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity | currency:
+              <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity |
+                currency:
                 'Rs ': 'symbol':'1.0'}}</td>
               <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price * cartItem?.quantity | currency: 'Rs ':
                 'symbol':'1.0'}}</td>

@@ -1,6 +1,7 @@
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { SponsoredAdService } from 'src/app/admin/sponsored-ad/sponsored-ad.service';
 import { ClientOrderReviewService } from '../../client-order-review/client-order-review.service';
 import { ShoppingCartService } from '../../shopping-cart/shopping-cart.service';
@@ -23,6 +24,13 @@ export class ClientProductDetailComponent implements OnInit {
   singleProductReviews: any[] = [];
   sideMixProductsPage: any;
   sideProductDetailPage: any;
+
+
+
+  productSizeAvailable = false;
+  productSizesAndQuantityAvailable: any;
+
+
   constructor(private _clientProduct: ClientProductService,
     private _activateRoute: ActivatedRoute,
     private _shoppingCartService: ShoppingCartService,
@@ -129,7 +137,9 @@ export class ClientProductDetailComponent implements OnInit {
         productDetailsJsonData = convertJsonObjToJsObj;
         for (const [key, value] of Object.entries(convertJsonObjToJsObj)) {
           if (key == 'productSize') {
+            this.productSizesAndQuantityAvailable = value;
             this.productSpecificationDetails.push({ objectKey: "Product size", objectValue: value });
+            this.productSizeAvailable = true;
           } else {
             if (value.constructor === Array && key != "productSize") {
               let custom: any = value;
@@ -194,14 +204,50 @@ export class ClientProductDetailComponent implements OnInit {
     this._shoppingCartService.cartItemsNumber.next(quantitySum);
 
   }
+
+
+  productSizeSelectedName = null;
+  productSizeSelectedValidation = null;
+  productSizeSelectChange(event: any) {
+    this.productSizeSelectedName = event.target.value;
+  }
+
+
   // Cart Data
   // Cart Data
   itemsCart: any[] = [];
   addToCartProduct(productData: any) {
-    console.log(productData);
+
+    let filteringDataOfProduct: any = {};
+
+
+    if (this.productSizeSelectedName == null && this.productSizeAvailable) {
+      this.productSizeSelectedValidation = "Please select the product size"
+      return;
+    }
+    this.productSizeSelectedValidation = null;
+    // if product size is true or this product is having product size
+
+    if (this.productSizeAvailable) {
+      let findingSelectedProductSize = this.productSizesAndQuantityAvailable.find(a => a.sizeName == this.productSizeSelectedName);
+      // if size quantity is less from selected add quantity then return error.
+      if (findingSelectedProductSize.sizeQuantity < this.addQuantity) {
+        this.productSizeSelectedValidation = "Sorry selected size that much quantity is not available right now"
+        return;
+      } else {
+        this.productSizeSelectedValidation = null;
+      }
+      filteringDataOfProduct['productSize'] = { sizeName: this.productSizeSelectedName, quantity: findingSelectedProductSize.sizeQuantity };
+    }
+
+
+
+
+
     // Making LocalStorage for Cart
 
-    let filteringDataOfProduct = {
+    filteringDataOfProduct = {
+      ...filteringDataOfProduct,
       productName: productData.productName,
       color: productData.color,
       quantity: this.addQuantity,
@@ -211,6 +257,8 @@ export class ClientProductDetailComponent implements OnInit {
       afterDiscountPrice: productData.afterDiscountPrice,
       discountPercentage: productData.discountPercentage,
     }
+
+    console.log(filteringDataOfProduct);
 
 
     let cartDataNull = localStorage.getItem("ProductCartData");
@@ -225,9 +273,30 @@ export class ClientProductDetailComponent implements OnInit {
       this.itemsCart = JSON.parse(localStorage.getItem("ProductCartData")!);
       for (let i = 0; i < this.itemsCart.length; i++) {
         if (parseInt(gettingIdOfProduct) === parseInt(this.itemsCart[i].productID)) {
-          this.itemsCart[i].quantity = filteringDataOfProduct.quantity;
-          index = i;
-          break;
+          debugger;
+
+
+          if (!filteringDataOfProduct.productSize) {
+            this.itemsCart[i].quantity = filteringDataOfProduct.quantity;
+            index = i;
+            break;
+          }
+          console.log(this.itemsCart);
+          let findingData = this.itemsCart.findIndex(a => a.productSize?.sizeName == filteringDataOfProduct.productSize?.sizeName);
+          if (findingData == -1) {
+            index = -1;
+            break;
+
+          } else {
+            this.itemsCart[findingData].quantity = filteringDataOfProduct.quantity;
+            index = i;
+            break;
+
+          }
+
+
+
+
         }
       }
       if (index == -1) {

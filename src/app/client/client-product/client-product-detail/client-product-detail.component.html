@@ -10,6 +10,11 @@
   </div>
 
   <div class="row">
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="productSizeSelectedValidation">
+      {{productSizeSelectedValidation}}
+    </div>
+
     <div class="col-lg-3">
 
       <ngb-carousel *ngIf="productDetails">
@@ -59,10 +64,10 @@
           currency: 'Rs ': 'symbol':'1.0'}} </b>
       </h4><br>
 
-      <h4
-        style=" font-size: 20px; "
-        *ngIf="productDetails?.afterDiscountPrice > 0"><del>{{productDetails?.price | currency: 'Rs ':
-          'symbol':'1.0'}} </del> &nbsp;&nbsp; <span class="discount-badge">- {{productDetails?.discountPercentage}}%</span></h4>
+      <h4 style=" font-size: 20px; " *ngIf="productDetails?.afterDiscountPrice > 0"><del>{{productDetails?.price |
+          currency: 'Rs ':
+          'symbol':'1.0'}} </del> &nbsp;&nbsp; <span class="discount-badge">-
+          {{productDetails?.discountPercentage}}%</span></h4>
 
       <p *ngIf="productDetails?.afterDiscountPrice > 0"><strong>Offer ends {{productDetails?.discountExpireAt |
           date:'long'}}</strong>
@@ -101,11 +106,21 @@
             <h6 style="font-size: 14px;">____{{productDetails?.productID}}____</h6>
           </div>
         </li><br>
+
+
+        <li style="font-size:20px; display: inline-block; margin-right:1rem ;" *ngIf="productSizeAvailable">
+          <span style="color: grey; font-size: 12px;">Size:</span><br>
+          <select name="productSizeSelect" id="" (change)="productSizeSelectChange($event)">
+            <option value="{{null}}" disabled selected>Select-Size</option>
+            <option *ngFor="let singleSize of productSizesAndQuantityAvailable" value="{{singleSize?.sizeName}}">
+              {{singleSize?.sizeName}}</option>
+          </select>
+        </li>
+
+
         <li style="display: inline-block; padding-left: 0px;">
-
-
           <div *ngIf="productDetails?.stockAvailiability">
-            <span style="color: grey; font-size: 12px;">Quantity of Product</span>
+            <span style="color: grey; font-size: 12px;">Quantity of Product:</span>
             <div style="margin-top: 4px; margin-bottom: 16px;">
               <button class="btn" style="background-color:#C8C8C8;" (click)="subtractingProductQuantity()"
                 [disabled]="addQuantity == 1">-</button>&nbsp;
@@ -115,8 +130,8 @@
             </div>
           </div>
 
-
         </li>
+
       </ul>
 
       <div *ngIf="!productDetails?.stockAvailiability">
@@ -187,8 +202,8 @@
       </h1>
       <hr>
       <br>
-      <div *ngFor="let item of productSpecificationDetails">
-        <td><strong>{{item?.objectKey}}</strong></td><br>
+      <div *ngFor="let item of productSpecificationDetails" [hidden]="item?.objectKey == 'Product size'">
+        <td><strong>{{ item?.objectKey}}</strong></td><br>
         <td><span>{{item?.objectValue}}</span></td><br>
       </div>
     </div>

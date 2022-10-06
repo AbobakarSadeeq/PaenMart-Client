@@ -56,23 +56,54 @@ export class ShoppingCartComponent implements OnInit {
       }
       this._productDealService.SelectedProductsInLocalStorage(selectedProductsId).subscribe((data: any) => {
         this.totalPrice = 0;
-
+        let perviousSizeName = [];
         for (var singleProduct of data) {
-          var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId);
-          var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId);
+          var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productSize?.sizeName));
+          var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productSize?.sizeName));
+          debugger;
           if (singleProduct.productInDeal == false) {
             findingProductInLocalStorage.afterDiscountPrice = 0;
             findingProductInLocalStorage.discountPercentage = 0;
-            this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+
+            if (findingProductInLocalStorage.productSize) {
+
+              perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
+              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+            } else {
+              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+
+            }
+
+
           } else {
 
             if (!findingProductInLocalStorage.afterDiscountPrice) {
-              this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity);
+
+              if (findingProductInLocalStorage.productSize) {
+                perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
+
+                this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
+              } else {
+                this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
+
+
+              }
+
+
+
               userCartProductsArr[findingIndexOfSelectedProduct].discountPercentage = singleProduct.discountPercentage;
               userCartProductsArr[findingIndexOfSelectedProduct].afterDiscountPrice = singleProduct.afterDiscountPrice;
             } else {
-              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity);
 
+              if (findingProductInLocalStorage.productSize) {
+                perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
+
+                this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
+
+              } else {
+                this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
+
+              }
             }
 
 
@@ -114,6 +145,7 @@ export class ShoppingCartComponent implements OnInit {
     })
 
 
+    console.log(this.cartDataList);
 
   }
 
@@ -277,8 +309,8 @@ export class ShoppingCartComponent implements OnInit {
           quantity: orderData.quantity,
           productName: orderData.productName,
           paymentMethod: 'Cash on delivery',
-          afterDiscountPrice:orderData.afterDiscountPrice,
-          discountPercentage:orderData.discountPercentage,
+          afterDiscountPrice: orderData.afterDiscountPrice,
+          discountPercentage: orderData.discountPercentage,
           // User Address
           fullName: this.userDetails?.fullName,
           userEmail: this.userDetails?.email,
