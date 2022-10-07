@@ -282,7 +282,7 @@ export class ClientProductDetailComponent implements OnInit {
             break;
           }
           console.log(this.itemsCart);
-          let findingData = this.itemsCart.findIndex(a => a.productSize?.sizeName == filteringDataOfProduct.productSize?.sizeName);
+          let findingData = this.itemsCart.findIndex(a => a.productSize?.sizeName == filteringDataOfProduct.productSize?.sizeName && a.productID == gettingIdOfProduct);
           if (findingData == -1) {
             index = -1;
             break;

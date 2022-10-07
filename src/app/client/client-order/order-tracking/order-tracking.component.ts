@@ -30,8 +30,9 @@ export class OrderTrackingComponent implements OnInit {
       orderTrackNumber: trackVal
     }
    this._orderService.trackOrderProductsFetching(customObj).subscribe((data: any) => {
+    console.log(data);
       this.OrderTrackProducts = data
-      
+
       console.log(data);
       this.orderTrackerNotFoundOrderMessage = null;
     }, (error: HttpErrorResponse) => {

@@ -100,7 +100,10 @@
           <tbody class="product">
             <td><img src="{{singleProduct?.productImageUrl}}" width="150px" height="150px" alt=""></td>
             <td style="padding-top: 4rem;"><a
-                [routerLink]="['/Product-detail/', singleProduct?.productId]">{{singleProduct?.productName }}</a></td>
+                [routerLink]="['/Product-detail/', singleProduct?.productId]">{{singleProduct?.productName }}
+                <p *ngIf="singleProduct?.productSize"><strong>Size:</strong> {{singleProduct?.productSize}}</p>
+
+              </a></td>
             <td style="padding-top: 4rem;">{{singleProduct?.price | currency: 'Rs ': 'symbol':'1.0'}}</td>
             <td style="padding-top: 4rem;">{{singleProduct?.quantity}}</td>
 

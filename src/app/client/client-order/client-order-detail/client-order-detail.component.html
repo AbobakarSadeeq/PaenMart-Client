@@ -39,16 +39,21 @@
         <tbody>
           <tr style=" font-size: 15px; border-bottom: 1px solid rgb(129, 128, 128); "
             *ngFor="let orderDetailData of userOrderDetailData?.orderDetail">
-            <td>{{orderDetailData?.productName}}</td>
-            <td>{{orderDetailData?.quantity}}</td>
-              <td style="font-size: 15px;" *ngIf="orderDetailData?.discountPercentage > 0">
-                <p style="padding: 0; margin: 0;">{{orderDetailData?.afterDiscountPrice | currency :"Rs ":
-                  "symbol":"1.0" }}</p>
-                <p style="padding: 0; margin: 0;"><del>{{orderDetailData?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</del></p>
-                <p style="padding: 0; margin: 0;">- {{orderDetailData?.discountPercentage}}%</p>
-              </td>
+            <td>{{orderDetailData?.productName}}
 
-              <td *ngIf="orderDetailData?.discountPercentage == 0">{{orderDetailData?.productOriginalPrice | currency: 'Rs ': 'symbol':'1.0'}}</td>
+              <p *ngIf="orderDetailData?.productSize"><strong>Size:</strong> {{orderDetailData?.productSize}}</p>
+            </td>
+            <td>{{orderDetailData?.quantity}}</td>
+            <td style="font-size: 15px;" *ngIf="orderDetailData?.discountPercentage > 0">
+              <p style="padding: 0; margin: 0;">{{orderDetailData?.afterDiscountPrice | currency :"Rs ":
+                "symbol":"1.0" }}</p>
+              <p style="padding: 0; margin: 0;"><del>{{orderDetailData?.productOriginalPrice | currency: 'Rs ':
+                  'symbol':'1.0'}}</del></p>
+              <p style="padding: 0; margin: 0;">- {{orderDetailData?.discountPercentage}}%</p>
+            </td>
+
+            <td *ngIf="orderDetailData?.discountPercentage == 0">{{orderDetailData?.productOriginalPrice | currency: 'Rs
+              ': 'symbol':'1.0'}}</td>
 
 
             <td>{{orderDetailData?.price * orderDetailData?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>

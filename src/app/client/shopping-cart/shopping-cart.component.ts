@@ -58,19 +58,19 @@ export class ShoppingCartComponent implements OnInit {
         this.totalPrice = 0;
         let perviousSizeName = [];
         for (var singleProduct of data) {
-          var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productSize?.sizeName));
-          var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productSize?.sizeName));
-          debugger;
+          var findingProductInLocalStorage = userCartProductsArr.find(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productID + a.productSize?.sizeName));
+          var findingIndexOfSelectedProduct = userCartProductsArr.findIndex(a => a.productID == singleProduct.productId && !perviousSizeName.includes(a.productID + a.productSize?.sizeName));
           if (singleProduct.productInDeal == false) {
             findingProductInLocalStorage.afterDiscountPrice = 0;
             findingProductInLocalStorage.discountPercentage = 0;
 
             if (findingProductInLocalStorage.productSize) {
 
-              perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
-              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+              perviousSizeName.push(findingProductInLocalStorage.productID + findingProductInLocalStorage.productSize.sizeName);
+
+              // this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
             } else {
-              this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
+              // this.totalPrice = this.totalPrice + (findingProductInLocalStorage.price * findingProductInLocalStorage.quantity)
 
             }
 
@@ -80,11 +80,11 @@ export class ShoppingCartComponent implements OnInit {
             if (!findingProductInLocalStorage.afterDiscountPrice) {
 
               if (findingProductInLocalStorage.productSize) {
-                perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
+                perviousSizeName.push(findingProductInLocalStorage.productID + findingProductInLocalStorage.productSize.sizeName);
 
-                this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
+                // this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
               } else {
-                this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
+                // this.totalPrice = this.totalPrice + (singleProduct.afterDiscountPrice * findingProductInLocalStorage.quantity)
 
 
               }
@@ -96,12 +96,13 @@ export class ShoppingCartComponent implements OnInit {
             } else {
 
               if (findingProductInLocalStorage.productSize) {
-                perviousSizeName.push(findingProductInLocalStorage.productSize.sizeName);
+                perviousSizeName.push(findingProductInLocalStorage.productID + findingProductInLocalStorage.productSize.sizeName);
 
-                this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
+
+                // this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
 
               } else {
-                this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
+                // this.totalPrice = this.totalPrice + (findingProductInLocalStorage.afterDiscountPrice * findingProductInLocalStorage.quantity)
 
               }
             }
@@ -110,9 +111,18 @@ export class ShoppingCartComponent implements OnInit {
 
           }
         }
+        this.totalPrice = 0;
         localStorage.setItem("ProductCartData", JSON.stringify(userCartProductsArr));
         this.cartDataList = userCartProductsArr;
+        for (var cartItem of this.cartDataList) {
+          if (cartItem?.afterDiscountPrice > 0) {
+            this.totalPrice = this.totalPrice + (cartItem?.afterDiscountPrice * cartItem?.quantity);
+          }
 
+          if (cartItem?.afterDiscountPrice == 0) {
+            this.totalPrice = this.totalPrice + (cartItem?.price * cartItem?.quantity);
+          }
+        }
 
       })
     }
@@ -301,6 +311,7 @@ export class ShoppingCartComponent implements OnInit {
     let getDataFromOrderDetailLocalStorage = JSON.parse(localStorage.getItem("ProductCartData")!);
     let convertDataFromLocalStorage = getDataFromOrderDetailLocalStorage;
     let storeCustomOrderDetailData: any[] = [];
+    debugger;
     for (let orderData of convertDataFromLocalStorage) {
       storeCustomOrderDetailData.push(
         {
@@ -308,6 +319,7 @@ export class ShoppingCartComponent implements OnInit {
           price: orderData.price,
           quantity: orderData.quantity,
           productName: orderData.productName,
+          productSize: orderData.productSize ? orderData?.productSize?.sizeName : "",
           paymentMethod: 'Cash on delivery',
           afterDiscountPrice: orderData.afterDiscountPrice,
           discountPercentage: orderData.discountPercentage,

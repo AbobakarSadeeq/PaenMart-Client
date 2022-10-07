@@ -148,8 +148,8 @@
               <td *ngIf="cartItem?.afterDiscountPrice > 0">{{cartItem?.afterDiscountPrice * cartItem?.quantity |
                 currency:
                 'Rs ': 'symbol':'1.0'}}</td>
-              <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price * cartItem?.quantity | currency: 'Rs ':
-                'symbol':'1.0'}}</td>
+                <td *ngIf="cartItem?.afterDiscountPrice == 0">{{cartItem?.price * cartItem?.quantity | currency: 'Rs ':
+                  'symbol':'1.0'}}</td>
             </tr>
           </tbody>
         </table>
