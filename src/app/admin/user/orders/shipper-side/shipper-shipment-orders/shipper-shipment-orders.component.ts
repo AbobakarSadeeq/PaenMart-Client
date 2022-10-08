@@ -43,8 +43,8 @@ export class ShipperShipmentOrdersComponent implements OnInit {
     });
   }
 
-  shippedOrdersList(pageNo: number) {
-    this.subscription = this._shipperShipmentOrders.getShippmentDoneByShipperList(pageNo).subscribe((data: any) => {
+  shippedOrdersList(shipperPageData: any) {
+    this.subscription = this._shipperShipmentOrders.getShippmentDoneByShipperList({pageNo:shipperPageData.pageNo, shipperUserId:shipperPageData.shipperUserId}).subscribe((data: any) => {
       this.shippedList = data.orderList;
       this.shippedCount = data.dataCount;
     })
@@ -52,7 +52,7 @@ export class ShipperShipmentOrdersComponent implements OnInit {
 
   tablePageNoChange(pageNo: number) {
     this.shippedList = [];
-    this.shippedOrdersList(this.shipperOrderShipmentData);
+    this.shippedOrdersList({pageNo, shipperUserId:this._activateRoute.snapshot.params['id']});
   }
 
   ngOnDestroy(): void {

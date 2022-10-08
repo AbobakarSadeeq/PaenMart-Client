@@ -43,12 +43,26 @@ export class OrderDetailsComponent implements OnInit {
 
   }
 
-
+  productSizeQuantity = false;
   getOrderDetailsData(paramId: number) {
     this.subscription = this._userOrdersDetails.getOrderDetails(paramId).subscribe((data: any) => {
       this.userOrderDetailData = data;
       for (var cartItem of data.orderDetail) {
-        this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
+
+        if (cartItem.productSize) {
+
+          var convertJsonStringtoJsonObj = JSON.parse(cartItem.productDetails);
+          var convertJsonObjectToJSObj = JSON.parse(convertJsonStringtoJsonObj);
+
+          var findingSelectedProductSizeInProductDetailProductSize = convertJsonObjectToJSObj.productSize.find(a => a.sizeName == cartItem.productSize);
+          if (findingSelectedProductSizeInProductDetailProductSize.sizeQuantity < cartItem.quantity) {
+            cartItem.quantityAvailability = false;
+          }
+        }
+        if(cartItem.quantityAvailability){
+          this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
+
+        }
       }
     });
 
@@ -56,8 +70,6 @@ export class OrderDetailsComponent implements OnInit {
 
 
   confirmOrder(data: any) {
-
-
     if (this.myOrderStatus == 'Shipping pending for shipper') {
       // shipper accepting the order and shipment
       var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
@@ -94,7 +106,7 @@ export class OrderDetailsComponent implements OnInit {
             if (productsHavingSizeAndQuantityList) {
               // it means if order is having Product size products then this block will be execute
               var updateProductDetailsData = [];
-             // let perviousSizeName = [];
+              // let perviousSizeName = [];
               for (var singleProduct of productsHavingSizeAndQuantityList) {
                 var findingProductById = data?.orderDetail?.find(a => a.productId == singleProduct.productID);
                 var findingIndexOfOrderDetail = data?.orderDetail?.findIndex(a => a.productId == singleProduct.productID)
@@ -106,20 +118,20 @@ export class OrderDetailsComponent implements OnInit {
                 convertJsonObjToJsObj.productSize[index].sizeQuantity = subtractingSelectedSize.toString();
 
                 // merging object if two ids same
-                let findingSameProductIdIndex = updateProductDetailsData.findIndex(a=>a.productId == singleProduct.productID);
-                if(findingSameProductIdIndex == -1){
+                let findingSameProductIdIndex = updateProductDetailsData.findIndex(a => a.productId == singleProduct.productID);
+                if (findingSameProductIdIndex == -1) {
                   updateProductDetailsData.push({ productId: singleProduct.productID, productDetails: convertJsonObjToJsObj });
 
-                }else {
+                } else {
                   // if id is founnded in updateProductDetailData then find the selectedSize
-                  let findingSelectedSizeIndex = updateProductDetailsData[findingSameProductIdIndex]?.productDetails?.productSize.findIndex(a=>a.sizeName == findingProductById.productSize);
+                  let findingSelectedSizeIndex = updateProductDetailsData[findingSameProductIdIndex]?.productDetails?.productSize.findIndex(a => a.sizeName == findingProductById.productSize);
                   updateProductDetailsData[findingSameProductIdIndex].productDetails.productSize[findingSelectedSizeIndex].sizeQuantity = subtractingSelectedSize.toString();
                 }
                 data?.orderDetail?.splice(findingIndexOfOrderDetail, 1);
 
               }
 
-              for(var updateProductIndex in updateProductDetailsData){
+              for (var updateProductIndex in updateProductDetailsData) {
                 let newConvertConvertJsArrToJson = JSON.stringify(updateProductDetailsData[updateProductIndex].productDetails);
                 let newConvertJsonObjToJsonString = JSON.stringify(newConvertConvertJsArrToJson);
                 updateProductDetailsData[updateProductIndex].productDetails = newConvertJsonObjToJsonString;
