@@ -24,6 +24,7 @@ export class ClientProductDetailComponent implements OnInit {
   singleProductReviews: any[] = [];
   sideMixProductsPage: any;
   sideProductDetailPage: any;
+  showBuyBtns = false;
 
 
 
@@ -134,10 +135,12 @@ export class ClientProductDetailComponent implements OnInit {
       setTimeout(() => {
         let convertJsonStringToJsonObj = JSON.parse(data.productDetails);
         let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);
+        console.log(convertJsonObjToJsObj.productSize);
         productDetailsJsonData = convertJsonObjToJsObj;
         for (const [key, value] of Object.entries(convertJsonObjToJsObj)) {
           if (key == 'productSize') {
             this.productSizesAndQuantityAvailable = value;
+            console.log(value);
             this.productSpecificationDetails.push({ objectKey: "Product size", objectValue: value });
             this.productSizeAvailable = true;
           } else {
@@ -158,6 +161,7 @@ export class ClientProductDetailComponent implements OnInit {
             }
           }
         }
+        this.showBuyBtns = true;
 
       }, 1000);
 
@@ -349,6 +353,11 @@ export class ClientProductDetailComponent implements OnInit {
 
   shoppingCartNavigation(productData: any) {
     this.addToCartProduct(productData);
+    if(this.productSizeSelectedValidation){
+      return;
+    }
+
+
     this._route.navigate(['/Cart']);
   }
 

@@ -112,7 +112,7 @@
           <span style="color: grey; font-size: 12px;">Size:</span><br>
           <select name="productSizeSelect" id="" (change)="productSizeSelectChange($event)">
             <option value="{{null}}" disabled selected>Select-Size</option>
-            <option *ngFor="let singleSize of productSizesAndQuantityAvailable" value="{{singleSize?.sizeName}}">
+            <option *ngFor="let singleSize of productSizesAndQuantityAvailable" [hidden]="singleSize?.sizeQuantity <= 0" value="{{singleSize?.sizeName}}">
               {{singleSize?.sizeName}}</option>
           </select>
         </li>
@@ -121,7 +121,7 @@
         <li style="display: inline-block; padding-left: 0px;">
           <div *ngIf="productDetails?.stockAvailiability">
             <span style="color: grey; font-size: 12px;">Quantity of Product:</span>
-            <div style="margin-top: 4px; margin-bottom: 16px;">
+            <div style="margin-top: 4px; margin-bottom: 16px;" >
               <button class="btn" style="background-color:#C8C8C8;" (click)="subtractingProductQuantity()"
                 [disabled]="addQuantity == 1">-</button>&nbsp;
               <span>{{addQuantity}}</span> &nbsp;
@@ -168,12 +168,12 @@
         <br><br><br>
         <div>
           <!-- Add to Cart & Buy Button -->
-          <button type="button" class="btn btn-outline-info "
+          <button type="button" class="btn btn-outline-info " *ngIf="showBuyBtns"
             style="border-radius: 15%; width: 200px; height: 45px;margin-right: 15px;"
             (click)="addToCartProduct(productDetails)">Add to Cart</button>
 
           <!-- Cart-View -->
-          <button type="button" class="btn btn-primary " style="  border-radius: 15%; width: 200px; height: 45px;"
+          <button *ngIf="showBuyBtns" type="button" class="btn btn-primary " style="  border-radius: 15%; width: 200px; height: 45px;"
             id="addData" data-toggle="modal" data-target="#exampleModal"
             (click)="shoppingCartNavigation(productDetails)">Buy Now</button>
         </div>

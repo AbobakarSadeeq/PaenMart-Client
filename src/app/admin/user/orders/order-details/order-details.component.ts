@@ -32,7 +32,6 @@ export class OrderDetailsComponent implements OnInit {
     if (orderStatus == "Shipped" || orderStatus == "Shipped order by shipper") {
       setTimeout(() => {
         this.subscription = this._userOrdersDetails.getShipperDetail(this.userOrderDetailData?.shipperId).subscribe((data: any) => {
-          console.log(data);
           this.shipperDetail = data;
         });
       }, 1000)
@@ -58,7 +57,6 @@ export class OrderDetailsComponent implements OnInit {
 
   confirmOrder(data: any) {
 
-    console.log(data);
 
     if (this.myOrderStatus == 'Shipping pending for shipper') {
       // shipper accepting the order and shipment
@@ -91,11 +89,49 @@ export class OrderDetailsComponent implements OnInit {
       this.confirmationService.confirm({
         message: 'Are you sure you want to Confirm this Order?',
         accept: () => {
-          // this.showIndicator = true;
-          this.subscription = this._userOrdersDetails.acceptOrder(data).subscribe(() => {
-            //    this.showIndicator = false;
+
+          this.subscription = this._userOrdersDetails.acceptOrder(data).subscribe((productsHavingSizeAndQuantityList: any) => {
+            if (productsHavingSizeAndQuantityList) {
+              // it means if order is having Product size products then this block will be execute
+              var updateProductDetailsData = [];
+             // let perviousSizeName = [];
+              for (var singleProduct of productsHavingSizeAndQuantityList) {
+                var findingProductById = data?.orderDetail?.find(a => a.productId == singleProduct.productID);
+                var findingIndexOfOrderDetail = data?.orderDetail?.findIndex(a => a.productId == singleProduct.productID)
+
+                let convertJsonStringToJsonObj = JSON.parse(singleProduct.productDetails);
+                let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);
+                let index = convertJsonObjToJsObj?.productSize?.findIndex(a => a.sizeName == findingProductById.productSize);
+                let subtractingSelectedSize = parseInt(convertJsonObjToJsObj.productSize[index].sizeQuantity) - findingProductById.quantity;
+                convertJsonObjToJsObj.productSize[index].sizeQuantity = subtractingSelectedSize.toString();
+
+                // merging object if two ids same
+                let findingSameProductIdIndex = updateProductDetailsData.findIndex(a=>a.productId == singleProduct.productID);
+                if(findingSameProductIdIndex == -1){
+                  updateProductDetailsData.push({ productId: singleProduct.productID, productDetails: convertJsonObjToJsObj });
+
+                }else {
+                  // if id is founnded in updateProductDetailData then find the selectedSize
+                  let findingSelectedSizeIndex = updateProductDetailsData[findingSameProductIdIndex]?.productDetails?.productSize.findIndex(a=>a.sizeName == findingProductById.productSize);
+                  updateProductDetailsData[findingSameProductIdIndex].productDetails.productSize[findingSelectedSizeIndex].sizeQuantity = subtractingSelectedSize.toString();
+                }
+                data?.orderDetail?.splice(findingIndexOfOrderDetail, 1);
+
+              }
+
+              for(var updateProductIndex in updateProductDetailsData){
+                let newConvertConvertJsArrToJson = JSON.stringify(updateProductDetailsData[updateProductIndex].productDetails);
+                let newConvertJsonObjToJsonString = JSON.stringify(newConvertConvertJsArrToJson);
+                updateProductDetailsData[updateProductIndex].productDetails = newConvertJsonObjToJsonString;
+
+              }
+
+              this._userOrdersDetails.updateProductSizeQuantity(updateProductDetailsData).subscribe(() => {
+
+              });
+            }
+
             this._route.navigate(['/Admin/PendingUserOrders']);
-            //   this._userOrders.orderConfirmMessage.next("Order has been confirm and shipped");
           })
         }
       });

@@ -23,6 +23,10 @@ export class OrderDetailsService {
 
   shipperShipOrderDone(data: any) {
     return this._httpClient.post("https://localhost:44300/api/UserOrder/ShippmentOrderDone", data);
+  }
+
+  updateProductSizeQuantity(data:any){
+    return this._httpClient.put("https://localhost:44300/api/UserOrder/ProductSizeQuantityChanging", data);
 
   }
 
