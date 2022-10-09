@@ -262,7 +262,6 @@ export class ClientProductDetailComponent implements OnInit {
       discountPercentage: productData.discountPercentage,
     }
 
-    console.log(filteringDataOfProduct);
 
 
     let cartDataNull = localStorage.getItem("ProductCartData");
@@ -277,7 +276,6 @@ export class ClientProductDetailComponent implements OnInit {
       this.itemsCart = JSON.parse(localStorage.getItem("ProductCartData")!);
       for (let i = 0; i < this.itemsCart.length; i++) {
         if (parseInt(gettingIdOfProduct) === parseInt(this.itemsCart[i].productID)) {
-          debugger;
 
 
           if (!filteringDataOfProduct.productSize) {
@@ -285,7 +283,6 @@ export class ClientProductDetailComponent implements OnInit {
             index = i;
             break;
           }
-          console.log(this.itemsCart);
           let findingData = this.itemsCart.findIndex(a => a.productSize?.sizeName == filteringDataOfProduct.productSize?.sizeName && a.productID == gettingIdOfProduct);
           if (findingData == -1) {
             index = -1;
