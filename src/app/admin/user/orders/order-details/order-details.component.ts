@@ -26,7 +26,6 @@ export class OrderDetailsComponent implements OnInit {
 
     const getOrderId = this._activeRoute.snapshot.params['id'];
     this.getOrderDetailsData(getOrderId);
-
     const orderStatus = this._activeRoute.snapshot.queryParamMap.get('orderStatus');
     this.myOrderStatus = orderStatus;
     if (orderStatus == "Shipped" || orderStatus == "Shipped order by shipper") {
@@ -41,12 +40,15 @@ export class OrderDetailsComponent implements OnInit {
 
 
 
+
+
   }
 
   productSizeQuantity = false;
   getOrderDetailsData(paramId: number) {
     this.subscription = this._userOrdersDetails.getOrderDetails(paramId).subscribe((data: any) => {
       this.userOrderDetailData = data;
+      console.log(data);
       for (var cartItem of data.orderDetail) {
 
         if (cartItem.productSize) {
@@ -59,10 +61,28 @@ export class OrderDetailsComponent implements OnInit {
             cartItem.quantityAvailability = false;
           }
         }
-        if(cartItem.quantityAvailability){
-          this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
 
+        if (cartItem.quantityAvailability && this.myOrderStatus == "Pending") {
+          this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
         }
+
+        if (this.myOrderStatus == "Shipping pending" && cartItem.productActuallQuantity ||
+          (this.myOrderStatus == "Canceled" && cartItem.productActuallQuantity) ||
+          (this.myOrderStatus == "Shipped" && cartItem.productActuallQuantity) ||
+          (this.myOrderStatus == "Shipped order by shipper" && cartItem.productActuallQuantity) ||
+          (this.myOrderStatus == "Shipping pending for shipper" && cartItem.productActuallQuantity)
+        ) {
+          this.totalPriceSingleOrder = this.totalPriceSingleOrder + (cartItem.quantity * cartItem.price);
+        }
+
+
+
+
+
+
+
+
+
       }
     });
 
@@ -70,6 +90,10 @@ export class OrderDetailsComponent implements OnInit {
 
 
   confirmOrder(data: any) {
+
+
+
+
     if (this.myOrderStatus == 'Shipping pending for shipper') {
       // shipper accepting the order and shipment
       var payload = JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1]));
@@ -81,12 +105,13 @@ export class OrderDetailsComponent implements OnInit {
         email: data.email,
         completeAddress: data.completeAddress,
         phoneNumber: data.phoneNumber,
-        fullName: data.fullName
+        fullName: data.fullName,
       }
 
       this.confirmationService.confirm({
         message: 'Are you sure you want to Confirm this Shipment?',
         accept: () => {
+
           // this.showIndicator = true;
           this.subscription = this._userOrdersDetails.shipperShipOrderDone(sipperFilterData).subscribe(() => {
             //    this.showIndicator = false;
@@ -102,7 +127,10 @@ export class OrderDetailsComponent implements OnInit {
         message: 'Are you sure you want to Confirm this Order?',
         accept: () => {
 
-          this.subscription = this._userOrdersDetails.acceptOrder(data).subscribe((productsHavingSizeAndQuantityList: any) => {
+
+
+          this._userOrdersDetails.acceptOrder(data).subscribe((productsHavingSizeAndQuantityList: any) => {
+            debugger;
             if (productsHavingSizeAndQuantityList) {
               // it means if order is having Product size products then this block will be execute
               var updateProductDetailsData = [];
@@ -114,8 +142,10 @@ export class OrderDetailsComponent implements OnInit {
                 let convertJsonStringToJsonObj = JSON.parse(singleProduct.productDetails);
                 let convertJsonObjToJsObj = JSON.parse(convertJsonStringToJsonObj);
                 let index = convertJsonObjToJsObj?.productSize?.findIndex(a => a.sizeName == findingProductById.productSize);
-                let subtractingSelectedSize = parseInt(convertJsonObjToJsObj.productSize[index].sizeQuantity) - findingProductById.quantity;
-                convertJsonObjToJsObj.productSize[index].sizeQuantity = subtractingSelectedSize.toString();
+                if (index) {
+                  var subtractingSelectedSize = parseInt(convertJsonObjToJsObj.productSize[index].sizeQuantity) - findingProductById.quantity;
+                  convertJsonObjToJsObj.productSize[index].sizeQuantity = subtractingSelectedSize.toString();
+                }
 
                 // merging object if two ids same
                 let findingSameProductIdIndex = updateProductDetailsData.findIndex(a => a.productId == singleProduct.productID);

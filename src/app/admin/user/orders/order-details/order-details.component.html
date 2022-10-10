@@ -22,7 +22,8 @@
         <p>Address: <strong>{{userOrderDetailData?.completeAddress}}</strong></p>
         <p>Order Requested: <strong>{{userOrderDetailData?.orderDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong>
         <p *ngIf="myOrderStatus == 'Shipped' || myOrderStatus == 'Shipped order by shipper'">Order Shipped:
-          <strong>{{userOrderDetailData?.shippedDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong></p>
+          <strong>{{userOrderDetailData?.shippedDate | date :'dd - MMM - yyyy, h:mm:ss a' }} </strong>
+        </p>
         <p>Order Status: <strong>{{myOrderStatus}}</strong></p>
         <hr>
 
@@ -49,7 +50,9 @@
         </thead>
         <tbody>
           <tr style=" font-size: 15px; border-bottom: 1px solid rgb(129, 128, 128); "
-            *ngFor="let orderDetailData of userOrderDetailData?.orderDetail">
+            *ngFor="let orderDetailData of userOrderDetailData?.orderDetail"
+            [hidden]=" myOrderStatus == 'Shipping pending for shipper' && orderDetailData?.productActuallQuantity == 0 ||
+             myOrderStatus == 'Shipped order by shipper'  && orderDetailData?.productActuallQuantity == 0">
             <td>{{orderDetailData?.productName}}
               <p *ngIf="orderDetailData?.productSize"><strong>Size:</strong> {{orderDetailData?.productSize}}</p>
 
@@ -64,14 +67,20 @@
               <p style="padding: 0; margin: 0;">- {{orderDetailData?.discountPercentage}}%</p>
             </td>
 
-            <td *ngIf="orderDetailData?.discountPercentage == 0">{{orderDetailData?.productOriginalPrice | currency: 'Rs
-              ': 'symbol':'1.0'}}</td>
+            <td *ngIf="orderDetailData?.discountPercentage == 0">{{orderDetailData?.productOriginalPrice | currency:
+              'Rs': 'symbol':'1.0'}}</td>
 
-            <td>{{orderDetailData?.price * orderDetailData?.quantity | currency: 'Rs ': 'symbol':'1.0'}}</td>
-            <div style="margin-bottom: 0px; padding-bottom: 29px; color: red;"
-              *ngIf="!orderDetailData?.quantityAvailability">
+            <td>{{orderDetailData?.price * orderDetailData?.quantity | currency: 'Rs ': 'symbol':'1.0' }}</td>
+            <div style="margin-bottom: 0px; padding-bottom: 29px; color: red;" *ngIf="
+               orderDetailData?.quantityAvailability == false && myOrderStatus == 'Pending' ||
+               myOrderStatus == 'Shipping pending' && orderDetailData?.productActuallQuantity == 0 ||
+               myOrderStatus == 'Shipped' && orderDetailData?.productActuallQuantity == 0 ||
+               myOrderStatus == 'Canceled' && orderDetailData?.productActuallQuantity == 0
+
+               ">
               Product quantity is sold and email message will be send to the user about the stock issue.
             </div>
+
 
           </tr>
 
@@ -80,7 +89,7 @@
         </tbody>
       </table>
 
-      <h2 style="text-align: right; padding-right: 270px;">TOTAL = {{totalPriceSingleOrder | currency: 'Rs ':
+      <h2 style=" text-align: right; padding-right: 270px;">TOTAL = {{totalPriceSingleOrder | currency: 'Rs ':
         'symbol':'1.0'}}</h2>
       <hr>
       <button *ngIf="myOrderStatus == 'Pending' || myOrderStatus == 'Shipping pending for shipper' "
