@@ -13,17 +13,14 @@ export class AppComponent {
 
   ngOnInit(): void {
 
-    this.loadingSpinnerService.loadingSpinner.subscribe((data:any) => {
+    this.loadingSpinnerService.loadingSpinner.subscribe((data: any) => {
       this.loadingSpinnerShowValid = data;
     });
 
-
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    // when discount deal add or update then it will be execute.
+ 
 
 
-  }
+}
 
 
 

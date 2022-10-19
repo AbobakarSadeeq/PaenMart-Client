@@ -116,13 +116,15 @@
           <tbody><i class="fa-solid fa-xmark"></i>
             <tr *ngFor="let cartItem of cartDataList">
               <div style=" display: inline-block; position: relative;">
-                <a><i class="fa-solid fa-xmark"
-                    style="position: absolute;top: 0;right: 0; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"
-                    (click)="RemoveItemFromCart(cartItem?.productID)"></i></a>
+                <a><button
+                    style="position: absolute;top: 0;right: 0; border: none; cursor: pointer; background:red; border-radius: 20%; font-size: 1rem; color:white;"><i
+                      style="padding: 5px;" (click)="RemoveItemFromCart(cartItem?.productID)"
+                      class="fa-solid fa-xmark "></i></button> </a>
                 <th style="padding-bottom: 40px;" scope="row"><img src="{{cartItem?.imageUrl}}" width="80px"
                     height="80px" alt=""></th>
               </div>
-              <td><a style="color: black;" [routerLink]="['/Product-detail/', cartItem?.productID]">{{cartItem?.productName + " (" +
+              <td><a style="color: black;"
+                  [routerLink]="['/Product-detail/', cartItem?.productID]">{{cartItem?.productName + " (" +
                   cartItem?.color + ')' }}
                   <p *ngIf="cartItem?.productSize"><strong>Size:</strong> {{cartItem?.productSize?.sizeName}}</p>
                 </a>
