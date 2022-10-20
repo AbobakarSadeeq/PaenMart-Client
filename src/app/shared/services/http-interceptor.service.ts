@@ -12,22 +12,32 @@ export class HttpInterceptorService implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loadingSpinnerService.loadingSpinner.next(true);
+
+    if (req.url.includes("SubC")) {
+      this.loadingSpinnerService.loadingSpinner.next(false);
+      return next.handle(req);
+
+    } else {
+      this.loadingSpinnerService.loadingSpinner.next(true);
+
+    }
+
+
     return next.handle(req).pipe(
       delay(2500), finalize(() => {
         if (req.method == "POST" && req.url != "https://localhost:44300/api/Account/GetUserProfile") {
           setTimeout(() => {
             this.loadingSpinnerService.loadingSpinner.next(false);
           }, 2500);
-        } else if(req.method == "PUT"){
+        } else if (req.method == "PUT") {
           setTimeout(() => {
             this.loadingSpinnerService.loadingSpinner.next(false);
           }, 2500);
-        } else if(req.method == "DELETE"){
+        } else if (req.method == "DELETE") {
           setTimeout(() => {
             this.loadingSpinnerService.loadingSpinner.next(false);
           }, 2500);
-        }else {
+        } else {
           this.loadingSpinnerService.loadingSpinner.next(false);
 
         }

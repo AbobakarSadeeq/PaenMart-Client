@@ -98,7 +98,20 @@
   <p-header>
     <h1 style="text-align: center;">Product Detail</h1>
   </p-header>
-  <div class="row">
+  <div style="display: flex;">
+
+    <div class="col-sm-4" style="width:400px;">
+
+      <div class="img-thumbnail">
+        <img id="mainimage" class="imageCorrection" src="{{singleProductData?.getProductImagess[0]?.url}}">
+      </div><br>
+
+      <div class="row">
+        <img class="singleProductImage" *ngFor="let img of singleProductData?.getProductImagess" src="{{img?.url}}"
+          alt="image">
+      </div>
+    </div>
+
 
     <div class="col-sm-3">
       <td><strong>Product ID</strong></td><br>
@@ -129,7 +142,9 @@
 
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-3"
+      [ngStyle]="{'column-count': ((dynamicData.length / 11) < 1 ) ? 1 : showProductSpecsBySplitColumns}"
+      style="height: 940px;">
       <div *ngFor="let item of dynamicData">
         <td><strong>{{item?.objectKey}}</strong></td><br>
         <td><span>{{item?.objectKey == "Product size" ? ( item?.objectValue | json ) : item?.objectValue }}</span></td>
@@ -139,17 +154,10 @@
 
 
 
-    <div class="col-sm-4">
 
-      <div class="img-thumbnail">
-        <img id="mainimage" class="imageCorrection" src="{{singleProductData?.getProductImagess[0]?.url}}">
-      </div><br>
-
-      <div class="row">
-        <img class="singleProductImage" *ngFor="let img of singleProductData?.getProductImagess" src="{{img?.url}}"
-          alt="image">
-      </div>
-    </div>
 
   </div>
+
+
+
 </p-dialog>

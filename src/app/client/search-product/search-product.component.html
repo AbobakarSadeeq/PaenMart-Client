@@ -6,9 +6,10 @@
     <br>
     <div *ngIf="sideProductSearchAd" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
       <a href="{{sideProductSearchAd?.sponsoreWebsiteUrl}}" target="_blank"><img
-          src="{{sideProductSearchAd?.sponsoreImageUrl}}" alt=""></a><br><br>
-      <a *ngIf="sideHomeAd" href="{{sideHomeAd?.sponsoreWebsiteUrl}}" target="_blank"><img src="{{sideHomeAd?.sponsoreImageUrl}}"
-          alt=""></a>
+          src="{{sideProductSearchAd?.sponsoreImageUrl}}" alt=""
+          style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;"></a><br><br>
+      <a *ngIf="sideHomeAd" href="{{sideHomeAd?.sponsoreWebsiteUrl}}" target="_blank"><img
+          src="{{sideHomeAd?.sponsoreImageUrl}}" alt=""></a>
     </div>
 
   </div>
@@ -37,13 +38,13 @@
           [routerLink]="['/Product-detail/', singleProduct?.productID]">
           <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv"
             style="  max-width: max-content; height: 200px;" />
-            <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
-              -{{singleProduct?.discountPercentage}}%</p>
+          <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+            -{{singleProduct?.discountPercentage}}%</p>
           <span
             style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
             &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
 
-            <p *ngIf="singleProduct?.afterDiscountPrice == 0"
+          <p *ngIf="singleProduct?.afterDiscountPrice == 0"
             style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price |
               currency: 'Rs ': 'symbol':'1.0'}}</b></p>
 
@@ -69,9 +70,10 @@
   <div *ngIf="sideProductSearchAd" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
     <br>
     <a href="{{popUpAd?.sponsoreWebsiteUrl}}" target="_blank">
-      <img c src="{{popUpAd?.sponsoreImageUrl}}" alt="">
+      <img c src="{{popUpAd?.sponsoreImageUrl}}"
+        style="box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;" alt="">
     </a><br><br>
-    <a *ngIf="sideProductSearchAd" href="{{sideProductSearchAd?.sponsoreWebsiteUrl}}" target="_blank"><img
+    <a *ngIf="sideProductSearchAd" href="{{sideProductSearchAd?.sponsoreWebsiteUrl}}" hidden target="_blank"><img
         src="{{sideProductSearchAd?.sponsoreImageUrl}}" alt=""></a>
   </div>
 

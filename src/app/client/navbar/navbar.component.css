@@ -108,7 +108,6 @@
 
 .dropdown-content a:hover {
   text-decoration: underline;
-
 }
 
 .dropdown:hover .dropdown-content {
@@ -166,9 +165,11 @@
 .category_submenu {
   width: 1250px;
   position: absolute;
-  top: 100px;
-  left: 262px;
+  top: 117px;
+  left: 510px;
   z-index: 1000;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 .row {
@@ -283,7 +284,6 @@ nav {
   top: 16px;
   left: 360px;
 }
-
 
 .shipper-notification-badge {
   background-color: red;
