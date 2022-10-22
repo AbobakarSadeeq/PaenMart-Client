@@ -18,7 +18,6 @@ export class ClientOrderReviewComponent implements OnInit {
     private _clientOrderReviewService: ClientOrderReviewService) { }
 
   ngOnInit(): void {
-    debugger;
 
     if (!localStorage.getItem('token')) {
       this._route.navigate(['/Auth'], { queryParams: { orderReview: true } });
@@ -59,6 +58,9 @@ export class ClientOrderReviewComponent implements OnInit {
   reviewStarsSelected(selectedStarsNo: number) {
 
   }
+
+
+
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

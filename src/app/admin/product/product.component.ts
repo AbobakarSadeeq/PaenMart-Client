@@ -17,6 +17,7 @@ export class ProductComponent implements OnInit {
 
   // Query string
   getSelectedProductName = "";
+  selectedImageUrl = "";
   getSelectedDynamicFormId = 0;
   getSelectedNestCategoryId = 0;
 
@@ -141,10 +142,19 @@ export class ProductComponent implements OnInit {
 
 
       this.singleProductData = data;
+
+      this.selectedImageUrl = data?.getProductImagess[0]?.url;
+
+
     });
 
 
 
+  }
+
+
+  changeImageViewHandler(imageUrl: string) {
+    this.selectedImageUrl = imageUrl;
   }
 
 

@@ -42,4 +42,6 @@ margin-top: 10px;
   height:70px;
   object-fit: cover;
   width: 100px;
+  cursor: pointer;
+  margin-left: 10px;
 }

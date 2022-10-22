@@ -103,12 +103,12 @@
     <div class="col-sm-4" style="width:400px;">
 
       <div class="img-thumbnail">
-        <img id="mainimage" class="imageCorrection" src="{{singleProductData?.getProductImagess[0]?.url}}">
+        <img id="mainimage" class="imageCorrection" src="{{selectedImageUrl}}">
       </div><br>
 
       <div class="row">
-        <img class="singleProductImage" *ngFor="let img of singleProductData?.getProductImagess" src="{{img?.url}}"
-          alt="image">
+        <img class="singleProductImage" (click)="changeImageViewHandler(img?.url)"
+          *ngFor="let img of singleProductData?.getProductImagess" src="{{img?.url}}" alt="image">
       </div>
     </div>
 
