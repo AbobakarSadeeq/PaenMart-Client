@@ -29,6 +29,7 @@ export class OrderTrackingComponent implements OnInit {
       userId: JSON.parse(window.atob(localStorage.getItem('token')!.split('.')[1])).UserID,
       orderTrackNumber: trackVal
     }
+    this.totalInvoice = 0;
     this._orderService.trackOrderProductsFetching(customObj).subscribe((data: any) => {
       this.OrderTrackProducts = data
 
@@ -40,7 +41,6 @@ export class OrderTrackingComponent implements OnInit {
         }
       }
 
-      console.log(data);
       this.orderTrackerNotFoundOrderMessage = null;
     }, (error: HttpErrorResponse) => {
       this.orderTrackerNotFoundOrderMessage = error.error;
