@@ -84,7 +84,7 @@
 •	Product is on sale functionality. 
 
 
-Admin-Panel
+# Admin-Panel
 
 1.	Admin panel access
 •	Admin, Employee, and shipper can only use the admin panel
