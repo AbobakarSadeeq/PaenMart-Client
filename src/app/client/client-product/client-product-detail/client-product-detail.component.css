@@ -70,7 +70,6 @@
   padding-bottom: 0.7rem;
   text-align: center;
   cursor: pointer;
-
 }
 
 .email-btn:hover {
@@ -115,5 +114,24 @@
   font-weight: bold;
   margin-top: 1rem;
   padding: 4px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+::ng-deep .perviousAndNextBtn .carousel-control-prev {
+  height: 45px;
+  width: 40px;
+  background: grey !important;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  margin: 0;
+}
+
+::ng-deep .perviousAndNextBtn .carousel-control-next {
+  height: 45px;
+  width: 40px;
+  background: grey !important;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  margin: 0 !important;
 }

@@ -103,29 +103,27 @@ export class CarouselComponent implements OnInit {
 
   updateCarouselForm() {
 
-    if (this.currentImagePriority == this.CarouselFormData.value['imagePriority']) {
 
-      const formFrom = new FormData();
-      formFrom.append("carouselID", this.CarouselFormData.value['carouselID']);
-
-      formFrom.append("imagePriority", this.CarouselFormData.value['imagePriority']);
-      formFrom.append("imageTitle", this.CarouselFormData.value['imageTitle']);
-      formFrom.append("imageDescription", this.CarouselFormData.value['imageDescription']);
-      formFrom.append("navigationUrl", this.CarouselFormData.value['navigationUrl']);
-
-      this.updateModelDisplay = false;
-      this._CarouselService.updateCarousel(formFrom).subscribe(() => {
-        this.myLoadingIndicator = false;
-        this.getAllCarousel();
-      })
-
-    } else {
-      if (this.CarouselAllData.filter(a => a.imagePriority === this.CarouselFormData.value['imagePriority']).length > 0) {
-        this.showError = true;
-        this.myLoadingIndicator = false;
-      }
-
+    if (this.CarouselAllData.filter(a => a.imagePriority === this.CarouselFormData.value['imagePriority']).length > 0) {
+      this.showError = true;
+      this.myLoadingIndicator = false;
+      return;
     }
+
+    const formFrom = new FormData();
+    formFrom.append("carouselID", this.CarouselFormData.value['carouselID']);
+
+    formFrom.append("imagePriority", this.CarouselFormData.value['imagePriority']);
+    formFrom.append("imageTitle", this.CarouselFormData.value['imageTitle']);
+    formFrom.append("imageDescription", this.CarouselFormData.value['imageDescription']);
+    formFrom.append("navigationUrl", this.CarouselFormData.value['navigationUrl']);
+
+    this.updateModelDisplay = false;
+    this._CarouselService.updateCarousel(formFrom).subscribe(() => {
+      this.myLoadingIndicator = false;
+      this.getAllCarousel();
+    })
+
   }
 
   removeErrorMessage() {

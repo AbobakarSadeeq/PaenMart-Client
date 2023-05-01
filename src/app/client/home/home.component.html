@@ -37,21 +37,22 @@
       <div class="my-row">
 
         <div class="col-2" *ngFor="let singleProduct of fiveMostSelledProduct">
-          <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+
+          <a style=" font-family: Gotham Medium; font-size: 1rem; color: #282828; text-decoration: none;"
             [routerLink]="['/Product-detail/', singleProduct?.productID]">
-            <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
-              style=" max-width: max-content; height: 200px;" />
+            <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv" />
             <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
               -{{singleProduct?.discountPercentage}}%</p>
             <span
-              style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+              style="font-family: Gotham Medium; font-size: 1rem; display: block; "><b>{{singleProduct?.productName}}</b>
               &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
             <p *ngIf="singleProduct?.afterDiscountPrice == 0"
-              style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price |
+              style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; "><b>{{singleProduct?.price
+                |
                 currency: 'Rs ': 'symbol':'1.0'}}</b></p>
 
             <p *ngIf="singleProduct?.afterDiscountPrice > 0"
-              style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+              style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
               <b>{{singleProduct?.afterDiscountPrice |
                 currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
                 'symbol':'1.0'}}</del>
@@ -77,23 +78,22 @@
       <h1 style="padding:0;margin:0;">Top Products On Sale
       </h1>
 
-        <a [routerLink]="['/Products', 1]" style="font-size: 1rem;">Show More</a>
+      <a [routerLink]="['/Products', 1]" style="font-size: 1rem;">Show More</a>
 
 
       <div class="my-row">
 
         <div class="col-2" *ngFor="let singleProduct of fiveDiscountProducts">
-          <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+          <a style=" font-family: Gotham Medium; font-size: 1rem; color: #282828; text-decoration: none;"
             [routerLink]="['/Product-detail/', singleProduct?.productID]">
-            <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv"
-              style=" max-width: max-content; height: 200px;" />
+            <img src="{{singleProduct?.imageUrl}}" class="card-img-top" alt="adv" />
             <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
               -{{singleProduct?.discountPercentage}}%</p>
             <span
-              style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+              style="font-family: Gotham Medium; font-size: 1rem; display: block; "><b>{{singleProduct?.productName}}</b>
               &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
 
-            <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+            <p style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
               <b>{{singleProduct?.afterDiscountPrice |
                 currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
                 'symbol':'1.0'}}</del>
@@ -121,12 +121,12 @@
 
 
 
-<div class="latest-review-row">
+<div class="latest-review-row" >
 
   <h1 class="heading">Latest Reviews</h1>
   <hr>
 
-  <div class="latest-review-products-list">
+  <div class="latest-review-products-list" >
     <div class="single-review-product" *ngFor="let singleProduct of fiveProductsReview">
       <img src="{{singleProduct?.productImageUrl}}" width="115px" height="115px" alt="">
       <div>
@@ -156,43 +156,45 @@
 <!-- Recently products -->
 
 <h1 style="margin-left: 130px; font-weight: bold; font-size: 30px;">Recently Viewed Products</h1>
+<div class="my-row" style="overflow-x:auto;">
 
-<div class="my-row recently-products">
-  <div class="col-2" *ngFor="let singleProduct of recentlyViewProducts">
-    <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
-      [routerLink]="['/Product-detail/', singleProduct?.productId]">
-      <img src="{{singleProduct?.productImageUrl}}" class="card-img-top" alt="adv"
-        style=" max-width: max-content; height: 200px;" />
-      <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
-        -{{singleProduct?.discountPercentage}}%</p>
-      <span style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
-      </span>
+  <div class="my-row recently-products">
+    <div class="col-2" *ngFor="let singleProduct of recentlyViewProducts">
+      <a style=" font-family: Gotham Medium; font-size: 1rem; color: #282828; text-decoration: none;"
+        [routerLink]="['/Product-detail/', singleProduct?.productId]">
+        <img src="{{singleProduct?.productImageUrl}}" class="card-img-top" alt="adv" />
+        <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
+          -{{singleProduct?.discountPercentage}}%</p>
+        <span
+          style="font-family: Gotham Medium; font-size: 1rem; display: block; "><b>{{singleProduct?.productName}}</b>
+        </span>
 
-      <p *ngIf="singleProduct?.discountPercentage > 0"
-        style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
-        <b>{{singleProduct?.afterDiscountProductPrice |
-          currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
-          'symbol':'1.0'}}</del>
-      </p>
+        <p *ngIf="singleProduct?.discountPercentage > 0"
+          style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
+          <b>{{singleProduct?.afterDiscountProductPrice |
+            currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
+            'symbol':'1.0'}}</del>
+        </p>
 
-      <p *ngIf="singleProduct?.discountPercentage == 0"
-        style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
-        <b>{{singleProduct?.price |
-          currency: 'Rs ': 'symbol':'1.0'}}
-        </b>
-      </p>
+        <p *ngIf="singleProduct?.discountPercentage == 0"
+          style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
+          <b>{{singleProduct?.price |
+            currency: 'Rs ': 'symbol':'1.0'}}
+          </b>
+        </p>
 
 
 
-      <img *ngIf="singleProduct?.showProductStars"
-        src="../../../assets/stars-rating/{{singleProduct?.showProductStars == 'NaN'? 0: singleProduct?.showProductStars}}.png"
-        width="100px" height="20px" alt="">
+        <img *ngIf="singleProduct?.showProductStars"
+          src="../../../assets/stars-rating/{{singleProduct?.showProductStars == 'NaN'? 0: singleProduct?.showProductStars}}.png"
+          width="100px" height="20px" alt="">
 
-      ({{singleProduct?.raiting}})
-    </a>
+        ({{singleProduct?.raiting}})
+      </a>
+    </div>
+
+
   </div>
-
-
 </div>
 
 <hr>
@@ -213,40 +215,45 @@
 </div><br><br>
 <hr>
 
-<div class="cards">
+<div style="overflow-x: auto;">
 
-  <div class="first-card">
-    <i class="fa-solid fa-truck-fast" style="font-size: 55px; padding-top:20px;"></i>
-    <div>
-      <h1 style="padding-top:12px; margin: 0;">Fast Delivery</h1>
-      <span style="color:rgb(119, 112, 112); font-size: 16px;">Everywhere</span>
+  <div class="cards" >
+
+    <div class="first-card">
+      <i class="fa-solid fa-truck-fast" style="font-size: 55px; padding-top:20px;"></i>
+      <div>
+        <h1 style="padding-top:12px; margin: 0;">Fast Delivery</h1>
+        <span style="color:rgb(119, 112, 112); font-size: 16px;">Everywhere</span>
+      </div>
+
+    </div>
+
+    <div class="second-card">
+      <i class="fa-solid fa-tag" style="font-size: 55px; padding-top:20px;"></i>
+      <div>
+        <h1 style="padding-top:12px; margin: 0;">Responsible Product Price</h1>
+        <span style="color:rgb(119, 112, 112); font-size: 16px;">Friendly to pocket</span>
+      </div>
+    </div>
+
+    <div class="third-card">
+      <i class="fa-solid fa-store" style="font-size: 55px; padding-top:20px;"></i>
+      <div>
+        <h1 style="padding-top:12px; margin: 0;">Trust On Us</h1>
+        <span style="color:rgb(119, 112, 112); font-size: 16px;">Lorem, ipsum.</span>
+      </div>
+    </div>
+
+    <div class="forth-card">
+      <i class="fa-solid fa-user" style="font-size: 55px; padding-top:20px;"></i>
+      <div>
+        <h1 style="padding-top:12px; margin: 0;">Positive Customer</h1>
+        <span style="color:rgb(119, 112, 112); font-size: 16px;">Best Reviews</span>
+      </div>
     </div>
 
   </div>
 
-  <div class="second-card">
-    <i class="fa-solid fa-tag" style="font-size: 55px; padding-top:20px;"></i>
-    <div>
-      <h1 style="padding-top:12px; margin: 0;">Responsible Product Price</h1>
-      <span style="color:rgb(119, 112, 112); font-size: 16px;">Friendly to pocket</span>
-    </div>
-  </div>
-
-  <div class="third-card">
-    <i class="fa-solid fa-store" style="font-size: 55px; padding-top:20px;"></i>
-    <div>
-      <h1 style="padding-top:12px; margin: 0;">Trust On Us</h1>
-      <span style="color:rgb(119, 112, 112); font-size: 16px;">Lorem, ipsum.</span>
-    </div>
-  </div>
-
-  <div class="forth-card">
-    <i class="fa-solid fa-user" style="font-size: 55px; padding-top:20px;"></i>
-    <div>
-      <h1 style="padding-top:12px; margin: 0;">Positive Customer</h1>
-      <span style="color:rgb(119, 112, 112); font-size: 16px;">Best Reviews</span>
-    </div>
-  </div>
 
 </div>
 
@@ -277,7 +284,7 @@
   [style]="{width: '80vw', height:'80vw'}" [draggable]="false" [resizable]="false">
 
   <a href="{{popUpAd?.sponsoreWebsiteUrl}}" target="_blank">
-    <img class="pop-up-ad-img" src="{{popUpAd?.sponsoreImageUrl}}"  alt="">
+    <img class="pop-up-ad-img" src="{{popUpAd?.sponsoreImageUrl}}" alt="">
   </a>
 
 </p-dialog>

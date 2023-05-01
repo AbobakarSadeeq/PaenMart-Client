@@ -6,3 +6,6 @@ Bug Fixed 1.2 (22/10/2022) =>
 
 Bug Fixed 1.3 (23/10/2022) => 
 1. fixed order-tracking bug
+
+Bug Fixed 1.4 (25/10/2022) =>
+1. add the styling to the pervious and next button on carousel image in product-detail page.

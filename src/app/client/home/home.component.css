@@ -20,6 +20,7 @@ div.a_cont {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  overflow: auto;
 }
 
 .col-2 {
@@ -109,8 +110,9 @@ div.a_cont {
 }
 
 .latest-review-products-list {
-  display: grid;
-  grid-template-columns: 430px 430px 430px 430px 430px;
+  display: flex;
+  gap: 100px;
+
 }
 
 .single-review-product {
@@ -120,6 +122,7 @@ div.a_cont {
 
 .cards {
   margin-top: 4rem;
+  margin-bottom: 4rem;
   margin-left: auto;
   margin-right: auto;
   width: 2100px;
@@ -185,4 +188,15 @@ div.a_cont {
   margin-left: 130px;
   margin-right: auto;
   width: 2120px;
+}
+
+
+@media (max-width:1000px) {
+
+  .latest-review-products-list {
+    flex-direction: column;
+    min-width: 100%;
+  }
+
+
 }

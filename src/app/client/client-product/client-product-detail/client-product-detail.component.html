@@ -18,7 +18,7 @@
 
     <div class="col-lg-3">
 
-      <ngb-carousel *ngIf="productDetails">
+      <ngb-carousel *ngIf="productDetails" class="perviousAndNextBtn">
         <ng-template ngbSlide *ngFor="let item of productDetails?.getProductImagess">
           <div class="picsum-img-wrapper">
             <img [src]="item?.url" alt="Random first slide" width="350px" class="d-block " height="400px">
