@@ -36,24 +36,24 @@
     <h1>Main section</h1>
 
 
-    <div class="row" *ngIf="dealProducts?.length == 0">
+    <div class="row" style="gap:2%;" *ngIf="dealProducts?.length == 0">
       <div class="col-2" *ngFor="let singleProduct of productList?.productData">
-        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+        <a style=" font-family: Gotham Medium; font-size: 1rem; color: #282828; text-decoration: none;"
           [routerLink]="['/Product-detail/', singleProduct?.productID]">
           <img src="{{singleProduct?.getProductImagess[0].url}}" class="card-img-top" alt="adv"
-            style=" max-width: max-content; height: 200px;" />
+            style="height: 200px;" />
           <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
             -{{singleProduct?.discountPercentage}}%</p>
           <span
-            style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+            style="font-family: Gotham Medium; font-size: 1rem; display: block; "><b>{{singleProduct?.productName}}</b>
             &nbsp;({{singleProduct?.color}} {{singleProduct?.productBrandName}}) </span>
 
           <p *ngIf="singleProduct?.afterDiscountPrice == 0"
-            style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; "><b>{{singleProduct?.price |
+            style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; "><b>{{singleProduct?.price |
               currency: 'Rs ': 'symbol':'1.0'}}</b></p>
 
           <p *ngIf="singleProduct?.afterDiscountPrice > 0"
-            style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+            style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
             <b>{{singleProduct?.afterDiscountPrice |
               currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.price | currency: 'Rs ':
               'symbol':'1.0'}}</del>
@@ -66,21 +66,20 @@
           ({{singleProduct?.raiting}})
         </a>
       </div>
-
     </div>
 
     <div class="row" *ngIf="dealProducts?.length > 0">
       <div class="col-2" *ngFor="let singleProduct of dealProducts">
-        <a style=" font-family: Gotham Medium; font-size: 15px; color: #282828; text-decoration: none;"
+        <a style=" font-family: Gotham Medium; font-size: 1rem; color: #282828; text-decoration: none;"
           [routerLink]="['/Product-detail/', singleProduct?.productId]">
           <img src="{{singleProduct?.productImageUrl}}" class="card-img-top" alt="adv"
-            style=" max-width: max-content; height: 200px;" />
+            style="min-width: 100%; height: 200px;" />
           <p class="discount-badge" *ngIf="singleProduct?.discountPercentage > 0">
             -{{singleProduct?.discountPercentage}}%</p>
           <span
-            style="font-family: Gotham Medium; font-size: 14px; display: block; "><b>{{singleProduct?.productName}}</b>
+            style="font-family: Gotham Medium; font-size: 1rem; display: block; "><b>{{singleProduct?.productName}}</b>
           </span>
-          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 18px; margin:0; ">
+          <p style="color:#1c1018; font-family: Gotham Medium; font-size: 1.1rem; margin:0; ">
             <b>{{singleProduct?.afterPrice |
               currency: 'Rs ': 'symbol':'1.0'}} &nbsp; </b> <del>{{singleProduct?.beforePrice | currency: 'Rs ':
               'symbol':'1.0'}}</del>

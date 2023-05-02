@@ -1,115 +1,120 @@
-<div class="first-footer-banner">
-  <div class="first-footer-banner-contact-size">
-    <div class="banner-content">
-      <div class="col-first">
-        <h1>We're Always Ready To Help</h1>
-        <p>Reach out to us through any of these support channels</p>
-      </div>
-      <div class="col-second">
-        <i class="fa-brands fa-whatsapp"></i>
-        <p>03431248899</p>
-      </div>
-      <div class="col-third">
-        <i class="fa-solid fa-envelope"></i>
-        <p>OfficalPaenMart@gmail.com</p>
-      </div>
-      <div class="col-forth">
-        <i class="fa-solid fa-headphones"></i>
-        <p>03431248899</p>
+<div style="position: relative;">
+  <div class="first-footer-banner">
+    <div class="first-footer-banner-contact-size">
+      <div class="banner-content">
+        <div class="col-first">
+          <h1>We're Always Ready To Help</h1>
+          <p>Reach out to us through any of these support channels</p>
+        </div>
+        <div class="col-second">
+          <i class="fa-brands fa-whatsapp"></i>
+          <p>03431248899</p>
+        </div>
+        <div class="col-third">
+          <i class="fa-solid fa-envelope"></i>
+          <p>OfficalPaenMart@gmail.com</p>
+        </div>
+        <div class="col-forth">
+          <i class="fa-solid fa-headphones"></i>
+          <p>03431248899</p>
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="footer">
-  <div class="footer-right-left-space">
 
-    <div class="social-links">
-      <h1>Follow Paen-Mart At</h1>
-      <div class="icons">
-        <a href="https://www.facebook.com" style="color: white;"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://www.instagram.com" style="color: white;"> <i class="fa-brands fa-instagram"></i></a>
-        <a href="https://twitter.com/i/flow/login" style="color: white;"> <i class="fa-brands fa-twitter"></i></a>
-        <a href="https://www.youtube.com" style="color: white;"><i class="fa-brands fa-youtube"></i></a>
 
+  <div class="footer">
+    <div class="footer-right-left-space">
+
+      <div class="social-links">
+        <h1>Follow Paen-Mart At</h1>
+        <div class="icons">
+          <a href="https://www.facebook.com" style="color: white;"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com" style="color: white;"> <i class="fa-brands fa-instagram"></i></a>
+          <a href="https://twitter.com/i/flow/login" style="color: white;"> <i class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.youtube.com" style="color: white;"><i class="fa-brands fa-youtube"></i></a>
+
+
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <div class="col-1">
+          <p>Shop by brands</p>
+          <ul>
+            <li *ngFor="let singleBrand of brands"><a [routerLink]="['/Products-by-brand/' + singleBrand?.brandName + '/'
+                + singleBrand?.productBrandID]" [queryParams]="{searchBy:'Brand'}">{{singleBrand?.brandName}}</a></li>
+
+          </ul>
+        </div>
+        <div class="col-2">
+          <p>Shop by Categories</p>
+          <ul>
+            <li *ngFor="let singleCategory of nestCategories"><a [routerLink]="['/Products-by-brand/' + singleCategory?.nestSubCategoryName + '/'
+                + singleCategory?.nestSubCategoryID]"
+                [queryParams]="{searchBy:'NestCategory'}">{{singleCategory?.nestSubCategoryName}}</a></li>
+
+          </ul>
+
+
+        </div>
+        <div class="col-3">
+
+          <p>Currently Live sale</p>
+          <ul>
+            <li *ngFor="let item of LiveDiscountDeal"><a
+                [routerLink]="['/Client/Product-discount-deal/', item?.discountDealID ]">{{item?.dealName}} </a></li>
+
+          </ul>
+
+
+        </div>
+        <div class="col-4">
+          <p>Order Info</p>
+          <ul>
+            <li><a [routerLink]="['/Client/Orders/', userId]">Checks your orders</a></li>
+            <li><a [routerLink]="['/Client/Order-Track']">Track your orders</a></li>
+            <li><a [routerLink]="['/Client/Orders/', userId]">Check pending orders</a></li>
+            <li><a [routerLink]="['/Cart']">Shopping cart</a></li>
+
+          </ul>
+
+        </div>
+        <div class="col-5">
+          <p>About Paen-Mart</p>
+          <ul>
+            <li><a [routerLink]="['/about-us']">About Us</a></li>
+            <li><a [routerLink]="['/about-us']">Our Story</a></li>
+            <li><a [routerLink]="['/about-us']">Our Company</a></li>
+
+          </ul>
+
+          <p>Support</p>
+          <ul>
+            <li><a [routerLink]="['/contact-us']">Contact Us</a></li>
+            <li><a [routerLink]="['/contact-us']">Help</a></li>
+
+          </ul>
+        </div>
+        <div class="col-6">
+          <p>Account</p>
+          <ul>
+            <li><a [routerLink]="['/User/EditUser/', userId]">My Profile</a></li>
+            <li><a [routerLink]="['/Client/Reviews']">My Product Reviews</a></li>
+            <li><a [routerLink]="['/Auth']">Sign In</a></li>
+            <li><a [routerLink]="['/Auth/ForgetPassword']">Forget password</a></li>
+          </ul>
+        </div>
 
       </div>
     </div>
 
-    <div class="footer-col">
-      <div class="col-1">
-        <p>Shop by brands</p>
-        <ul>
-          <li *ngFor="let singleBrand of brands"><a [routerLink]="['/Products-by-brand/' + singleBrand?.brandName + '/'
-              + singleBrand?.productBrandID]" [queryParams]="{searchBy:'Brand'}">{{singleBrand?.brandName}}</a></li>
-
-        </ul>
-      </div>
-      <div class="col-2">
-        <p>Shop by Categories</p>
-        <ul>
-          <li *ngFor="let singleCategory of nestCategories"><a [routerLink]="['/Products-by-brand/' + singleCategory?.nestSubCategoryName + '/'
-              + singleCategory?.nestSubCategoryID]"
-              [queryParams]="{searchBy:'NestCategory'}">{{singleCategory?.nestSubCategoryName}}</a></li>
-
-        </ul>
-
-
-      </div>
-      <div class="col-3">
-
-        <p>Currently Live sale</p>
-        <ul>
-          <li *ngFor="let item of LiveDiscountDeal"><a
-              [routerLink]="['/Client/Product-discount-deal/', item?.discountDealID ]">{{item?.dealName}} </a></li>
-
-        </ul>
-
-
-      </div>
-      <div class="col-4">
-        <p>Order Info</p>
-        <ul>
-          <li><a [routerLink]="['/Client/Orders/', userId]">Checks your orders</a></li>
-          <li><a [routerLink]="['/Client/Order-Track']">Track your orders</a></li>
-          <li><a [routerLink]="['/Client/Orders/', userId]">Check pending orders</a></li>
-          <li><a [routerLink]="['/Cart']">Shopping cart</a></li>
-
-        </ul>
-
-      </div>
-      <div class="col-5">
-        <p>About Paen-Mart</p>
-        <ul>
-          <li><a [routerLink]="['/about-us']">About Us</a></li>
-          <li><a [routerLink]="['/about-us']">Our Story</a></li>
-          <li><a [routerLink]="['/about-us']">Our Company</a></li>
-
-        </ul>
-
-        <p>Support</p>
-        <ul>
-          <li><a [routerLink]="['/contact-us']">Contact Us</a></li>
-          <li><a [routerLink]="['/contact-us']">Help</a></li>
-
-        </ul>
-      </div>
-      <div class="col-6">
-        <p>Account</p>
-        <ul>
-          <li><a [routerLink]="['/User/EditUser/', userId]">My Profile</a></li>
-          <li><a [routerLink]="['/Client/Reviews']">My Product Reviews</a></li>
-          <li><a [routerLink]="['/Auth']">Sign In</a></li>
-          <li><a [routerLink]="['/Auth/ForgetPassword']">Forget password</a></li>
-        </ul>
-      </div>
-
-    </div>
   </div>
 
-</div>
+  <div class="copyright-footer">
+    <p>&copy; 2022 Paen-Mart Pakistan</p>
+  </div>
 
-<div class="copyright-footer">
-  <p>&copy; 2022 Paen-Mart Pakistan</p>
 </div>
