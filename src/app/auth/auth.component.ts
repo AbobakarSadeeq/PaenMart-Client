@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit {
 
 
     if (localStorage.getItem('token') != null) {
-      this.httpRoute.navigate(['/']);
+      this.httpRoute.navigate(['/']); // * changes * // 
     }
 
     if (this.activateRoute.snapshot.queryParamMap.has('passwordReset')) {
@@ -79,7 +79,7 @@ export class AuthComponent implements OnInit {
         let gettingImageUrl = responseData.photoUrl ? responseData.photoUrl : "../../assets/No Image.jpg";
         localStorage.setItem('token', responseData.token);
         localStorage.setItem("photoUrl", gettingImageUrl);
- 
+
 
         if (this.activateRoute.snapshot.queryParamMap.has('orderReview')) {
           this.httpRoute.navigate(['/Client/Reviews']);

@@ -64,6 +64,11 @@ ngb-pagination ul {
   margin-left: 100px;
 }
 
+.ad-portion {
+  margin-top: 1rem;
+  border: 5px solid black;
+}
+
 .ad-portion img {
   width: 250px;
   height: 600px;

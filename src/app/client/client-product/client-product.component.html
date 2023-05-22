@@ -4,6 +4,8 @@
 <div class="main-div">
 
   <div>
+    <div>
+
     <div class="sidebar-div">
       <h1 style="text-align:center;">BRAND</h1>
       <hr>
@@ -14,6 +16,13 @@
             (click)="filterProductShows(singleBrand?.brandID)">{{singleBrand?.brandName}}</a></li>
       </ul>
 
+    </div>
+
+      <div *ngIf="sideMixProductsPage" class="ad-portion" style="padding-left: 2rem; padding-right:20px;">
+        <a href="{{sideMixProductsPage?.sponsoreWebsiteUrl}}" target="_blank"><img
+            src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
+      </div>
+
     </div> <br><br>
 
     <div *ngIf="LiveDiscountDeal?.length > 0" class="sidebar-div">
@@ -21,7 +30,7 @@
       <hr>
       <ul>
         <li *ngFor="let singleDiscount of LiveDiscountDeal"><a style="padding: 0;"
-            [routerLink]="['/Client/Product-discount-deal/', singleDiscount?.discountDealID ]" >{{singleDiscount?.dealName}}</a>
+            [routerLink]="['/Client/Product-discount-deal/', singleDiscount?.discountDealID ]">{{singleDiscount?.dealName}}</a>
         </li>
       </ul>
     </div>
@@ -99,14 +108,17 @@
       [directionLinks]="true"></ngb-pagination>
   </div>
 
-  <div *ngIf="sideMixProductsPage" class="ad-portion" style="padding-left: 20px; padding-right:20px;">
-    <a href="{{sideMixProductsPage?.sponsoreWebsiteUrl}}" target="_blank"><img
-        src="{{sideMixProductsPage?.sponsoreImageUrl}}" alt=""></a>
 
-  </div>
 
 
 
 </div>
+
+
+
+
+
+
 <br><br><br>
 <app-footer></app-footer>
+ 
