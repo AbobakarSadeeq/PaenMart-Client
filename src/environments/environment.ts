@@ -3,16 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
-  urlCategory: "https://localhost:44300/api/Category",
-  urlSubCategory: "https://localhost:44300/api/SubCategory",
-  urlNestSubCategory: "https://localhost:44300/api/NestSubCategory",
-  urlProductBrand: "https://localhost:44300/api/ProductBrand",
-  urlDynamicFormStructure: "https://localhost:44300/api/DynamicFormStructure",
-  urlProduct: "https://localhost:44300/api/Product"
-
-
+  categoryApiUrl: "https://localhost:44300/api/Category",
+  subCategoryApiUrl: "https://localhost:44300/api/SubCategory",
+  nestSubCategoryApiUrl: "https://localhost:44300/api/NestSubCategory",
+  productBrandApiUrl: "https://localhost:44300/api/ProductBrand",
+  dynamicFormStructureApiUrl: "https://localhost:44300/api/DynamicFormStructure",
+  productApiUrl: "https://localhost:44300/api/Product",
+  accountApiUrl: "https://localhost:44300/api/Account",
+  userAddressApiUrl: "https://localhost:44300/api/UserAddress",
+  cityApiUrl: "https://localhost:44300/api/City",
+  countryApiUrl: "https://localhost:44300/api/Country",
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

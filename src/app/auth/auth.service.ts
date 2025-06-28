@@ -17,23 +17,14 @@ export class AuthService {
   profilePic = new Subject<any>();
   loadingSpinnerLogOut = new Subject<any>();
 
-
-
-
-
   constructor(private httpRequest: HttpClient, private _route: Router) { }
 
-
-
-
-
   SignUp(data: any) {
-
-    return this.httpRequest.post("https://localhost:44300/api/Account", data);
+    return this.httpRequest.post(environment.accountApiUrl, data);
   }
 
   logIn(data: any) {
-    return this.httpRequest.post("https://localhost:44300/api/Account/LogIn", data);
+    return this.httpRequest.post(`${environment.accountApiUrl}/LogIn`, data);
   }
 
   LogOut() {
@@ -43,13 +34,21 @@ export class AuthService {
   }
 
   getUserCount() {
-    return this.httpRequest.get("https://localhost:44300/api/Account/UserAccountCount");
+    return this.httpRequest.get(`${environment.accountApiUrl}/UserAccountCount`);
+  }
+
+  forgetPassword(data: any) {
+    return this.httpRequest.post(`${environment.accountApiUrl}/ForgetPassword`, data);
+  }
+
+  newPasswordRequest(data: any) {
+    return this.httpRequest.post(`${environment.accountApiUrl}/ResetPassword`, data);
   }
 
   //Getting the Data who's is LogIn
   GetLogInProfile(token: any) {
     var tokenHeaders = new HttpHeaders({ "Authorization": 'bearer ' + localStorage.getItem('token') })
-    return this.httpRequest.post("https://localhost:44300/api/Account/GetUserProfile", token, { headers: tokenHeaders });
+    return this.httpRequest.post(`${environment.accountApiUrl}/GetUserProfile`, token, { headers: tokenHeaders });
   }
 
   roleMatch(allowedRoles: any): boolean {
@@ -72,35 +71,30 @@ export class AuthService {
 
   // User Address
 
-  InserUserAddress(data: any) {
-    return this.httpRequest.post("https://localhost:44300/api/UserAddress", data);
+  insertUserAddress(data: any) {
+    return this.httpRequest.post(environment.userAddressApiUrl, data);
   }
 
-  GetUserAddress(dataId: any) {
-    return this.httpRequest.get("https://localhost:44300/api/UserAddress/" + dataId);
+
+  getUserAddress(dataId: any) {
+    return this.httpRequest.get(`${environment.userAddressApiUrl}/${dataId}`);
   }
 
-  UpdateUserAddress(data: any) {
-    return this.httpRequest.put("https://localhost:44300/api/UserAddress", data);
+
+  updateUserAddress(data: any) {
+    return this.httpRequest.put(environment.userAddressApiUrl, data);
   }
 
   // Countries and Cities
   getCities() {
-    return this.httpRequest.get("https://localhost:44300/api/City");
+    return this.httpRequest.get(environment.cityApiUrl);
   }
 
   getCountry() {
-    return this.httpRequest.get("https://localhost:44300/api/Country");
+    return this.httpRequest.get(environment.countryApiUrl);
   }
 
-  forgetPassword(data: any) {
-    return this.httpRequest.post("https://localhost:44300/api/Account/ForgetPassword", data);
-  }
 
-  newPasswordRequest(data: any) {
-    return this.httpRequest.post("https://localhost:44300/api/Account/ResetPassword", data);
-
-  }
 
 
 }
