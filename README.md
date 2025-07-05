@@ -181,7 +181,7 @@ docker-compose up -d
 # How to run paen-mart through docker?
 # Docker-compose file
 
-1. make a file outside front-end and back-end paen-mart folder and name it Docker-compose.yml and then paste the below code there and then run it through cmd and command to run is: docker-compose up -d
+1. make a file outside front-end and back-end paen-mart folder and name it Docker-compose.yml and then paste the below code or goto folder inside this repo and folder-name is docker-compose and copy that file there and then run it through cmd and command to run is: docker-compose up -d
 2. docker must be install in your machine.
 3. clone the branch of frontend and backend of this branch "container-deploy-working" because there is the container and run file there.
 
