@@ -7,14 +7,14 @@ import { environment } from 'src/environments/environment';
 })
 export class AddProductService {
 
-  constructor(private _Http:HttpClient) { }
+  constructor(private _Http: HttpClient) { }
 
-  AddProduct(data:any){
-    return this._Http.post(environment.urlProduct, data);
+  AddProduct(data: any) {
+    return this._Http.post(environment.productApiUrl, data);
   }
 
   getBrands(Id: number) {
-    return this._Http.get("https://localhost:44300/api/ProductBrand/GetAllProductBrandByNestSubCategory/" + Id);
+    return this._Http.get(environment.productBrandApiUrl + "/GetAllProductBrandByNestSubCategory/" + Id);
   }
 
 

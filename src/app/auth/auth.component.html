@@ -41,10 +41,9 @@
 
         <br />
 
-
         <input type="email" name="Email" ngModel #email="ngModel"
           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required class="form-control validationSpace"
-          placeholder="Email" id="email">
+          placeholder="Email" id="email" />
         <div *ngIf="email.touched" style="color: red;">
           <p *ngIf="email.errors?.['required']" style="color: red;">Email is a required field!</p>
           <p *ngIf="email.errors?.['pattern']" style="color: red;">This is not a valid Email!!!</p>

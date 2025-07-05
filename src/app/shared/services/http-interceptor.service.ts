@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { delay, finalize, Observable } from 'rxjs';
 import { LoadingSpinnerService } from './loading-spinner.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     return next.handle(req).pipe(
       delay(2500), finalize(() => {
-        if (req.method == "POST" && req.url != "https://localhost:44300/api/Account/GetUserProfile") {
+        if (req.method == "POST" && req.url != environment.accountApiUrl + "/GetUserProfile") {
+
           setTimeout(() => {
             this.loadingSpinnerService.loadingSpinner.next(false);
           }, 2500);

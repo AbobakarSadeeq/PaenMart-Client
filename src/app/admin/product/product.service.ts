@@ -11,11 +11,11 @@ export class ProductService {
 
 
   GetSingleProductById(singleProductId:number){
-    return this._Http.get(environment.urlProduct + "/" + singleProductId);
+    return this._Http.get(environment.productApiUrl + "/" + singleProductId);
   }
 
   GetProducts(nestCategoryIdAndPageNo:any){
-    return this._Http.get(environment.urlProduct + "/GetSelectedCategoryProducts",
+    return this._Http.get(environment.productApiUrl + "/GetSelectedCategoryProducts",
     {
       params: {
         nestCategoryId:nestCategoryIdAndPageNo.nestCategoryId,
@@ -25,6 +25,6 @@ export class ProductService {
   }
 
   DeleteSingleProduct(productId:number){
-    return this._Http.delete(environment.urlProduct +  "/" + productId );
+    return this._Http.delete(environment.productApiUrl +  "/" + productId );
   }
 }

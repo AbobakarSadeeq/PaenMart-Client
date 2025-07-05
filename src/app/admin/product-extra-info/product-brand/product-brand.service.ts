@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductBrandService extends CrudService {
 
-  constructor(http:HttpClient) {
-    super(environment.urlProductBrand, http);
-   }
+  constructor(http: HttpClient) {
+    super(environment.productBrandApiUrl, http);
+  }
 }

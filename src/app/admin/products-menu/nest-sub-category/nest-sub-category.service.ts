@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class NestSubCategoryService extends CrudService {
 
   constructor(http:HttpClient, private forCustomApisHttp:HttpClient ) {
-    super(environment.urlNestSubCategory, http);
+    super(environment.nestSubCategoryApiUrl, http);
    }
 
 

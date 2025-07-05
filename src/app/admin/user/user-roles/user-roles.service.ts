@@ -1,45 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserRolesService {
 
-  constructor(private httpRequest:HttpClient) { }
+  constructor(private httpRequest: HttpClient) { }
 
+  // Creating Role
+  creatingRole(data: any) {
+    return this.httpRequest.post(environment.administratorApiUrl, data);
+  }
 
-    //Creating Role
-    creatingRole(data:any){
-      return this.httpRequest.post("https://localhost:44300/api/Administrator",data)
-    }
+  // Get List of Roles to Admin
+  getListRole(): Observable<any> {
+    return this.httpRequest.get(environment.administratorApiUrl);
+  }
 
-    //GetList of Roles to Admin
-   getListRole(): Observable<any>{
-      return this.httpRequest.get("https://localhost:44300/api/Administrator");
-    }
-    //GetById Role
-    getDataById(id: any) {
-      return this.httpRequest.get("https://localhost:44300/api/Administrator" + "/" + id);
-    }
-    //UpdatingRole which is find by Id
-    updateRoleData(data: any) {
-      return this.httpRequest.put("https://localhost:44300/api/Administrator/EditRole",data);
-    }
-    //DeletetingRole
-    DeleteingRole(roleId:any): Observable<any>{
-      return this.httpRequest.delete("https://localhost:44300/api/Administrator" + "/" + roleId);
-    }
+  // Get By Id Role
+  getDataById(id: any) {
+    return this.httpRequest.get(environment.administratorApiUrl + "/" + id);
+  }
 
+  // Updating Role which is found by Id
+  updateRoleData(data: any) {
+    return this.httpRequest.put(environment.administratorApiUrl + "/EditRole", data);
+  }
 
-    //Getting the UserEmails which is in a role
-    getEditUserRole(roleId:any): Observable<any>{
-      return this.httpRequest.get("https://localhost:44300/api/Administrator/EditUserInRole" + "/" + roleId);
-    }
+  // Deleting Role
+  DeleteingRole(roleId: any): Observable<any> {
+    return this.httpRequest.delete(environment.administratorApiUrl + "/" + roleId);
+  }
 
-    //adding Users in Role or removing From role
-    editUserRole(data:any, roleId:any): Observable<any>{
-      return this.httpRequest.post("https://localhost:44300/api/Administrator/updateRoleUser/"+ roleId, data);
-    }
+  // Getting the UserEmails which are in a role
+  getEditUserRole(roleId: any): Observable<any> {
+    return this.httpRequest.get(environment.administratorApiUrl + "/EditUserInRole/" + roleId);
+  }
+
+  // Adding Users in Role or Removing From Role
+  editUserRole(data: any, roleId: any): Observable<any> {
+    return this.httpRequest.post(environment.administratorApiUrl + "/updateRoleUser/" + roleId, data);
+  }
+
 }

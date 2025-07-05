@@ -1,26 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CityService {
 
-  constructor(private http:HttpClient) { }
-
+  constructor(private http: HttpClient) { }
 
   GetAll(): Observable<any> {
-    return this.http.get("https://localhost:44300/api/City");
+    return this.http.get(environment.cityApiUrl);
   }
+
   Insert(data: any) {
-    return this.http.post("https://localhost:44300/api/City", data);
+    return this.http.post(environment.cityApiUrl, data);
   }
+
   get(Id: any) {
-    return this.http.get("https://localhost:44300/api/City" + '/' + Id);
+    return this.http.get(environment.cityApiUrl + '/' + Id);
   }
+
   DeleteData(Id: any) {
-    return this.http.delete("https://localhost:44300/api/City" + '/' + Id);
+    return this.http.delete(environment.cityApiUrl + '/' + Id);
   }
+
 
 }

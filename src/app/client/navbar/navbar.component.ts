@@ -11,10 +11,11 @@ import { Observable } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { SearchProductService } from '../search-product/search-product.service';
 import * as signalR from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 
 var connectionSignalR = new signalR.HubConnectionBuilder()
-  .withUrl("https://localhost:44300/notificationhub", {
+  .withUrl(environment.notificationUrl, {
     skipNegotiation: true,
     transport: signalR.HttpTransportType.WebSockets
   }

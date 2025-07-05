@@ -10,15 +10,15 @@ import { environment } from 'src/environments/environment';
 export class SubCategoryService extends CrudService {
 
   constructor(http:HttpClient, private forCustomApisHttp:HttpClient ) {
-    super(environment.urlSubCategory, http);
+    super(environment.subCategoryApiUrl, http);
    }
 
    // Get sub-categories by category-Id
    GetSubCategoriesByCategoryId(categoryId:number): Observable<any> {
-    return this.forCustomApisHttp.get(environment.urlSubCategory + "/" + categoryId);
+    return this.forCustomApisHttp.get(environment.subCategoryApiUrl + "/" + categoryId);
   }
 
   GetSingleSubCategoryById(subCategoryId:number) {
-    return this.forCustomApisHttp.get(environment.urlSubCategory + "/GetSingleSubCategory/"  + subCategoryId);
+    return this.forCustomApisHttp.get(environment.subCategoryApiUrl + "/GetSingleSubCategory/"  + subCategoryId);
   }
 }

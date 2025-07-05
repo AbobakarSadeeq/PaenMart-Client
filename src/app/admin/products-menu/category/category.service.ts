@@ -9,6 +9,6 @@ import { environment } from 'src/environments/environment';
 export class CategoryService extends CrudService {
 
   constructor(http:HttpClient) {
-    super(environment.urlCategory, http);
+    super(environment.categoryApiUrl, http);
    }
 }

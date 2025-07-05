@@ -37,10 +37,10 @@ export class UserAddressComponent implements OnInit {
   displayModelUserAddress = false;
 
   constructor(private cdr: ChangeDetectorRef,
-     private myActivateParams: ActivatedRoute,
-      private fb: FormBuilder,
-       private route: Router,
-       private _authService: AuthService) { }
+    private myActivateParams: ActivatedRoute,
+    private fb: FormBuilder,
+    private route: Router,
+    private _authService: AuthService) { }
 
   ngOnInit(): void {
     if (!localStorage.getItem("token")) {
@@ -57,7 +57,7 @@ export class UserAddressComponent implements OnInit {
 
 
     // Getting the Address if it is found, if not then show, not found message.
-    this.subscription = this._authService.GetUserAddress(getIdFromQueryString).subscribe((data: any) => {
+    this.subscription = this._authService.getUserAddress(getIdFromQueryString).subscribe((data: any) => {
       if (data == true) {
         this.pleaseAddAddress = data;
       } else {
@@ -96,7 +96,7 @@ export class UserAddressComponent implements OnInit {
   InsertUserAddress(formData: NgForm) {
     console.log(formData.value);
     //  this.loadingIndicator = true;
-    this.subscription = this._authService.InserUserAddress(formData.value).subscribe(() => {
+    this.subscription = this._authService.insertUserAddress(formData.value).subscribe(() => {
       this.hideModel();
       this.loadingIndicator = false;
       this.route.navigate(['']);
@@ -130,7 +130,7 @@ export class UserAddressComponent implements OnInit {
 
 
     //  this.loadingIndicator = true;
-    this.subscription = this._authService.UpdateUserAddress(formFrom).subscribe(() => {
+    this.subscription = this._authService.updateUserAddress(formFrom).subscribe(() => {
       this.editDisplayModelUserAddress = false;
       this.loadingIndicator = false;
       this.route.navigate(['']);

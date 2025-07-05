@@ -170,7 +170,7 @@ export class ShoppingCartComponent implements OnInit {
     // Getting the User Address
     this.displayModal = true;
     //   this.showIndicator = false;
-    this.subscription = this._AuthService.GetUserAddress(this.userId).subscribe((data: any) => {
+    this.subscription = this._AuthService.getUserAddress(this.userId).subscribe((data: any) => {
       if (data) {
         this.userAddress = data;
       } else {

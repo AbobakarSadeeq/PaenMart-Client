@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DynamicFormStructureService extends CrudService {
 
-  constructor(http:HttpClient) {
-    super(environment.urlDynamicFormStructure, http);
-   }
+  constructor(http: HttpClient) {
+    super(environment.dynamicFormStructureApiUrl, http);
+  }
 }

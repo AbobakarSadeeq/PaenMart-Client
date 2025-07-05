@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,40 +9,38 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   constructor(private http: HttpClient) { }
-
   GetAllEmployees(): Observable<any> {
-    return this.http.get("https://localhost:44300/api/Users/GetAllEmployees");
+    return this.http.get(environment.usersApiUrl + "/GetAllEmployees");
   }
 
   GetAllShipper(): Observable<any> {
-    return this.http.get("https://localhost:44300/api/Users/GetAllShipper");
+    return this.http.get(environment.usersApiUrl + "/GetAllShipper");
   }
 
   GetAllUsers(roleId: string): Observable<any> {
-    return this.http.get("https://localhost:44300/api/Users/GetAllUsers/" + roleId);
+    return this.http.get(environment.usersApiUrl + "/GetAllUsers/" + roleId);
   }
 
   DeleteData(Id: string) {
-    return this.http.delete("https://localhost:44300/api/Users" + '/' + Id);
+    return this.http.delete(environment.usersApiUrl + "/" + Id);
   }
 
   GetUser(Id: string) {
-    return this.http.get("https://localhost:44300/api/Users" + '/' + Id);
-
+    return this.http.get(environment.usersApiUrl + "/" + Id);
   }
 
   UpdateUserData(data: any) {
-    return this.http.put("https://localhost:44300/api/Users", data);
+    return this.http.put(environment.usersApiUrl, data);
   }
 
-
   getListRole(): Observable<any> {
-    return this.http.get("https://localhost:44300/api/Administrator");
+    return this.http.get(environment.administratorApiUrl);
   }
 
   Insert(data: any) {
-    return this.http.post("https://localhost:44300/api/Users", data);
+    return this.http.post(environment.usersApiUrl, data);
   }
+
 
   // get(Id: any) {
   //   return this.http.get(this.myUrl + '/' + Id);

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +10,24 @@ export class EmployeePaymentService {
   constructor(private _http: HttpClient) { }
 
   getEmployeesPayment() {
-    return this._http.get("https://localhost:44300/api/Users/GetEmployeesPendingPayment");
+    return this._http.get(environment.usersApiUrl + "/GetEmployeesPendingPayment");
   }
 
   payingEmployee(employeePaymentId: number) {
-    return this._http.put("https://localhost:44300/api/Users/PayingEmployeeMonthlyPayment/" + employeePaymentId, {});
+    return this._http.put(environment.usersApiUrl + "/PayingEmployeeMonthlyPayment/" + employeePaymentId, {});
   }
 
   getPaidEmployee() {
-    return this._http.get("https://localhost:44300/api/Users/PaidEmployeesList");
+    return this._http.get(environment.usersApiUrl + "/PaidEmployeesList");
   }
 
   againPayingEmployee(employeePaymentId: number) {
-    return this._http.put("https://localhost:44300/api/Users/PayingEmployeeMonthlyPaymentAgainApplying/" + employeePaymentId, {});
+    return this._http.put(environment.usersApiUrl + "/PayingEmployeeMonthlyPaymentAgainApplying/" + employeePaymentId, {});
   }
 
-  getAllEmployeePaymentHistoryList(pageNo:number){
-    return this._http.get("https://localhost:44300/api/Users/EmployeePaymentHistory/" + pageNo);
+  getAllEmployeePaymentHistoryList(pageNo: number) {
+    return this._http.get(environment.usersApiUrl + "/EmployeePaymentHistory/" + pageNo);
   }
+
 
 }

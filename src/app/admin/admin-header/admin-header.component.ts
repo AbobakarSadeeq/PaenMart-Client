@@ -7,10 +7,11 @@ import { AdminService } from '../admin.service';
 import { DynamicFormStructureService } from '../product-extra-info/dynamic-form-structure/dynamic-form-structure.service';
 import { AdminHeaderService } from './admin-header.service';
 import * as signalR from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 
 var connectionSignalR = new signalR.HubConnectionBuilder()
-  .withUrl("https://localhost:44300/notificationhub", {
+  .withUrl(environment.notificationUrl, {
     skipNegotiation: true,
     transport: signalR.HttpTransportType.WebSockets
   }
