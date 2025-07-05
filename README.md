@@ -177,3 +177,57 @@ docker-compose up -d
     • Adding products brands
     • Making product form-structure design.
     • And much more….
+
+# How to run paen-mart through docker?
+# Docker-compose file
+
+1. make a file outside front-end and back-end paen-mart folder and name it Docker-compose.yml and then paste the below code there and then run it through cmd and command to run is: docker-compose up -d
+2. docker must be install in your machine.
+3. clone the branch of frontend and backend of this branch "container-deploy-working" because there is the container and run file there.
+
+
+version: "3.9"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: ms-sql2
+    environment:
+      SA_PASSWORD: "yourStrong(!)Password009"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - paenmartE_network
+
+  paenmartapp:
+    build:
+      context: ./back-end-sql
+    container_name: paenmart-backend
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:6000"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=ms-sql2,1433;Database=PaenMartDB;User Id=sa;Password=yourStrong(!)Password009;TrustServerCertificate=True;
+    networks:
+      - paenmartE_network
+
+  frontend:
+    build:
+      context: ./front-end
+    container_name: paenmart-frontend
+    depends_on:
+      - paenmartapp
+    ports:
+      - "3000:80"
+    networks:
+      - paenmartE_network
+
+volumes:
+  sqldata:
+
+networks:
+  paenmartE_network:
+    driver: bridge
